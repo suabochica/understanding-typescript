@@ -3,16 +3,16 @@
 class Car {
     name: string
     acceleration: number;
-    
+
     constructor(name: string) {
         this.name = name;
         this.acceleration = 0;
     }
-    
+
     honk() {
         console.log("Toooooooooot!")
     }
-    
+
     accelerate(speed) {
         this.acceleration = this.acceleration + speed;
     }
@@ -47,13 +47,13 @@ console.log(rectangle.calculateArea())
 
 class Person {
     private _firstName: string = ""; // ✘, I forget add the private keyword
-    
+
     // ✘, Add an unnecessary constructor
-    
+
     get firstName() { // ✔
         return this._firstName;
     }
-    
+
     set firstName (value:string) { // ✔
         if (value.length > 3) {
             this._firstName = value;
