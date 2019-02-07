@@ -7,7 +7,7 @@ Introduction
 
 The Basics about Interfaces
 ---------------------------
-1.   An *Interface* basically is a contract signed between object to guarantee the use of a property, function, whatever... 
+1.   An *Interface* basically is a contract signed between objects to guarantee the use of a property, function, whatever...
 2.   The next code shows how to define interfaces in TypeScript:
 
 ```javascript
@@ -35,9 +35,9 @@ greet(person);
 ```
 Interfaces and Properties
 -------------------------
-1. If we try pass an object literal lile `greet(name: "Sergio", age: 14)` the TypeScript compiler will throw an error
+1. If we try pass an object literal like `greet(name: "Sergio", age: 14)` the TypeScript compiler will throw an error
 2. This error is because in the `greet()` is expected a `NamedPerson` interface whose does not have specified an `age` property.
-3. To solve this we have to remove the age propery from the object literal or add the property `age` to the `NamedPerson` interface
+3. To solve this we have to remove the age property from the object literal or add the property `age` to the `NamedPerson` interface
 
 ```javascript
 interface NamedPerson {
@@ -49,12 +49,12 @@ interface NamedPerson {
 
 Interfaces and Methods
 ----------------------
-1. Check the comment that ilustrate the method declaration syntax for an interface
+1. Check the comment that illustrate the method declaration syntax for an interface
 
 ```javascript
 interface NamedPerson {
     firstName: string,
-    age?: number,     
+    age?: number,
     [propName: string]: any,
     greet(lastName: string): void   // Notation for add methods in the interface
 }
@@ -68,7 +68,7 @@ const person = {
     }
 }
 
-person.greet(Benitez); //-> "Hi my last name is Benítez"
+person.greet("Benítez"); //-> "Hi my last name is Benítez"
 ```
 
 Using Interfaces with Classes
@@ -78,7 +78,7 @@ Using Interfaces with Classes
 ```javascript
 interface NamedPerson {
     firstName: string,
-    age?: number,     
+    age?: number,
     [propName: string]: any,
     greet(lastName: string): void   // Notation for add methods in the interface
 }
@@ -138,6 +138,5 @@ console.log(oldPerson)  //-> object
 
 What happens once the interfaces get compiled
 ---------------------------------------------
-1. Inteefaces does not exist in native JavaScript. So when are compiled the interfaces disappears.
+1. Interfaces does not exist in native JavaScript. So when are compiled the interfaces disappears
 2. The use of interfaces in TypeScript have the only purpose to find error during development time
-

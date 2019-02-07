@@ -21,27 +21,27 @@ More on `tsc` and the `tsconfig` File
 -------------------------------------
 1. You can use the tsc command on specific file: `tsc app.ts`
 2. Also is important the location of the `tsconfig.json` file
-3. For mor information check the oficial documentation of TypeScript in the section [Project Configuration](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
+3. For more information check the official documentation of TypeScript in the section [Project Configuration](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
 
-Adding TypeScript into a Gulp Workflow 
+Adding TypeScript into a Gulp Workflow
 --------------------------------------
 1. Install gulp and gulp-typescript plugin: `npm install --save-dev gulp gulp-typescript`
 2. Add a `gulpfile.js`
 3. import `gulp` and `gulp-typescript`
-4. `gulp-typescript` is a typescript wrapper 
+4. `gulp-typescript` is a typescript wrapper
 5. create the `typescript` task and associate it to the `tsconfig.json`
 6. You can check the [gupl-typescript documentation](https://www.npmjs.com/package/gulp-typescript)
 
-Adding TypeScript into a Webpack Workflow 
+Adding TypeScript into a Webpack Workflow
 -----------------------------------------
 1. Install webpack and the gulp loader: `npm install --save-dev webpack ts-loader`
 2. Remove the SystemJS code for loads files.
 3. Now you are using webpack. Then use bundle.js to load your files
-4. Remove the `exclude` property from `tsconfig.json`. Now it is responsability of webpack
-5. Also remove the `module` and `sourceMap` properties. Now it is responsability of webpack
+4. Remove the `exclude` property from `tsconfig.json`. Now it is responsibility of webpack
+5. Also remove the `module` and `sourceMap` properties. Now it is responsibility of webpack
 6. Add the file `webpack.config.js`
-7. Remember that webpack always use the local package installed in the project. No matters if the package ins installed globaly
-8. Finally change the syntaxis to import jQuery `import $ = require(jquery)`
+7. Remember that webpack always use the local package installed in the project. No matters if the package ins installed globally
+8. Finally change the syntax to import jQuery `imsport $ = require(jquery)`
 
 
 

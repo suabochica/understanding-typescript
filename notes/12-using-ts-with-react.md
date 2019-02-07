@@ -46,8 +46,8 @@ Creating ReactJS Code with TypeScript
 -------------------------------------
 1. Create a component `Home.tsx`
 2. Inside this component define a TypeScript Workflows `interface`
-3. This interface will define the contract to the properties that will recieve the component
+3. This interface will define the contract to the properties that will receive the component
 
 Configuring TypeScript Compiler to work with ReactJS
 ----------------------------------------------------
-1. Add a script tu run webpack 
+1. Add a script tu run webpack

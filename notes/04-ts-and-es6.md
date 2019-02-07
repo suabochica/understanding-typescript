@@ -9,7 +9,7 @@ ES6 & TypeScript Compatibility
 Let and Const
 -------------
 1. The difference between `var` and `let` is the scope of the variable
-2. `const` just allow assing the variabe once
+2. `const` just allow assign the variable once
 
 Block Scope
 -----------
@@ -19,29 +19,29 @@ Arrow Function
 --------------
 1. Check ES6 for more details
 
-Arrow Function variatons
-------------------------
+Arrow Function variations
+-------------------------
 1. Check the next code:
 ```javascript
-	const greet = () => {
-		console.log("Hello!");
-	}
-	greet();
-	
-	cons greetFriend = friend => console.log(friend);
-	greetFriend ("Dario")
+const greet = () => {
+	console.log("Hello!");
+}
+greet();
+
+const greetFriend = friend => console.log(friend);
+greetFriend ("Dario")
 ```
 
 Functions and default parameters
 --------------------------------
 1. Check the next code:
 ```javascript
-	const coutdown = (start: number = 10): void => {
-		while (start > 0) {
-			start--;
-		}
-		console.log("Done", start);
+const coutdown = (start: number = 10): void => {
+	while (start > 0) {
+		start--;
 	}
+	console.log("Done", start);
+}
 ```
 2. The start parameter is assigned to 10 by default
 
@@ -57,27 +57,25 @@ Destructuring Arrays
 --------------------
 1. Check the next code:
 ```javascript
-	const myHobbies = ["Cooking", "Reading", "Sports"];
-	const [hobbyOne, hobbyTwo] = myHobbies;
+const myHobbies = ["Cooking", "Reading", "Sports"];
+const [hobbyOne, hobbyTwo] = myHobbies;
 
-	console.log(hobbyOne, hobbyTwo); // -> "Cooking", "Reading"
+console.log(hobbyOne, hobbyTwo); // -> "Cooking", "Reading"
 ```
 
 Destructuring Objects
 ---------------------
 1. Check the next code:
 ```javascript
-	const userData = {
-		userName: "Sergio", 
-		age: 26
-	};
+const userData = {
+	userName: "Sergio",
+	age: 26
+};
+const {userName, age} = userData;
 
-	const {userName, age} = userData;
-
-	console.log(userName, age); // -> "Sergio", 27
+console.log(userName, age); // -> "Sergio", 27
 ```
 2. You can use aliases to access to the object properties
-
 
 Template literals (`Extending strings`)
 ---------------------------------------
@@ -87,7 +85,7 @@ Template literals (`Extending strings`)
 const userName = "Sergio";
 const greeting = `This is a heading! I'm ${userName}, this is cool`;
 
-console.log(grereting); // -> "This is a heading! I'm Sergio, this is cool"
+console.log(greeting); // -> "This is a heading! I'm Sergio, this is cool"
 
 ```
 

@@ -3,7 +3,7 @@ Section 09: Behind the Scenes with Decorators
 
 Introduction
 ------------
-1. *Decorators* are functions that you can attach to classes, methods, properties, to add an extra functionality. 
+1. *Decorators* are functions that you can attach to classes, methods, properties, to add an extra functionality.
 2. *Decorators* could be a kind of metaprogramming.
 
 Creating a Class Decorator
@@ -36,15 +36,15 @@ function logging(value: boolean) {
 
 @logging(true)
 class Car {
-    
+
 }
 ```
 
 3. Above, the `logging()` function is a factory
 
-Ceating a useful Decorator
+Creating a useful Decorator
 --------------------------
-1. Decorators turn useful when toy take adventage of the JavaScript prototypal inheritance.
+1. Decorators turn useful when you take advantage of the JavaScript prototypal inheritance.
 2. Check the next code:
 
 ```javascript
@@ -63,7 +63,7 @@ cons plant = new Plant();
 (<any>plant).print()
 ```
 
-3. Above, the code use a weird syntax `(<any>plant)`. Unfourtunately, this is the only way to use the function in the decorator
+3. Above, the code use a weird syntax `(<any>plant)`. Unfortunately, this is the only way to use the function in the decorator
 
 Using Multiple Decorators
 -------------------------
@@ -82,24 +82,24 @@ cons plant = new Plant();
 
 Method Decorators
 -----------------
-1. A *Method Decorator* is declared just before a method declaration. 
+1. A *Method Decorator* is declared just before a method declaration.
 2. The decorator is applied to the `Property Descriptor` for the method, and can be used to observe, modify, or replace a method definition.
 3. Check the next code:
 
 ```javascript
 function editableMethod(value: boolean) {
     return function(target: any, propName: string, descriptor: PropertyDescriptor) {
-        descriptor.wirtable = value;
+        descriptor.writable = value;
     }
 }
 
 class Project {
     projectName: string;
-    
+
     constructor(name: string) {
         this.projectName = name;
     }
-    
+
     @editableMethod(true)
     calculateBudget() {
         console.log(1000);
@@ -119,7 +119,7 @@ project.calculateBudget();
 
 Property Decorators
 -------------------
-1. A *Property Decorator* is declared just before a property declaration. 
+1. A *Property Decorator* is declared just before a property declaration.
 2. A property decorator cannot be used in a declaration file, or in any other ambient context.
 3. Check the next code:
 
@@ -129,7 +129,7 @@ function editableProperty(value: boolean) {
         const newDescriptor: PropertyDescriptor = {
             writable: value
         }
-        
+
         return newDescriptor;
     }
 }
@@ -137,11 +137,11 @@ function editableProperty(value: boolean) {
 class Project {
     @editableProperty(true)
     projectName: string;
-    
+
     constructor(name: string) {
         this.projectName = name;
     }
-    
+
     @editableMethod(true)
     calculateBudget() {
         console.log(1000);
@@ -161,7 +161,7 @@ project.calculateBudget();
 
 Parameter Decorators
 --------------------
-1. A *Parameter Decorator* is declared just before a parameter declaration. 
+1. A *Parameter Decorator* is declared just before a parameter declaration.
 2. The parameter decorator is applied to the function for a class constructor or method declaration.
 3. Check the next code:
 
@@ -174,13 +174,13 @@ function printableParameter(target: any, methodName: string, paramIndex: number)
 
 class Course {
     name: string;
-    
+
     constructor(name: string) {
         this.name = name;
     }
-    
+
     printStudentsNumbers(mode: string, @printableParameter printAll: boolean) {
-        if (pritnAll) {
+        if (printAll) {
             console.log(40)
         } else {
             console.log(10)

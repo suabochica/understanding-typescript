@@ -7,7 +7,7 @@ How Code gets compiled
 
 Changing the compiler behavior on errors
 ----------------------------------------
-1. In the file `tsconfig.json` you can change the default TS's compiler configuration 
+1. In the file `tsconfig.json` you can change the default TS's compiler configuration
 2. In`compilerOptions` you can add the key:value `noEmitOnError: true` to force the TS compiler to don't create the `.js` file when exist errors
 
 Debugging your TS code using source maps
@@ -16,7 +16,7 @@ Debugging your TS code using source maps
 
 Avoiding implicit "any"
 -----------------------
-1. If you doesn't set a type for a variable, by default TS assign the *any* type to the variable. to avoid that, you can set the property `noImplicitAny: false`
+1. If you doesn't set a type for a variable, by default TS assign the *any* type to the variable. To avoid that, you can set the property `noImplicitAny: false`
 
 More compiler options
 ---------------------

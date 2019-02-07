@@ -13,8 +13,8 @@ Course Introduction
 What is TypeScript?
 -------------------
 1. TypeScript is a JavaScript/ES6 wrapper whose most important feature is the introduction of strongly types
-2. TypeScript can't be run in the browser. So, TS requires a JS compiler.
-3. It is enable a [playground](www.typescriptlang.org/play/index.html) for get the equivalences between TS and JavaScript 
+2. TypeScript can't be run in the browser. So, TS requires a JS compiler
+3. It is enable a [playground](www.typescriptlang.org/play/index.html) for get the equivalences between TS and JavaScript
 
 Why TypeScript and How use it?
 ------------------------------
@@ -27,7 +27,7 @@ Installing TypeScript
 Using TypeScript
 ----------------
 1. Create a file with the `.ts` extension
-2. Use the command `tsc file.ts` to copmile your TS in JS
+2. Use the command `tsc file.ts` to compile your TS in JS
 
 Settign up the course workspace
 -------------------------------

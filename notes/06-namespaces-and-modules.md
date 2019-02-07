@@ -11,10 +11,10 @@ An Introduction to Namespaces
 namespace myMath() {
 	const PI = 3.14;
 
-	export function calculateCircunference(diameter: number) {
+	export function calculateCircumference(diameter: number) {
 		return diameter * PI;
 	}
-	
+
 	export function calculateRectangle(width: number, length:number) {
 		return width * length;
 	}
@@ -22,15 +22,15 @@ namespace myMath() {
 
 ```
 
-2. The namespace allow us split our code avoiding the use of global scope. The TS compiler use JS IIFE to split the code blocks 
+2. The namespace allow us split our code avoiding the use of global scope. The TS compiler use JS IIFE to split the code blocks
 
 
 Namespaces and Multiple Files
 -----------------------------
-1. We can split our `myMath` namespace in two files `circleMath.ts` and `rectangleleMath.ts`, and add the respective calculate functions.
-2. If we run the new structure the browser will throw the error `Uncought Reference`. To solve this issue we have three posibilites:
-    1. Import the  `circleMath.js` and the `rectangleleMath.js` files in the `indext.html`
-    2. Use the TypeScript option compiler `-- outFile {{outpustFile.js}} {{inputFile*.ts}}`
+1. We can split our `myMath` namespace in two files `circleMath.ts` and `rectangleMath.ts`, and add the respective calculate functions.
+2. If we run the new structure the browser will throw the error `Uncaught Reference`. To solve this issue we have three possibilities:
+    1. Import the  `circleMath.js` and the `rectangleMath.js` files in the `index.html`
+    2. Use the TypeScript option compiler `-- outFile {{outputsFile.js}} {{inputFile*.ts}}`
     3. Please check the Namespace Import section
 
 Namespace Imports
@@ -51,7 +51,7 @@ More on Namespaces
 
 Limitations Namespaces
 ----------------------
-1. Namespaces are not declarative. 
+1. Namespaces are not declarative.
 2. For small projects use Namespaces. For big projects use Modules.
 
 Modules
@@ -61,12 +61,12 @@ Modules
 ```
 app
 |-- modules
-|   |-- moduleFileOne.ts  
-|   |-- moduleFileTwo.ts  
+|   |-- moduleFileOne.ts
+|   |-- moduleFileTwo.ts
 |-- app.ts
 ```
 
-2. in the app.ts you will `import` the element that are `export` in the modules files.
+2. In the app.ts you will `import` the element that are `export` in the modules files.
 
 Loading Modules
 ---------------
@@ -77,7 +77,7 @@ Loading Modules
 
 Importing and Exporting Modules
 -------------------------------
-1. Bear in mind that first you have to export and then you import. Then follow the next sintax:
+1. Bear in mind that first you have to export and then you import. Then follow the next syntax:
 
 ```javascript
 // rectangle.ts file
@@ -133,7 +133,7 @@ Namespaces
 - Organize application with JavaScript Objects
 - Can be split up over multiple files
 - No module loader required
-- Dependencies get difficutl to manage in bigger applications
+- Dependencies get difficult to manage in bigger applications
 
 Modules
 - Organize application with real Modules

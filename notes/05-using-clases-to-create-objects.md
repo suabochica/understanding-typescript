@@ -28,25 +28,25 @@ Inheritance Wrap Up
 Getters and Setter
 ------------------
 1. Control the access to your properties.
-2. Asign a value
+2. Assign a value
 3. Return a values
 
-Static propeties and methods
+Static properties and methods
 ----------------------------
-1. `static` keyword allow us to use the properties of a class wihtout instantiate it.
+1. `static` keyword allow us to use the properties of a class without instantiate it.
 2. Ideal for helpers classes
 
 Abstract Classes
 ----------------
 1. `abstract` keyword allow us to create classes that can't be instantiated. Works as a blueprint.
-2. `abstract` keyword in methods doesn't have logic. Works as a guide to the class that use the abstract class to show that the logic of the abstract merhod is responsability of that class.
+2. `abstract` keyword in methods doesn't have logic. Works as a guide to the class that use the abstract class to show that the logic of the abstract method is responsibility of that class.
 3.  Abstract classes always have to be inherit
 
 Private constructors & singletons
 ---------------------------------
-1. Singleton: Pattern: Have just one instance of a class in runtime
+1. Singleton: is a pattern where you have just one instance of a class in runtime
 
-Readonly properties
+Read only properties
 -------------------
 1. Use a getter
-2. Add the `readonly` keyword in tha constructor paramete
+2. Add the `readonly` keyword in the constructor parameter
