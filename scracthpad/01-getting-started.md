@@ -104,7 +104,7 @@ function add(num1: number, num2: number): number {
     return num1 + num2;
 }
 
-button.addEventListener("click", function() {
+buttoe.addEventListener("click", function() {
     console.log(add(+input1.value, +input2.value));
 });
 ```
@@ -125,18 +125,69 @@ This command will generate a `typescript-add.js` file, that is the compiled vers
 
 TypeScript Advantages Overview
 ---------------------------------
-1. Install it through `npm -g i typescript`
+The next figure show us the advantages that TypeScript offer to our development:
+
+![image](../assets/s01-ts-overview.png)
+
+Types let us write clean code and we will more explicit about how things work to avoid many unexpected and unnecessary errors. Moreover, we can profit the features from moderns IDEs that support types, like auto completion and built in errors which show before we even compiled a code.
+
+With TypeScript we have access to next generation JavaScript features which you can write an use in our TypeScript files and then they will get compiled down to work around older browsers. Similar to Babel, with TypeScript we can use modern JavaScript features and still produce and ship code that works in older browsers as well.
+
+The use of types enable us certain features which only types could understand like *interfaces* or *generics*. These features cannot be compiled to JavaScript but they do not have to because they are features that help us during development.
+
+In the same way, types open us meta programming features like *decorators*. We will dive in this feature in their respective section.
+
+For other side, the TypeScript compiler is customizable because it comes with a large list of configurable options that are complemented with our IDE. These modern tooling help us to review the project configuration even in non TypeScript projects.
+
+So, as you can see there are many reasons for using TypeScript,
 
 How To Get The Most Out Of The Course
 ---------------------------------
-1. Create a file with the `.ts` extension
-2. Use the command `tsc file.ts` to compile your TS in JS
+Below, we have the course road map that will be useful to establish the guidelines of our TypeScript Learning:
+
+
+![image](../assets/s01-course-outline.png)
+
+Also, here are some tips that will help you to get the most out of the course:
+
+- Watch the videos at your speed
+- Code along, pausing and rewinding
+- Practice on you own
+- Debug and search your errors
+- Use the Ask & Answer tab
 
 Setting Up A Code Editor / IDE
 -------------------------------
-1. Install a server with `npm i lite-server`
-2. Add a script to start the lite server
-3. Use `tsc --init` to create a `tsconfig.json`
+
+The recommended code editor is:
+- [VSCode](https://code.visualstudio.com)
+
+These plugins will help you with the setup of your IDE:
+
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Path Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense)
 
 The Course Project Set Up
 ---------------------------------
+Check the folder structure of the `project` directory. Important things to mentions, this project was built with the next command:
+
+```
+$ npm init
+```
+
+Also to avoid reload the browser every time we do a change we recommend install the next package:
+
+```
+$ npm install --save-dev lite-server
+```
+
+And then, add the next line in the `package.json` file of the projects:
+
+```json
+...
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server"
+  },
+```
