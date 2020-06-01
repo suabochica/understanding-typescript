@@ -82,17 +82,35 @@ JavaScript is *dynamically typed*, which means it is perfectly fine that we have
 
 In the other hand, TypeScript is *statically typed*, which means we define the types of variables and parameters end on during development. They do not suddenly change during runtime. Of course, TypeScript is compiled to JavaScript, so theoretically it could change the types of a variable at runtime, but we will previously notified via the TypeScript compiler.
 
-Arrays and types
+> Note: In TypeScript, you work with types like `string` or `number`. It is `string` and `number` (etc.), NOT `String`, `Number` (etc.), **the core primitive types in TypeScript are all lowercase!**
+
+
+Working with Numbers, String & Booleans
 ----------------
+In our JavaScript version of the `add` function we use String, Booleans and Number data types. Let's include some parameters to the `add` function to explicitly define the print of the addition result via a boolean.
+
 ```javascript
-let hobbies = ["Cooking", "Sports"];
+function add(num1: number, num2: number, canShowResult: boolean, phrase: string) {
+    const result: number = num1 + num2;
+
+    if (canShowResult) {
+        console.log(phrase, result);
+    } else {
+        return result;
+    }
+
+} 
+
+const number1 = 5;
+const number2 = 3;
+const canShowResult = true;
+const resultPhrase = 'Result is: ';
+
+add(number1, number2, canShowResult, resultPhrase);
 ```
 
-1. TS assumes that the array will be just of 'Strings'.
-2. The best practice will:
-```javascript
-let hobbies: string = ["Cooking", "Sports"];
-```
+This version receive as parameter a `boolean` to set a condition to print the result in the browser console, and a phrase `string` to add a message in the console log. Notice that the `num1` and `num2` are not passed directly in the console log, because for this case JavaScript will apply type coercion an instead of print the result as an addition it will be concatenate strings:
+
 
 Tuples
 ------
