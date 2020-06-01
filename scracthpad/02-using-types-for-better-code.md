@@ -31,7 +31,7 @@ Not much to add, just keep in mind that the `Truthy` and `Falsy` values are not 
 
 Good, now let's go back to our `add` function example in his JavaScript version:
 
-```js
+```javascript
 function add(num1, num2) => num1 + num2;
 
 const number1 = '5';
@@ -44,7 +44,7 @@ console.log(result) // prints 53
 Let's add types to this version;
 
 
-```ts
+```typescript
 function add(num1: number, num2: number) => num1 + num2;
 
 const number1 = '5';
@@ -62,7 +62,7 @@ TypeScript Types vs JavaScript Types
 -----------------------
 We also know that there is a `number` type in JavaScript via the built in `typeof` operator. The `typeof` operator is not specified to TypeScript, is supported in a keyword by JavaScript and we can use it the get the type of certain values. We use this operator to create a pure JavaScript version of the `add` function:
 
-```js
+```javascript
 function add(num1, num2) {
     if (typeof num1 !== 'number' || typeof num2 !== 'number') {
         throw new Error ('Incorrect input!'); // Print the error
@@ -111,6 +111,28 @@ add(number1, number2, canShowResult, resultPhrase);
 
 This version receive as parameter a `boolean` to set a condition to print the result in the browser console, and a phrase `string` to add a message in the console log. Notice that the `num1` and `num2` are not passed directly in the console log, because for this case JavaScript will apply type coercion an instead of print the result as an addition it will be concatenate strings:
 
+Type Assignment & Type Inference
+--------------------------------
+So we are using the core types and until here, in the list of parameters of the function we are always explicitly assigning to types with a colon (e.g `num1: number`). The types works as special keywords of a syntax which is added by TypeScript. It is not part of the compile JavaScript code.
+
+The special keyword are interpreted by the TypeScript compiler, and there are called explicit type assignment. Let's check the next code: 
+
+```typescript
+let number1: number;
+number1 = 5;
+```
+
+Here we define a variable but we are not initialize it with some value. I know that this case is redundant but, it works to explain the type assignment. After define the variable we give a value to the variable that is `5`. With this scenario TypeScript compiler won't throw warning messages because we are using a `number` as expected. If we change the value of 5 to `'Hello'` the TypeScript compiler will throw us an error, we are expecting a `number`, not a `string`;
+
+Now, let's check the next line, to explain the type inference feature of the TypeScript compiler:
+
+```typescript
+const number1 = 5;
+```
+
+Here, we initialize `number1` with the `5` value. How the variable is initialize with a number, the TypeScript compiler will *infer* that the type of the variable `number1` will a `number`. For this case it is redundant use the type assignment an it is consider a bad practice.
+
+In brief, if the variable is unassigned, consider use the type assignment, if not let that the TypeScript compiler use his type inference feature.
 
 Tuples
 ------
