@@ -134,13 +134,47 @@ Here, we initialize `number1` with the `5` value. How the variable is initialize
 
 In brief, if the variable is unassigned, consider use the type assignment, if not let that the TypeScript compiler use his type inference feature.
 
-Tuples
-------
-```javascript
-let address: [string, number] = ["Cooking", 99];
+
+Object Types
+--------------------------------
+Following with the core types diagram, lets add the Object Type:
+
+![image](../assets/s02-core-types-object.png)
+
+We know that objects in JavaScript are declared with curly braces that inside have key value pairs. These values would all be treated as object types in TypeScript. TypeScript offer us the possibility to define object with specific types.
+
+Let's check the next code sample:
+
+
+```typescript
+const person: {
+    name: string;
+    age: number;
+} = {
+    name: 'Edward',
+    age: 16,
+}
+
+console.log(person.name)
 ```
 
-1. For TS the order element is important
+Here we declared a `person` object with two properties: `name` of type `string` and `age` of type `number`. If in the assignation of the values, if we change the value of the age from `16` to `true`, the compiler will throw an error saying that the expect type of the `age` key should be a `number`.
+
+> **Note:** Could be confusing the syntax for the type assignment and the key value pairs of the object because both use the colon as separator of the elements. The key distinction is that when we use type assignment the line ends with a semicolon `;` and the key value pairs ends with a comma `,`.
+
+For this case, we use the type assignment that offer TypeScript, but with this version we could be redundant. The next code is a clean version of our last snippet:
+
+
+```typescript
+const person {
+    name: 'Edward',
+    age: 16,
+}
+
+console.log(person.name)
+```
+
+We got the same results and take advantage of the type inference feature of the TypeScript compiler. Also, keep in mind that if we change the log line to `console.log(person.nickname)` the compiler will throw a message indicating that we are trying to access to a property of the object that not exist.
 
 Enum
 ----
