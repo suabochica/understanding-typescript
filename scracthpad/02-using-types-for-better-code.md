@@ -176,20 +176,40 @@ console.log(person.name)
 
 We got the same results and take advantage of the type inference feature of the TypeScript compiler. Also, keep in mind that if we change the log line to `console.log(person.nickname)` the compiler will throw a message indicating that we are trying to access to a property of the object that not exist.
 
-Enum
-----
-```javascript
+Nested Object & Types
+--------------------------------
+Of course object types can also be created for **nested objects**.
 
-enum Color {
-	Gray,
-	Green,
-	Blue
+Let's say you have this JavaScript **object**:
+
+```typescript
+const product = {
+  id: 'abc1',
+  price: 12.99,
+  tags: ['great-offer', 'hot-and-new'],
+  details: {
+    title: 'Red Carpet',
+    description: 'A great carpet - almost brand-new!'
+  }
 }
-
-let myColor:Color = myColor.Green
-
-console.log(myColor)// -> 1
 ```
+
+This would be the **type** of such an object:
+
+```typescript
+{
+  id: string;
+  price: number;
+  tags: string[];
+  details: {
+    title: string;
+    description: string;
+  }
+}
+```
+
+So you have an object type in an object type so to say.
+
 
 The "Any" type
 --------------
