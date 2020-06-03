@@ -211,10 +211,38 @@ This would be the **type** of such an object:
 So you have an object type in an object type so to say.
 
 
-The "Any" type
+Arrays Types
 --------------
-1. The `any` type is the most flexible type in TS
-2. Tip: you should avoid the use of `any` type
+Time to review the arrays types, we will continue with our core types diagram:
+
+![image](s02-core-types-array.png)
+
+So with TypeScript we can use any JavaScript array an the types can be flexible or strict. Let's check an example of a strict array:
+
+```typescript
+let favoriteActivities: string[];
+
+favoriteActivities = ['Alchemy'];
+// favoriteActivities = ['Alchemy', 1]; Error!
+```
+
+Notice that for assign the type we use the `string[]` syntax. Now we are telling to the TypeScript compiler that all the values in the `favoriteActivities` should be an array string. If we uncomment the fourth line, we will get an error from the compiler saying that a number cannot be assignable to an array of strings. To attend this case we should change the type assignation for the `favoriteActivities` variable to `any[]`. With this syntax we got flexible types in our array.
+
+Besides, if we define an array of strings we can use all the valid method of the strings values that are in the array, lets check then next snippet:
+
+```typescript
+const person = {
+    name: 'Edward',
+    age: 16,
+    hobbies: ['Alchemy', 'Travel']
+}
+
+for (const hobby of person.hobbies) {
+    console.log(hobby.toUpperCase());
+}
+```
+
+As you can see, when we iterate the array we are able to use the `toUpperCase` method for the strings that are in the `hobbies` array.
 
 Understanding the created JavaScript code
 -----------------------------------------
