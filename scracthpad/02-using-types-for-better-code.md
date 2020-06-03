@@ -244,10 +244,33 @@ for (const hobby of person.hobbies) {
 
 As you can see, when we iterate the array we are able to use the `toUpperCase` method for the strings that are in the `hobbies` array.
 
-Understanding the created JavaScript code
+Working with Tuples
 -----------------------------------------
-1. The types are missing the TS is compiled in JS
-2. TS job is make sure you wouldn't assign anything wrong
+Until now we review the types that JavaScript offer and how TypeScript add restrictions over these types. However, TypeScript adds a couple of new concepts and new types which we do not know from JavaScript, like a **tuple**.
+
+A type is a fixed-length array, that could be useful when you have a scenario where you need exactly x amount of values in an array and you know the type of each value in advance. With tuples, we can be more strictness and even clearer about the type of data your are working with the type of data you are expecting. Let's check the next snippet to get familiar with the tuple concept:
+
+```typescript
+const person: {
+    name: string;
+    age: number;
+    hobbies: string[];
+    role: [number, string];
+} = {
+    name: 'Edward',
+    age: 16,
+    hobbies: ['Alchemy', 'Travel'],
+    role: [0, 'hero'],
+}
+
+person.role[0] = 1;
+// person.role[0] = 'enemy'; ✘: expected an number value
+person.role.push('enemy');
+```
+
+In the last code, we add a new `role` property with a tuple type whose inner types are `[number, string]`. If we assign a value for the first element of the array that not corresponds to a `number`, the TypeScript compiler will indicating an error that the current value is not assignable to a `number` type.
+
+An important detail happens with the `push` array's method. As you can see in the last line we use it, and we not get errors, even when the pushed values not accomplish with the restriction of the tuple type. We're all the saying that `role` should have exactly two elements but why can we push `enemy` onto the `role` array?. `push` actually is an exception which is allowed and bowls so unfortunately types who can't catch this error.
 
 Using types in functions
 ------------------------
