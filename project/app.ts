@@ -6,7 +6,7 @@
 //     age: 16,
 // }
 
-const person: {
+const personTuple: {
     name: string;
     age: number;
     hobbies: string[];
@@ -18,8 +18,26 @@ const person: {
     role: [0, 'hero'],
 }
 
-person.role[0] = 1;
+personTuple.role[0] = 1;
 // person.role[0] = 'enemy'; ✘: expected an number value
+
+enum Role {
+    PRESIDENT,
+    ALCHEMIST,
+    STATAL_ALCHEMIST,
+    HOMUNCULUS,
+}
+
+const person = {
+    name: 'Edward',
+    age: 16,
+    hobbies: ['Alchemy', 'Travel'],
+    role: Role.STATAL_ALCHEMIST,
+}
+
+if (person.role === Role.STATAL_ALCHEMIST) {
+    console.log('Hello full metal!');
+}
 
 let favoriteActivities: string[];
 

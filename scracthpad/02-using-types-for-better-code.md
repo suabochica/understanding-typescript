@@ -272,11 +272,65 @@ In the last code, we add a new `role` property with a tuple type whose inner typ
 
 An important detail happens with the `push` array's method. As you can see in the last line we use it, and we not get errors, even when the pushed values not accomplish with the restriction of the tuple type. We're all the saying that `role` should have exactly two elements but why can we push `enemy` onto the `role` array?. `push` actually is an exception which is allowed and bowls so unfortunately types who can't catch this error.
 
-Using types in functions
+Working with Enum
 ------------------------
-1. You can apply types on the function's return value
-2. You can apply types on the function's arguments
-3. You can use the function `void` type when the function doesn't return anything
+Loosely related with the idea of a tuple is the idea of having a couple of specific identifiers in global constants you might be working within your app which you want to represent as number, but you want to assign a human readable label, and for that you have the `Enum` type, that is an addition of TypeScript.
+
+Let's play with the `role` property of the `person` object to illustrate this type.
+
+```typescript
+const PRESIDENT = 0;
+const ALCHEMIST = 1;
+const STATAL_ALCHEMIST = 2;
+const HOMUNCULUS =3;
+
+const person = {
+    name: 'Edward',
+    age: 16,
+    hobbies: ['Alchemy', 'Travel'],
+    role: STATAL_ALCHEMIST,
+}
+
+if (person.role === STATAL_ALCHEMIST) {
+    console.log('Hello full metal!');
+}
+```
+
+Here, we define a series of global constants with the possible roles of the `person` object. When we create the `person` object, in the `role` property we use one of those constants. Finally, we set a condition to execute an specific code according to the `role` of the person. This code works, but with `enums` we can do it better, as shown next:
+
+```typescript
+enum Role {
+    PRESIDENT,
+    ALCHEMIST,
+    STATAL_ALCHEMIST,
+    HOMUNCULUS,
+}
+
+const person = {
+    name: 'Edward',
+    age: 16,
+    hobbies: ['Alchemy', 'Travel'],
+    role: Role.STATAL_ALCHEMIST,
+}
+
+if (person.role === Role.STATAL_ALCHEMIST) {
+    console.log('Hello full metal!');
+}
+```
+
+Several things to highlight in this snippet. First, `enum` is a custom type and by convention his values should be start with a capital letter. Often, you will see enums with all-uppercase values, but that is not a "must-do". Second, in the `enum` definition we do not use the equal sign `=` and the colon sing`:` neither, just the curly braces. Lastly, the internal values of the `enum` will be assigned by default to a number value from 0 to the number of elements in the enum. In this case `PRESIDENT` get `0`, `ALCHEMIST` get `1`, so forth and so on. You can customize this values as shows below:
+
+
+```typescript
+enum Role {
+    PRESIDENT = 2,
+    ALCHEMIST = 4,
+    STATAL_ALCHEMIST = 8,
+    HOMUNCULUS = 16,
+}
+```
+
+So enum is great to construct whenever you need identifiers that are human readable and have some mapped value behind the scenes.
 
 Function as types
 -----------------
