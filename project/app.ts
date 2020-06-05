@@ -1,50 +1,17 @@
-// const person: {
-//     name: string;
-//     age: number;
-// } = {
-//     name: 'Edward',
-//     age: 16,
-// }
+function combine(input1: number | string, input2: number | string) {
+    let result;
 
-const personTuple: {
-    name: string;
-    age: number;
-    hobbies: string[];
-    role: [number, string];
-} = {
-    name: 'Edward',
-    age: 16,
-    hobbies: ['Alchemy', 'Travel'],
-    role: [0, 'hero'],
+    if (typeof input1 === 'number' && typeof input2 === 'number') {
+        result = input1 + input2;
+    } else {
+        result = input1.toString() + input2.toString();
+    }
+
+    return result;
 }
 
-personTuple.role[0] = 1;
-// person.role[0] = 'enemy'; ✘: expected an number value
+const combinedAges = combine(30, 26);
+console.log(combinedAges);
 
-enum Role {
-    PRESIDENT,
-    ALCHEMIST,
-    STATAL_ALCHEMIST,
-    HOMUNCULUS,
-}
-
-const person = {
-    name: 'Edward',
-    age: 16,
-    hobbies: ['Alchemy', 'Travel'],
-    role: Role.STATAL_ALCHEMIST,
-}
-
-if (person.role === Role.STATAL_ALCHEMIST) {
-    console.log('Hello full metal!');
-}
-
-let favoriteActivities: string[];
-
-favoriteActivities = ['Alchemy'];
-
-console.log(person.name)
-
-for (const hobby of person.hobbies) {
-    console.log(hobby.toUpperCase());
-}
+const combinedNames = combine('Edward', 'Elric');
+console.log(combinedNames);

@@ -332,9 +332,54 @@ enum Role {
 
 So enum is great to construct whenever you need identifiers that are human readable and have some mapped value behind the scenes.
 
+The "any" type
+----------------
+The `any` type is the most flexible type you can assign in TypeScript. This type does not tell anything to the TypeScript compiler, it basically means you can store any kind of value there. The next snippet shows the syntax to use the `any` type: 
+
+```typescript
+let favoriteActivities: any[];
+favoriteActivities = [2, "Alchemy"]
+```
+
+We should use the `any` type with care, because his use go against the benefits that TypeScript offer us as Developers. This type give us the same experience you have with vanilla JavaScript.
+
+In the next figure we resume the core types that we evaluate in the previous sections:
+
+![image]('../assets/s02-core-types-complete.png')
+
+The Union Types
+-----------------------------
+To explain the *union type* (`|`) let's recall the `add` function, and we will introduce the next change: Now this function could receive two type of inputs, `number` and `string`. If the inputs are `number`, then the function execute the addition. If the inputs are `string`, then the function will concatenate both strings. The next snippet met this goal:
+
+```typescript
+function combine(input1: number | string, input2: number | string) {
+    let result;
+
+    if (typeof input1 === 'number' && typeof input2 === 'number') {
+        result = input1 + input2;
+    } else {
+        result = input1.toString() + input2.toString();
+    }
+
+    return result;
+}
+
+const combinedAges = combine(30, 26);
+console.log(combinedAges);
+
+const combinedNames = combine('Edward', 'Elric');
+console.log(combinedNames);
+```
+
+As you can see we use the union type in the signature of the `combine` function. There, we are saying that the parameters could be a `number` or a `string`. The union types could be useful to gain flexibility in our functions. You will certainly also encounter situations in types good programs where you can use a union type without a runtime type check.
+
+It really depends on the logic your writing.
+
+
 Function as types
 -----------------
 1. Check the next example:
+
 ```javascript
 function sayHello(): void {
 	console.log("Hello");
