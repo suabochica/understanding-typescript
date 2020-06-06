@@ -410,70 +410,37 @@ Finally, in the `combinedConversionAges` we call the function with the `'as-numb
 
 So these are literal types especially useful when used in conjunction with union types.
 
-Function as types
------------------
-1. Check the next example:
-
-```javascript
-function sayHello(): void {
-	console.log("Hello");
-}
-
-function multiply(valueOne: number, valueTwo: number): number {
-	return valueOne * valueTwo;
-}
-
-let myMultiply = sayHello;
-
-myMultiply = multiply;
-console.log(myMultiply(5,2)); // -> Hello, 10
-```
-
-2. You can notice that the variable `myMultiply` change from `void` to `number`. to avoid that use:
-```javascript
-let myMultiply: (a: number, b: number) => number;
-```
-
-Object and types
-----------------
-1. To apply the explicit type principle in objects, you have to use the next syntax:
-```javascript
-let userData: {name: string, age: number} = {
-	name: "Sergio"
-	"age" "26"
-}
-```
-
-Creating custom types with aliases
+Custom Types And Types Aliases
 ---------------------------------
-1. Use the next syntax:
-```javascript
-type CustomType = {arrayType: number[], functionType: (all: boolean) => number[]}
+When we are working with union types, can be cumbersome to always repeat the union type. You might to create a new type which he store this union type and the use it after. TypeScript offer us a cool feature called *type aliases* to define our custom types before use it. Next code is a improve version of the `combine` function and will help us to understand type alieases.
 
-// then...
+```typescript
+type Combinable = number | string;
+type CombinableDescriptor = 'as-number' | 'as-string';
 
-let complex = CustomType = {arrayType: [10, 20], functionType: function (all: boolean): number [] {return this.arrayType}}
+function combine(
+    input1: Combinable,
+    input2: Combinable,
+    resultConversion: CombinableDescriptor,
+) {
+    let result;
+
+    if (typeof input1 === 'number' && typeof input2 === 'number' || resultConversion === 'as-number') {
+        result = +input1 + +input2;
+    } else {
+        result = input1.toString() + input2.toString();
+    }
+
+    return result;
+}
+
+const combinedConversionAges = combine('30', '26', 'as-number');
+console.log(combinedConversionAges);
 ```
-2. The main advantage of use aliases to custom types is flexibility.
 
-Allowing multiple types with Union Types
-----------------------------------------
-1. Allow us to increase the number of types for a variable
-```javascript
-let myAge: number | string;
+The definition of a type alias require the `type` keyword that is part of TypeScript. Here you can set any name to your alias and assign to the respective core values. Then when we declare the parameters for the `combine` function we are using the type aliases created before.
 
-myAge = 27;  	// ✔
-myAge = "27";	// ✔
-myAge = true;	// ✘
-```
-
-Checking types during runtime
------------------------------
-1. Use the next syntax:
-```javascript
-if (typeof == "type")
-	// Do something
-```
+The main advantage of use aliases to custom types is flexibility. So type aliases are really useful. You can encode more complex type definitions into your own types into your own type names. So to say and reuse that everywhere in your code where you need exactly this type setup. So did you have wide typos down there and you can simply save code write code quicker and also be clearer about your intentions for example by choosing descriptive type alias names up there.
 
 The `never` type
 ----------------
