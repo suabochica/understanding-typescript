@@ -376,6 +376,40 @@ As you can see we use the union type in the signature of the `combine` function.
 It really depends on the logic your writing.
 
 
+The Literal Types
+-----------------------------
+Literal types are types where you don't just say that a certain variable or parameters should hold let's say a `number` or a `string` but where you are very clear about the exact value it should hold (e.g `const number = 2.8`). To go deep with the concept let's add a third parameter to the `combine` function as a identifier to perform a conversion of the `result`. Next snippet illustrate this case.
+
+
+```typescript
+function combine(
+    input1: number | string,
+    input2: number | string,
+    resultConversion: 'as-number' | 'as-text'
+) {
+    let result;
+
+    if (typeof input1 === 'number' && typeof input2 === 'number' || resultConversion === 'as-number') {
+        result = +input1 + +input2;
+    } else {
+        result = input1.toString() + input2.toString();
+    }
+
+    return result;
+}
+
+const combinedConversionAges = combine('30', '26'), 'as-number';
+console.log(combinedAges);
+```
+
+First of all, we add the third parameter with a literal type `'as-number' | 'as-text'`. This literal type use the union type explained before. Literal types are the types which are based on your core types, `string`, `number` and so on, but you don't have a specific word in off that type. So here we allow us specifically these two strings not any string just these two strings. If we want a string for resolved conversion but it has to be one of these two values and any average string value will not be allowed.
+
+That's the idea behind a literal type and often you will use this in the context of a union type because you don't just want to allow one exact value you could hardcoded into your code if that would be the case but you want to have two or more possible values.
+
+Finally, in the `combinedConversionAges` we call the function with the `'as-number'` literal type, if we have a type the TypeScript's compiler will show us an warning saying that the expected literal type should be `as-number` or `as-string`.
+
+So these are literal types especially useful when used in conjunction with union types.
+
 Function as types
 -----------------
 1. Check the next example:
