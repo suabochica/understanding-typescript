@@ -442,6 +442,94 @@ The definition of a type alias require the `type` keyword that is part of TypeSc
 
 The main advantage of use aliases to custom types is flexibility. So type aliases are really useful. You can encode more complex type definitions into your own types into your own type names. So to say and reuse that everywhere in your code where you need exactly this type setup. So did you have wide typos down there and you can simply save code write code quicker and also be clearer about your intentions for example by choosing descriptive type alias names up there.
 
+### Type Aliases and objects
+Type aliases can be used to "create" your own types. You're not limited to storing union types though - you can also provide an alias to a (possibly complex) object type.
+
+For example:
+
+```typescript
+type User = name { name: string, age: number };
+const userOne = User = { name: 'Edward', age: 16 }
+```
+
+This allows you to avoid unnecessary repetition and manage types centrally/
+
+For example, you can simplify this code:
+
+```typescript
+function greet(user: { name: string, age: number }) {
+    console.log('Hi, I am'+ user.name);
+}
+
+function isOlder(user: { name: string, age: number }, checkAge: number) {
+    return checkAge > user.age;
+}
+```
+
+To:
+
+```typescript
+type User = { name: string, age: number };
+
+function greet(user: User) {
+    console.log('Hi, I am'+ user.name);
+}
+
+function isOlder(user: User, checkAge: number) {
+    return checkAge > user.age;
+}
+```
+
+Function Return Types & Void
+---------------------------------
+With TypeScript we can explicitly assign a return type to the functions adding a colon (`:`) after the parameter list. The next code is an example of this syntax:
+
+```typescript
+function add(n1: number, n2: number): number {
+    return n1 + n2;
+}
+```
+
+Keep in mind that for functions, the type inference feature is active from the TypeScript compiler. For this case the TypeScript's compiler will infer that the return type of the function it is a `number` type due to the parameters. So, we are being redundant in this case. For demo purpose the next version could be give us an accurate idea of the function return types:
+
+```typescript
+function add(n1: number, n2: number): string {
+    return n1.toString() + n2.toString();
+}
+```
+
+In this case we expect a `string` as return type, but the parameters are still `number`. That is the reason why we have to use the `toString` method.
+
+Now, we have cases where the function not return anything, like the next log function:
+
+```typescript
+function printResult(num: number): void {
+    console.log('Result ' + num);
+}
+
+printResult(add(5, 12));
+```
+
+For this we can use the `void` type. Now let's a discuss an interesting relation between `void` and `undefined`. For that let's check the next line of code example:
+
+```typescript
+console.log(printResult(add(5, 12)));
+```
+
+In JavaScript of course if we would `console.log` the result of `printResult` here and we now compile it to see what gets output here on the page that is `undefined`. So technically and that's re interesting in JavaScript if we use the return value of a function that doesn't return anything we get `undefined` as a value.
+
+You probably know `undefined` in JavaScript is actually a real value, a value you for example also get if you try to access a property on an object which doesn't exist.
+
+Now to make it even more confusing `undefined` actually is a type in TypeScript. For example a brand new variable some value can receive `undefined` as a type and you will not get an error.
+
+This variable will now just be forever `undefined` how useful that might be as a different question but `undefined` is a valid type and TypeScript nonetheless here you see we're getting an error and we are getting an error because a function is not allowed to return `undefined`.
+
+Technically it of course does but TypeScript thinks about functions a bit differently. You should use why here if a function returns nothing and not `undefined` because with y you make clear that this function deliberately does not have a return statement.
+
+If you would say `undefined` here then TypeScript would expect that you have a return statement where you just don't return a value, and that's the technical difference.
+
+So, in functions we use the `void` type for functions that not return anything.
+
 The `never` type
 ----------------
 1. Type used when a function never returns a value
