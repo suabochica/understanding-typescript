@@ -530,6 +530,54 @@ If you would say `undefined` here then TypeScript would expect that you have a r
 
 So, in functions we use the `void` type for functions that not return anything.
 
+Function as Types
+--------------------------------
+So far, we know that you can use types for function parameters and for the return value of the function. Now to take it to the next level what after all the were a function type itself. Let's introduce the feature with the next snippet.
+
+```typescript
+function add(n1: number, n2: number): number {
+    return n1 + n2;
+}
+
+function printResult(num: number): void {
+    console.log('Result ' + num);
+}
+
+printResult(add(5, 12));
+
+let combineValues: Function;
+
+combineValues = add;
+combineValues = printResult;
+
+console.log(combineValues(9,9));
+```
+
+Here the relevant line is `let combineValues: Function`. `Function` is a type for TypeScript and for this cause we are using it to define that `combineValues` can be any function. Unfortunately, this code isn't throws any error by the TypeScript compiler ans when we check it in runtime we got and `undefined` because in the log we are passing two parameter to fit `combineValues` to the `add` function, but before we assign it to `printResult`. This is a good start but we need a customized function type to have guarantees that the `combineValues` variable could be assigned only to functions like `add`. Next code shows how to achieve this description:
+
+```typescript
+function add(n1: number, n2: number): number {
+    return n1 + n2;
+}
+
+function printResult(num: number): void {
+    console.log('Result ' + num);
+}
+
+printResult(add(5, 12));
+
+let combineValues: (a: number, b: number) => number;
+
+combineValues = add;
+
+console.log(combineValues(9,9));
+```
+
+Much better, now we use as function type the `(a: number, b: number) => number` definition. If we try to do `combineValues = printResult` in this version, the TypeScript's compiler will send us an error message saying that the printResult function isn't accomplish with the function type definition.
+
+Function types allow us to describe which type of function specifically we want to use somewhere, be that an expected value in a parameter for create a function with some callback or like here a variable.
+
+
 The `never` type
 ----------------
 1. Type used when a function never returns a value
