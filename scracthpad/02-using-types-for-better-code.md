@@ -577,6 +577,25 @@ Much better, now we use as function type the `(a: number, b: number) => number` 
 
 Function types allow us to describe which type of function specifically we want to use somewhere, be that an expected value in a parameter for create a function with some callback or like here a variable.
 
+### Function Types & Callbacks
+
+Now speaking of callbacks and function types there it works pretty much in the same way. Let's create a `addAndHandle` function which receive three parameters: two numbers and a callback function.
+
+```typescript
+function addAndHandle(n1: number, n2: number, callback: (num: number) => void) {
+    const result = n1 + n2;
+
+    callback(result);
+}
+
+addAndHandle(10, 20, (result) => {
+    console.log(result);
+});
+```
+
+Notice that for the definition of the callback parameter we use a the function type syntax. So, at the moment to call the `addAndHandle` function we should respect this contract. If we pass more that one parameter to the callback, or we change the type from `number` to `string`, the TypeScript's compiler will throw us a warning message.
+
+> Note: Callback functions can return something, even if the argument on which they're passed does NOT expect a returned value.
 
 The `never` type
 ----------------
