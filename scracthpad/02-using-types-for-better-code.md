@@ -597,10 +597,36 @@ Notice that for the definition of the callback parameter we use a the function t
 
 > Note: Callback functions can return something, even if the argument on which they're passed does NOT expect a returned value.
 
+The `unknown` type
+----------------
+Additional to the core types, TypeScript offer us several types for specific, one of this types is `unknown`. `unknown` it is similar to any but is more restrictive. Let's check the next snippet to check it out.
+
+```typescript
+let userInput: unknown;
+let userName: string;
+
+userInput = 5;
+userInput = 'Edward';
+
+userName = userInput;
+```
+
+This code makes that the TypeScript's compiler throws a error in the `userName = userInput` assignation. Here, the `userName` variable expect a `string` type in his value and `unknown` is not a guarantee of that. If we change the type of `userInput` from `unknown` to `any` the compiler error is gone. Make sure that what you want to do can be done so that if you want to work with the `string` you have a `string` and you're good and then `unknown` is better than `any` because it makes sure that you're not allowed to do everything but you have at least some type checking.
+
+Of course if you have a chance of knowing in advance that user input is always a `string` or always a `string` or a `number` well then you should use `string` or such a `union` type instead of `unknown` so `unknown` still is a type you shouldn't use all the time but it is better than any for the reasons described.
+
 The `never` type
 ----------------
-1. Type used when a function never returns a value
+The last type in this function is `never` that is used when a function `never` returns a value. Let's check the next code to illustrate the type:
 
-The `null` type
----------------
-1. Is used with union types, and require add a `strictNullChecks` configuration in the `tsconfig.json`
+```typescript
+function generateError(message: string, code: number): never {
+    throw { message: message, errorCode: code }
+}
+
+generateError('An error ocurred', 500);
+```
+
+In the `generateError` function we use the `throw` keyword to handle the error. However, the body of `generateError` isn't return anything. If we left that the type inference of TypeScript's compiler works on this function it will assign the `void` type to the function. This works but keep in mind that if we try to log the call of the `generateError` function the console will don't show anything, even an `undefined` type.
+
+Never asked the return type to make it really clear that this `never` returns anything. So from a code quality perspective this might be clearer regarding your intentions and make it really clear to average developers reading your code that this function is intended to never return anything and to essentially crash or break your script or that part of the script and no function that would. A function that generates and throws an error probably is the more common use case though so `never`.
