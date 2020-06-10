@@ -630,3 +630,13 @@ generateError('An error ocurred', 500);
 In the `generateError` function we use the `throw` keyword to handle the error. However, the body of `generateError` isn't return anything. If we left that the type inference of TypeScript's compiler works on this function it will assign the `void` type to the function. This works but keep in mind that if we try to log the call of the `generateError` function the console will don't show anything, even an `undefined` type.
 
 Never asked the return type to make it really clear that this `never` returns anything. So from a code quality perspective this might be clearer regarding your intentions and make it really clear to average developers reading your code that this function is intended to never return anything and to essentially crash or break your script or that part of the script and no function that would. A function that generates and throws an error probably is the more common use case though so `never`.
+
+Wrap up
+----------------
+In this section we understand how type assignments and types could differ from JavaScript type checks that JavaScript uses runtime types while TypeScript uses static types that mattered during development,
+
+Also we went along the core types and the new types introduced by TypeScript. We had a look at objects, arrays, enums and how that can be interesting and help you the same is true for tuples.
+
+Also had a look at aliases type aliases where you can merge complex types into aliases which you can reuse. We had a look at literal types and union types which can be useful for scenarios where you expect more than one possible type. And now at the end we all had a look at unknown and never which are niche types but still in their niche they can be very useful.
+
+Now with these basics we'll dive deeper into individual aspects and of course also explore other types and JavaScript constructs where TypeScript can be helpful.
