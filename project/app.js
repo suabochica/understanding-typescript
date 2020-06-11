@@ -1,20 +1,13 @@
-// const person: {
-//     name: string;
-//     age: number;
-// } = {
-//     name: 'Edward',
-//     age: 16,
-// }
-var person = {
-    name: 'Edward',
-    age: 16,
-    hobbies: ['Alchemy', 'Travel']
-};
-var favoriteActivities;
-favoriteActivities = ['Alchemy'];
-// favoriteActivities = ['Alchemy', 1]; Error!
-console.log(person.name);
-for (var _i = 0, _a = person.hobbies; _i < _a.length; _i++) {
-    var hobby = _a[_i];
-    console.log(hobby.toUpperCase());
+"use strict";
+var userInput;
+var userName;
+userInput = 5;
+userInput = 'Edward';
+if (typeof userInput === 'string') {
+    userName = userInput;
 }
+;
+function generateError(message, code) {
+    throw { message: message, errorCode: code };
+}
+generateError('An error ocurred', 500);

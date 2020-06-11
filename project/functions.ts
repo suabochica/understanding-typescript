@@ -1,4 +1,4 @@
-function add(n1: number, n2: number): number {
+function addition(n1: number, n2: number): number {
     return n1 + n2;
 }
 
@@ -12,11 +12,11 @@ function addAndHandle(n1: number, n2: number, callback: (num: number) => void) {
     callback(result);
 }
 
-printResult(add(5, 12));
+printResult(addition(5, 12));
 
 let combineValues: (a: number, b: number) => number;
 
-combineValues = add;
+combineValues = addition;
 
 console.log(combineValues(9,9));
 

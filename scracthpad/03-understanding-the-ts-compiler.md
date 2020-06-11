@@ -44,6 +44,25 @@ The downside is that we still have to specifically target the file and at the mo
 
 Compiling the Entire Project
 --------------------------------
+In real apps, your projects will have more than one file. Let's check the next project folder structure.
+
+```
+- project
+    + node_modules
+     analytics.ts
+     app.ts
+     index.html
+     package-lock.json
+     package.json
+```
+
+We have the `app.ts` file as root of our project, and let's imagine that in `analytics.ts` we will consume handlers over data. So far, we use the `tsc` to compile the file individually. To compile several file at the same time, we should tell to TypeScript that the current folder is a project, to achieve that we should run:
+
+```
+tsc --init
+```
+
+This command will create a `tsconfig.json` file at root lever with a default set up. Now, the TypeScript's compiler will identify the `tsconfig.json` and the will compile all the `.ts` files in the folder. So, when we run `tsc` it will be generate all the `.js` files respectively.
 
 Including & Excluding Files
 --------------------------------
