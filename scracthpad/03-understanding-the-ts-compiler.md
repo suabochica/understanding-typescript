@@ -66,6 +66,35 @@ This command will create a `tsconfig.json` file at root lever with a default set
 
 Including & Excluding Files
 --------------------------------
+Now let's have a look at the `tsconfig.json` file because this is a crucial file for managing this project. It essentially tells TypeScript how it should compile these files.
+
+Now before we dive into the compiler options where we as the name suggests can configure how the compiler behaves.
+
+So, at the end of the file, we will add the `exclude` to set what files we want ignore in this project.
+
+```json
+// tsconfig.json
+...
+    "exclude": [
+        "basics.ts",
+        "core-types.ts",
+        "function.ts",
+        "union-aliases.ts",
+    ],
+```
+
+Similarly, we have a property `include`, where we define explicitly what files will be included in the project.
+
+```json
+// tsconfig.json
+...
+    "include": [
+        "app.ts",
+        "analytics.ts",
+    ],
+```
+
+> Note: We can use the regex to set folders and not just files as values. so, for example, if we want ignore all the `.dev.ts` files in any folder we can use `**/*.dev.ts`, of if we want to ignore the current folder we use `./`.
 
 Setting a Compilation Target
 --------------------------------
