@@ -98,9 +98,69 @@ Similarly, we have a property `include`, where we define explicitly what files w
 
 Setting a Compilation Target
 --------------------------------
+Now that we have a understanding of how we can manage our files with the compiler, let's dive into the compiler options because that's really interesting.
+
+This allows us to control how our types could code is compiled. So not only which files but also how the files which are getting compiled are treated by TypeScript.
+
+In the `tsconfig.json` you will see that we have a bunch of options below the `"compilerOptions"` key. Let's start from the top to the bottom and the first property is `'target'`:
+
+```json
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es5",      /* Specify ECMAScript target version */
+    ...
+    }
+}
+```
+
+With the `target` option we specify the ECMAScript target version that by default is `ES5`. We can update this values to `ES2020`, and then the TypeScript's compiler will generate a `.js` file with the features that are enable in the ECMAScript version. 
 
 Understanding TypeScript Core Libraries
 --------------------------------
+The next option is `module`, but we will skip it for a moment, because in future section we will learn about modules in TypeScript and how we can connect multiple files.
+
+Now, `lib` is a interesting option, because according to the specified target it will assume default values. this is an option that allows you to specify which default objects and features TypeScript notes.
+
+```json
+{
+  "compilerOptions": {
+    "target": "es6",      /* Specify ECMAScript target version */
+    // "lib": [],         /* Specify library files to be included in the compilation. */
+    ...
+    }
+}
+```
+
+Initially it is commented but let's review the next case: Imagine that we have a button in our mark up, and we add an event listener to that button to trigger an action.
+
+```typescript
+const button = document.querySelector('button')!;
+
+button.addEventListener('click', () => {
+    console.log('Clicked')
+})
+```
+
+For this code is a valid question to ask, from where `document` comes? or from where I'm consuming the `querySelector` method? This snippet runs in the browser, but keep in mind that JavaScript can run also in NodeJs, an this code under the context of NodeJs have no sense.
+
+The `document` object comes from a library that is imported by default in the TypeScript's compiler. This library is `dom`. So, under the hood the `lib` option in the compiler options is importing these libraries:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es6",      /* Specify ECMAScript target version */
+    "lib": [
+        "dom",
+        "es6",
+        "dom.iterable",
+        "scripthost",
+    ],         /* Specify library files to be included in the compilation. */
+    ...
+    }
+}
+```
+Lesson learned: When you set a target value, TypeScript add some values by default in the `lib` option. 
 
 More Configuration & Compilation Options
 --------------------------------
