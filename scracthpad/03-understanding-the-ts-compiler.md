@@ -165,6 +165,24 @@ Lesson learned: When you set a target value, TypeScript add some values by defau
 More Configuration & Compilation Options
 --------------------------------
 
+There are some self explanatory options that we will show next:
+
+```json
+{
+  "compilerOptions": {
+    ...
+    // "allowJs": true,                       /* Allow javascript files to be compiled. */
+    // "checkJs": true,                       /* Report errors in .js files. */
+    // "jsx": "preserve",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
+    // "declaration": true,                   /* Generates corresponding '.d.ts' file. */
+    // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
+    ...
+    }
+}
+```
+
+For `allowJs` and `checkJs` we explicitly some extend the TypeScript features on JavaScript files. `jsx` is related to React app, and `declaration`, `declarationMap` are advances concepts which matter to you if you are shipping your project as a library. Then you will need a manifest files which describes all the types you have in your project.
+
 Working wit Source Maps
 --------------------------------
 
