@@ -169,13 +169,13 @@ There are some self explanatory options that we will show next:
 
 ```json
 {
-  "compilerOptions": {
+  "compileroptions": {
     ...
-    // "allowJs": true,                       /* Allow javascript files to be compiled. */
-    // "checkJs": true,                       /* Report errors in .js files. */
-    // "jsx": "preserve",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
-    // "declaration": true,                   /* Generates corresponding '.d.ts' file. */
-    // "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */
+    // "allowjs": true,                       /* allow javascript files to be compiled. */
+    // "checkjs": true,                       /* report errors in .js files. */
+    // "jsx": "preserve",                     /* specify jsx code generation: 'preserve', 'react-native', or 'react'. */
+    // "declaration": true,                   /* generates corresponding '.d.ts' file. */
+    // "declarationMap": true,                /* generates a sourcemap for each corresponding '.d.ts' file. */
     ...
     }
 }
@@ -185,6 +185,23 @@ For `allowJs` and `checkJs` we explicitly some extend the TypeScript features on
 
 Working wit Source Maps
 --------------------------------
+Source map helps us with debugging and development.
+
+```json
+{
+  "compileroptions": {
+    ...
+    // "sourceMap": true,                     /* Generates corresponding '.map' file. */
+    ...
+    }
+}
+```
+
+If we now go to the browser and we want to understand what our code does we can go to the **sources** tab here in the developer tools and there we find our JavaScript files. Currently we will see out compiled `app.js`.
+
+Now we can dive into these files and the good thing is these files are fairly readable to us humans of course because they contain JavaScript code in the end. That's good, but, what if we had more complex types of code and we want to debug our TypeScript code and not the compiled JavaScript code.
+
+In other words it would be nice if we would see the types of files here and not the JavaScript files. If you uncomment the `sourceMap` option, and run `tsc` now the compiler will generate a `js.map` file that work as a bridge between the browser and our `.ts` file. This time, when you open the developer tools under the **source** tab you will see the `app.ts` file. Then we can debugger points to check the step by step the execution of the code inside the `.ts` file.
 
 rootDir & outDir
 --------------------------------
