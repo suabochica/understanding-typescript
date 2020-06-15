@@ -239,6 +239,19 @@ The relevant directories here, are `dist` and `src`, because it is a convention 
 
 Stop Emitting Files on Compilation Errors
 --------------------------------
+There are two additional options that will make tight with the development of our TypeScript files:
+
+```json
+{
+  "compileroptions": {
+    ...
+    "noEmit": false,                          /* Do not emit outputs. */
+    "noEmitOnError": true,                    /* Do not emit outputs when exist a compilation error in TypeScript. */
+    }
+}
+```
+
+The `noEmit` options it is useless by itself, because it will not create any compiled `.js` file. However, the `noEmitOnError` adaptation it is. This options will no generate any `.js` file id the TypeScript compiler detects errors in your code.
 
 Strict Compilation
 --------------------------------
