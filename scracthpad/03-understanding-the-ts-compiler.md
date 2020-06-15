@@ -205,6 +205,37 @@ In other words it would be nice if we would see the types of files here and not 
 
 rootDir & outDir
 --------------------------------
+The next options are listed below:
+
+```json
+{
+  "compileroptions": {
+    ...
+    // "outFile": "./",                       /* Concatenate and emit output to single file. */
+    "outDir": "./dist",                       /* Redirect output structure to the directory. */
+    "rootDir": "./src",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    ...
+    }
+}
+```
+
+With `outFile` we follow a good practice to concatenate all our scripts in just one file. With this action we reduce the quantity of request to get the resources for the web page. However, the downside is that it will be not easy to debugging the production code. So, the recommendation is do the debugging in development stage.
+
+Then we got `outDir` and `rootDir`. To understand these options lets share the folder structure of a web app:
+
+```
+.
+├── dist
+├── index.html
+├── node_modules
+├── package-lock.json
+├── package.json
+├── src
+└── tsconfig.json
+```
+
+The relevant directories here, are `dist` and `src`, because it is a convention where `src` will store all our files in development lap, and `dist` will house the file ind production phase. so, if we run the `tsc` command we the last configurations, the `.ts` files will hold in `./src` and the `.js` file will appear in `./dist`.
+
 
 Stop Emitting Files on Compilation Errors
 --------------------------------
