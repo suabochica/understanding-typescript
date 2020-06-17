@@ -169,7 +169,7 @@ There are some self explanatory options that we will show next:
 
 ```json
 {
-  "compileroptions": {
+  "compilerOptions": {
     ...
     // "allowjs": true,                       /* allow javascript files to be compiled. */
     // "checkjs": true,                       /* report errors in .js files. */
@@ -189,7 +189,7 @@ Source map helps us with debugging and development.
 
 ```json
 {
-  "compileroptions": {
+  "compilerOptions": {
     ...
     // "sourceMap": true,                     /* Generates corresponding '.map' file. */
     ...
@@ -209,7 +209,7 @@ The next options are listed below:
 
 ```json
 {
-  "compileroptions": {
+  "compilerOptions": {
     ...
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     "outDir": "./dist",                       /* Redirect output structure to the directory. */
@@ -243,7 +243,7 @@ There are two additional options that will make tight with the development of ou
 
 ```json
 {
-  "compileroptions": {
+  "compilerOptions": {
     ...
     "noEmit": false,                          /* Do not emit outputs. */
     "noEmitOnError": true,                    /* Do not emit outputs when exist a compilation error in TypeScript. */
@@ -255,6 +255,15 @@ The `noEmit` options it is useless by itself, because it will not create any com
 
 Strict Compilation
 --------------------------------
+
+```
+{
+  "compilerOptions": {
+    ...
+    "strict": true,                           /* Enable all strict type-checking options. */
+    }
+}
+```
 
 Code Quality Options
 --------------------------------
