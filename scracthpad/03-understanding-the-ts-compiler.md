@@ -255,14 +255,83 @@ The `noEmit` options it is useless by itself, because it will not create any com
 
 Strict Compilation
 --------------------------------
+Following the order of the options, now we enter to the _strict type-checking_ options. The next configuration:
 
-```
+```json
 {
   "compilerOptions": {
     ...
     "strict": true,                           /* Enable all strict type-checking options. */
     }
 }
+```
+
+It is equivalent to:
+
+```json
+{
+  "compilerOptions": {
+    ...
+    "noImplicitAny": true,                 /* Raise error on expressions and declarations with an implied 'any' type. */
+    "strictNullChecks": true,              /* Enable strict null checks. */
+    "strictFunctionTypes": true,           /* Enable strict checking of function types. */
+    "strictBindCallApply": true,           /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
+    "strictPropertyInitialization": true,  /* Enable strict checking of property initialization in classes. */
+    "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
+    "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
+    }
+}
+```
+
+Let review an example for some of these options. So the `noImplicitAny` options raise an error on expressions and declarations with an implied `any` type. For example:
+
+```typescript
+let logged;
+
+function sendAnalytics(data: string) {
+  console.log(data);
+  logged = true
+}
+
+send analytics('The data')
+```
+
+If the function signature of the last snippet will `function sendAnalytics(data)`, the compiler raise an error over the `data` parameter because it will be associated to the `any` type.
+
+The `strictNullChecks` is self explanatory, but lets bring back an example to recap:
+
+```typescript
+const button = doucment.querySelector('button')!;
+
+button.addEventListener('click', clickHandler.bid(null, "You are welcome!"))
+```
+
+Please notice the exclamation mark at the end of the first line `!`. If we omit this detail, the TypeScript compiler will throw an error, because it is probable that the `button` variable will `null` (it can be retrieved from the DOM). The `!` is an operator that use TypeScript to enable validation over `null` values.
+
+The `strictBindCallApply` enable the strict use of the `bind`, `call` and `apply` methods of JavaScript, demanding all the required parameters for each method. Review the next snippet.
+
+```typescript
+const button = doucment.querySelector('button')!;
+
+function clickHandler(message: string) {
+  console.log('Clicked' + message)
+}
+
+button.addEventListener('click', clickHandler.bid(null, "You are welcome!"))
+```
+
+If we don't pass the `"You are welcome!"` message, the compiler will raise an error.
+
+
+The `alwaysStrict` parse in strict mode an emit `use strict` for each source file. So the compiled JavaScript files will look like:
+
+```javascript
+"use strict"
+
+const button = doucment.querySelector('button');
+button.addEventListener('click', () => {
+  console.log('clicked');
+})
 ```
 
 Code Quality Options
