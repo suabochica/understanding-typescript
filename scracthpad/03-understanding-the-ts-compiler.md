@@ -386,3 +386,27 @@ For this code, the compiler will throw an error because the `add` function does 
 
 Debugging with Visual Studio Code
 --------------------------------
+
+For debugging in Visual Studio Code we recommend use the next plugins:
+
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome)
+
+The last one will allow you to have the Chrome's DevTools inside VSCode. Remember set `sourceMap` option as `true` to allow the debugging in `.ts` files directly.
+
+Wrap Up
+--------------------------------
+That's it for this module.
+
+We had a very detailed look at the types of compiler how you can configure it and how you can make sure that it really compiles your code the way you want.
+
+We had to look at all these different options especially district options really allow you to write correct code and not run into strange bugs or runtime bugs you might face for example with the strict null checks.
+
+And in addition to that we had a look at debugging how you can easily configure chrome and VSCode such that you can debug from inside view as code debugging from inside chrome with `sourceMaps` and the sources tab of course is always an option.
+
+The key here also are the `sourceMaps` which you are configuring to be generated in the `tsconfig` file which are these map files that live next to your JavaScript files.
+
+They basically act as bridges for the debugger between your JavaScript files and your TypeScript files.
+
+
