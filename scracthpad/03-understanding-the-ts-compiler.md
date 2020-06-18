@@ -337,5 +337,52 @@ button.addEventListener('click', () => {
 Code Quality Options
 --------------------------------
 
+The next set of option to review in the file are the _additional check_, and there are options that will improve our code quality:
+
+```json 
+{
+  "compilerOptions": {
+    ...
+    /* Additional Checks */
+    // "noUnusedLocals": true,                /* Report errors on unused locals. */
+    // "noUnusedParameters": true,            /* Report errors on unused parameters. */
+    // "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
+    // "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+  }
+}
+```
+
+For `noUnusedLocals` the compiler will throw a warning when you declare a local variable but it is never use. Below an example:
+
+```typescript
+function clickHandler(message: string) {
+  let userName = "Edward";
+  console.log("Clicked" + message);
+}
+```
+
+For this snippet the compiler will raise a warning for the `userName` variable, because it is never used. Keep in mind that if `userName` will a global variable TypeScript will not associate the variable with the warning.
+
+Similarly, the `noUnusedParameters` option works. If you have a function with a parameter that is never user, then the compiler will rise the respective error. For example:
+
+```typescript
+function clickHandler(message: string, age: number) {
+  console.log("Clicked" + message);
+}
+```
+
+In this case, the `age` parameter will highlighted by TypeScript and it will raise an error notifying that the `age` variable is never used.
+
+Lastly we got the `noImplicitReturns` options, that report an error when functions do not return values. Please review the next code:
+
+```typescript
+function add(n1, n2) {
+  if (n1 & n2 > 0) return n1 + n2
+}
+```
+
+For this code, the compiler will throw an error because the `add` function does not return anything. The `return` keyword in in the scope of the `if` block but now in the scope of the function.
+
+
 Debugging with Visual Studio Code
 --------------------------------
