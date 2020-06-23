@@ -2,6 +2,10 @@
 Section 4: Next Generation JavaScript & TypeScript
 =============================
 
+Now did we have a good understanding of the basic types good features and what typescript adds and we also understand how to typescript compiler works.
+
+Let's have a look at what else typescript has to offer specifically when it comes to modern JavaScript syntax.
+
 Index
 ------------------------------
 
@@ -14,14 +18,43 @@ Index
 7. Array & Object Destructuring
 8. How Code Gets Compiled
 
-Module Introduction
---------------------------------
-2. `let` and `const`
-
 Let and Const
 -------------
-1. The difference between `var` and `let` is the scope of the variable
-2. `const` just allow assign the variable once
+`let` and `const` are keywords introduced in ES6 to improve the variable declarations. Let's start explaining `const` through the next snippet
+
+```typescript
+const userName = "Edward";
+
+userName = "Alphonse"; // Throw an error
+```
+
+If you run this code in the browser the console will throw an error because `const` just allow assign the variable once. It means that you can't change his value.
+
+Now, let's review `let` which is very similar to `var`. First of all, `let` variable can change his values after be declared. For example:
+
+```typescript
+let age = 30
+
+age = 29;
+```
+
+For other side, we have to talk about the relation between `let` and `var` keywords with scopes. Please review the next snippet.
+
+```typescript
+function add(a: number, b: number) {
+  let result;
+  
+  result = a + b;
+  
+  return result;
+}
+
+console.log(result) // Throw an error
+```
+
+If we run this code, the browser will indicates that the `result` variable is out of the _scope_ of the add functions. A block scope means that a variable is always available in the block in which you define it or in any lower blocks. We create scopes in JavaScript with the curly braces `{}`. 
+
+This is the difference between `var`, `let` and `const`. For `var` just exist the global scope, whilst for `let` and `const` we have the block scope in a function, the `if`-`for` statements and the code inside the `{}`.
 
 Arrow Functions
 --------------
