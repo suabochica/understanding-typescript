@@ -58,7 +58,21 @@ This is the difference between `var`, `let` and `const`. For `var` just exist th
 
 Arrow Functions
 --------------
-1. Check ES6 for more details
+Arrow functions are a shorter syntax for function declarations in JavaScript. For this example:
+
+```typescript
+function add (a: number, b: number): number {
+  return a + b;
+}
+```
+
+The arrow function version is:
+
+```
+add = (a: number, b:number): number => a + b;
+```
+
+Now, we can then retake take advantage of this very short and concise syntax. So these are some of the variations of Arrow functions and of course we already used arrow functions thus far in the course.
 
 Default Parameters
 -------------------------
