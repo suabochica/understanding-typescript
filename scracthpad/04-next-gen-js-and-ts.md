@@ -68,25 +68,31 @@ function add (a: number, b: number): number {
 
 The arrow function version is:
 
-```
+```typescript
 add = (a: number, b:number): number => a + b;
 ```
 
 Now, we can then retake take advantage of this very short and concise syntax. So these are some of the variations of Arrow functions and of course we already used arrow functions thus far in the course.
 
-Default Parameters
+Default Function Parameters
 -------------------------
-1. Check the next code:
+A nice feature included in ES6 is the default function parameters to allow default values in the parameters of the functions. For example:
 
-```javascript
-const greet = () => {
-	console.log("Hello!");
-}
-greet();
+```typescript
+add = (a: number, b:number = 1): number => a + b;
 
-const greetFriend = friend => console.log(friend);
-greetFriend ("Dario")
+console.log(add(5)) // prints 6
 ```
+
+In the last snippet we set `1` as a default parameter for `b`, and the log prints the expected behavior. Eventually we can override the default value. However, exist an specific scenario where the default parameters is not working. Check the next snippet:
+
+```typescript
+add = (a: number = 1, b:number): number => a + b;
+
+console.log(add(5)) // We got a error
+```
+
+JavaScript is not able to identify the which parameter skip. Then, the sort in the default parameters is relevant. Instead it simply adheres to the order and therefore you should set defaults from the right. So make sure that the parameters for what you don't accept default arguments come first before your default parameters.
 
 The Spread Operator (`...`)
 ---------------------------
