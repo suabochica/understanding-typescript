@@ -96,7 +96,49 @@ JavaScript is not able to identify the which parameter skip. Then, the sort in t
 
 The Spread Operator (`...`)
 ---------------------------
-1. Operator used to use arrays as lists.
+The ES6 next generation features also consider improvements on the arrays and objects handling. The spread operator comes to the stage, to offer us a cleaner way to interact with arrays and objects.
+
+Let's start to arrays, so check the next code:
+
+```typescript
+const hobbies = ['Hunt', 'Travel'];
+const activeHobbies = ['Alchemia'];
+
+activeHobbies.push(hobbies[0], hobbies[1]); // ['Alchemia', 'Hunt', 'Travel']
+```
+
+In this code we push the values of the `hobbies` array into the `activeHobbies` array. Keep in mind that we are pushing the values. With the spread operator we got the next presentation and the same result.
+
+```typescript
+const hobbies = ['Hunt', 'Travel'];
+const activeHobbies = ['Alchemia', ...hobbies];
+```
+
+The spread operator in arrays let us handle the internal values of the array.
+
+Let's review the spread operator in objects. For example:
+
+````typescript
+const person = {
+  name: 'Max',
+  age: 30
+}
+
+const copiedPerson = person;
+```
+
+In this code, we not have a copy of the `person` object, we get a reference in memory to the object. If we modify `copiedPerson` key-value, we also modify the `person` object. We can get a real copy using the spread operator:
+
+```typescript
+const person = {
+  name: 'Max',
+  age: 30
+}
+
+const copiedPerson = { ...person };
+```
+
+Since we created a new object here and just added to key value pairs we got a perfect copy of the original object and not just the pointer that points to the object in memory.
 
 The Rest Parameters
 -----------------
