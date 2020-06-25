@@ -16,7 +16,6 @@ Index
 5. The Spread Operator
 6. Rest Parameters
 7. Array & Object Destructuring
-8. How Code Gets Compiled
 
 Let and Const
 -------------
@@ -142,11 +141,39 @@ Since we created a new object here and just added to key value pairs we got a pe
 
 The Rest Parameters
 -----------------
-1. Operator used to use list as arrays.
+To evaluate the rest parameters, let's create an `add` function that will sum all the numbers that receives as parameters. The fact here is that we don't know how many parameters we will receive. The next snippet is an implementation of this scenario:
+
+```typesecript
+const add = (...numbers: number[]) => {
+  return numbers.reduce((currentResult, currentValue) => {
+    return currentResult + currentValue;
+  }, 0)
+}
+
+const addedNumbers = add(0, 1, 1, 2, 3)
+console.log(addedNumbers) // 7
+```
+
+In this code we use the rest parameters in `(...numbers: number[])`. His syntax is the same of the spread operator, so we have the be aware of the context to identify which feature we are using. The important thing with the rest operator is that it will put the parameters that we receive in an `array`. That is the reason why we can use the `reduce` function to apply our sum.
+
+That's rest parameters. A really useful feature for accepting an unlimited amount of arguments. 
 
 Array & Object Destructuring
 --------------------
-1. Check the next code:
+Destructuring is a cleaner feature to access to the values in an array or an object, Let's start with arrays.
+
+Consider the next code, whose goal is get the values inside the array.
+
+```javascript
+const myHobbies = ["Cooking", "Reading", "Sports"];
+const hobbyOne = myHobbies[0];
+const hobbyTwo = myHobbies[1];
+
+console.log(hobbyOne, hobbyTwo); // -> "Cooking", "Reading"
+```
+
+We access to the values of the array via the index. This is a verbose version. Instead, if we use destructuring we get:
+
 ```javascript
 const myHobbies = ["Cooking", "Reading", "Sports"];
 const [hobbyOne, hobbyTwo] = myHobbies;
@@ -154,7 +181,8 @@ const [hobbyOne, hobbyTwo] = myHobbies;
 console.log(hobbyOne, hobbyTwo); // -> "Cooking", "Reading"
 ```
 
-1. Check the next code:
+Much cleaner now. We have a similar behavior with object. For example:
+
 ```javascript
 const userData = {
 	userName: "Sergio",
@@ -162,15 +190,20 @@ const userData = {
 };
 const {userName, age} = userData;
 
-console.log(userName, age); // -> "Sergio", 27
+console.log(userName, age); // -> "Sergio", 26
 ```
-2. You can use aliases to access to the object properties
 
-How Code Gets Compiled
---------------
+Here we access to the property of the object via the key to get the value. By default, destructuring will create a variable with the name of the key in the object. You can use aliases to access to the object properties for avoid confusions between the key and the variable that will stores the value.
 
 Wrap Up
 --------------------------------
+Now this is it for this module. Obviously modern JavaScript has a couple of other neat features as well. For example I'll cover classes in the class module and in general this is no JavaScript course.
+
+I don't want to bore you with tons of JavaScript knowledge that doesn't really relate to typescript. I wanted to mention these specific features because it's good to know that typescript helps us use these features in a way that still runs in older browsers because that is something which you must never forget.
+
+Your code gets compiled according the set up of your `tsconfig.json` file. If you set as `target` the `es6`, the code compiled will keep the syntax of used features. But, if you change it to `es5` the compiled filed will be longer and it will traspile the code to the respective standard. 
+
+So that's an important thing to always keep in mind. TypeScript compiles your code not just from TypeScript only features to regular JavaScript but also from modern JavaScript to old JavaScript if you tell Typescript to do so.
 
 ### Useful Resources & Links
 - [ES6 features suppoted by TS](http://kangax.github.io/compat-table/es6/)
