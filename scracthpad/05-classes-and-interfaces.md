@@ -1,6 +1,8 @@
 Section 5: Classes & Interfaces
 ==========================================
 
+In this module we'll explore classes and interfaces. Where and why we use them. Then we'll have a detailed look at classes and they are all that our concept called inheritance and add interfaces what they bring to the table how they're compile to JavaScript and why we might use these features.
+
 Index
 --------------------------------
 1. What are Classes?
@@ -30,6 +32,25 @@ Index
 
 What are Classes?
 --------------------------------
+Before to explain classes, it is necessary expose the object-oriented programming (OOP) paradigm.
+
+The idea behind object oriented programming and classes is that you work with real life entities in your code.
+
+With this approach, you work with objects that resemble real life objects as far as possible, at least to make it easier for you as a developer to reason about your code. The next image is an example of the entities behind an e-commerce: product list, product and shopping cart.
+
+![What is OOP?](../assets/s05-what-is-oop.png "What is oop")
+
+
+Notice that each entities have his own responsibilities. Moreover, with an arrow we identify the relationships between this entities. This way, a developer build a schema, splitting logical pieces to resolve a specific problem. In this case, consolidate an e-commerce.
+
+With the notion of entities, we can go ahead with objects and classes. The next image shows the difference between this two concepts and how they are related.
+
+![Objects and Classes](../assets/s05-objects-and-classes.png "Objects and Classes")
+
+In brief, a object is an instance of a class and classes help us define how objects should look like, which properties and methods to have and so on.
+
+Classes exist to speed up the creation of objects and it's simply an alternative to using the object. Also, they make it easier to create multiple objects, which generally have the same structure and the same efforts, which might only differ with the exact data details which are stored in there.
+
 Creating a First Classes
 --------------------------------
 Compiling to JavaScript
