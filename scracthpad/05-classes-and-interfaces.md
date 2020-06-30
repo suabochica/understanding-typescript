@@ -53,6 +53,28 @@ Classes exist to speed up the creation of objects and it's simply an alternative
 
 Creating a First Classes
 --------------------------------
+Let's create our first class to model an object that will represent the departments in an enterprise. Please check the next snippet:
+
+```typescript
+class Department {
+    name: string;
+
+    constructor (_name: string) {
+        this.name = _name;
+    }
+}
+
+const accounting = new Department('Accounting');
+
+console.log(accounting); // Department {name: 'Accounting'}
+```
+
+Several details to consider here. First, we are using the `class` keyword to define the `Department` blueprint. The next lines after define the class are the key-value type pair that will shape the class. Please do not confuse the with the key-value pair in objects, have a similar syntax, but, they have a subtle difference.
+
+Second, we have the `constructor` reserve word to essentially create a function tied to this class and tied to any object you create based on the class which is executed when the object is being created.
+
+Finally we create the `accounting` object via the `Department` class. If we do not pass the `name` parameter in the object creation, TypeScript's compile will raise an error saying that is expected the name property to create the object.
+
 Compiling to JavaScript
 --------------------------------
 Constructor Functions & The "this" Keyword
