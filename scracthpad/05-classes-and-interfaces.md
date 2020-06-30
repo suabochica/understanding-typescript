@@ -77,6 +77,42 @@ Finally we create the `accounting` object via the `Department` class. If we do n
 
 Compiling to JavaScript
 --------------------------------
+According the version that it is in the `tsconfig` file you will get a different compilation file. For ES6, the compiled file is:
+
+```typescript
+class Department {
+    constructor (_name: string) {
+        this.name = _name;
+    }
+}
+
+const accounting = new Department('Accounting');
+
+console.log(accounting); // Department {name: 'Accounting'}
+```
+
+The only difference is that the key-value type definition is deleted. However, let's see the compiled file when the target version is ES5:
+
+```typescript
+"use strict";
+var Department = /** @class */ (function () {
+    function Department(_name) {
+        this.name = _name;
+    }
+    return Department;
+}());
+var accounting = new Department('Accounting');
+console.log(accounting); // Department {name: 'Accounting'}
+```
+
+Notice how is transpiled the `constructor` function. It is a IIFE with the assignation of the property that it is passed to instantiate the class. So this concept is not new it's not introduced by modern JavaScript or by typescript the idea of having blueprints for objects has been around the JavaScript for a very long time in the past.
+
+However we had to use constructor functions and since this could be a bit unintuitive especially to developers who might have worked with different programming languages modern JavaScript introduced the idea of classes of this cleaner syntax and typescript supports this as well.
+
+Because of TypeScript powerful compilation you can choose where you want to compile the older style which of course works in Web browsers or introduce more modern ES6 style which we saw before which looks very much like this year.
+
+The key takeaways that we have this feature built into JavaScript and supported by TypeScript that we can define object blueprints.
+
 Constructor Functions & The "this" Keyword
 --------------------------------
 "private" and "public" Access Modifiers
