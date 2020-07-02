@@ -115,6 +115,61 @@ The key takeaways that we have this feature built into JavaScript and supported 
 
 Constructor Functions & The "this" Keyword
 --------------------------------
+Classes have the guidelines to define and object, and, additionally they can have methods that could be called on the created object. Below, we add a `describe` method to the `Department` class:
+
+```typescript
+class Department {
+    name: string;
+
+    constructor (_name: string) {
+        this.name = _name;
+    }
+
+    describe() {
+        console.log(`Department ${this.name}`);
+    }
+}
+
+const accounting = new Department('Accounting');
+accounting.describe(); // Department Accounting
+```
+
+Now, the object `accounting` offers us a way to get a description of itself via the `describe` method. Now, let's create a `accountingCopy` object with a `describe` property that will consume the `accounting.describe`:
+
+```typescript
+const accountingCopy = { describe: accounting.describe };
+accountingCopy.describe(); // Department: undefined
+```
+
+We get a `undefined` value, and the reason is in the `this.name` defined in the body of the `describe` in the `Department` class. So, the `describe` method it is called and executed. When it is executed, the `this` keyword will not refer to the object created via `Department`. Instead, `this` is bound to the `{ describe: accounting.describe }`, and here you don't have a `name` property. That is why we get `undefined`.
+
+Keep in mind that `this` typically refers to the thing which is responsible for calling a method.
+
+To solve this issue, we have to be more specific in the `describe` method adding a typed parameter to it, as shows next:
+
+```typescript
+class Department {
+    name: string;
+
+    constructor (_name: string) {
+        this.name = _name;
+    }
+
+    describe(this: Department) {
+        console.log(`Department ${this.name}`);
+    }
+}
+```
+
+This definition makes that the TypeScript's compiler throw us an error in the `accountingCopy` assignation saying that the `name` property is missing. The we follow the recommendation to get:
+
+```typescript
+const accountingCopy = { name: 'Dummy', describe: accounting.describe };
+accountingCopy.describe(); // Department: Dummy
+```
+
+Problem solved :).
+
 "private" and "public" Access Modifiers
 --------------------------------
 Shorthand Initialization
