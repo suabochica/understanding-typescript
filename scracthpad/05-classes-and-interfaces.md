@@ -206,12 +206,62 @@ const accountingCopy = { describe: accounting.describe };
 accountingCopy.describe(); // Department: undefined
 ```
 
-Notice that the `employees` is a private property for the `Department` class. This means that `employees` is a variable that only could be accessed inside the class `Department`. If you check the `account.employees[2]` line assignation, here we are trying to access into the employees array to push the `Anna` value, but the TypeScript's compiler throw an error, clarifying that the `employees` property is private and only accessible within class `Department`.  
+Notice that the `employees` is a private property for the `Department` class. This means that `employees` is a variable that only could be accessed inside the class `Department`. If you check the `account.employees[2]` line assignation, here we are trying to access into the employees array to push the `Anna` value, but the TypeScript's compiler throw an error, clarifying that the `employees` property is private and only accessible within class `Department`.
 
 These modifiers are great tools to structure the classes in our code in a uniform way.
 
 Shorthand Initialization
 --------------------------------
+With the knowledge of the `public` and `private` modifiers, we know can understand a shorthand initialization for the `Department` class. Currently, first we are defining the properties of the `Department` class and then we assign them in the `constructor` method:
+
+```typescript
+class Department {
+    private id: string;
+    name: string;
+    private employees: string[] = [];
+
+    constructor (_id: string, _name: string) {
+        this.id = _id
+        this.name = _name;
+    }
+
+    describe() {
+        console.log(`Department ${this.name}`);
+    }
+
+    printId() {
+        console.log(`Department ${this.id}`);
+    }
+
+    addEmployee(employee: string) {
+        this.employees.push(employee);
+    }
+}
+```
+
+The shorthand initialization version of the `Department` class is:
+
+```typescript
+class Department {
+    private employees: string[] = [];
+
+    constructor (private id: string, public name: string) { }
+
+    describe() {
+        console.log(`Department ${this.name}`);
+    }
+
+    printId() {
+        console.log(`Department ${this.id}`);
+    }
+
+    addEmployee(employee: string) {
+        this.employees.push(employee);
+    }
+}
+```
+With this version we avoid the double initialization that we get in the first snippet.
+
 "readonly" properties
 --------------------------------
 Inheritance
