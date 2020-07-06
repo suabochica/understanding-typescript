@@ -172,6 +172,44 @@ Problem solved :).
 
 "private" and "public" Access Modifiers
 --------------------------------
+The `private` and `public` modifiers are two great feature introduced by TypeScript to organize the access in the classes defined. This feature is not exist in JavaScript. For JavaScript the variables or methods are public, an you can manage the access via scopes. By default all the variables an methods are public in TypeScript.
+
+Let's review the `private` modifier with the next example:
+
+```typescript
+class Department {
+    name: string;
+    private employees: string[] = [];
+
+    constructor (_name: string) {
+        this.name = _name;
+    }
+
+    describe() {
+        console.log(`Department ${this.name}`);
+    }
+
+    addEmployee(employee: string) {
+        this.employees.push(employee);
+    }
+}
+
+const accounting = new Department('Accounting');
+accounting.describe(); // Department Accounting
+
+accounting.addEmployee('Edward');
+accounting.addEmployee('Alphonse');
+
+// accounting.employees[2] = 'Anna' // Error: Property employees is private to Department
+
+const accountingCopy = { describe: accounting.describe };
+accountingCopy.describe(); // Department: undefined
+```
+
+Notice that the `employees` is a private property for the `Department` class. This means that `employees` is a variable that only could be accessed inside the class `Department`. If you check the `account.employees[2]` line assignation, here we are trying to access into the employees array to push the `Anna` value, but the TypeScript's compiler throw an error, clarifying that the `employees` property is private and only accessible within class `Department`.  
+
+These modifiers are great tools to structure the classes in our code in a uniform way.
+
 Shorthand Initialization
 --------------------------------
 "readonly" properties
