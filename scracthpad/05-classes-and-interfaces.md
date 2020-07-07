@@ -264,6 +264,28 @@ With this version we avoid the double initialization that we get in the first sn
 
 "readonly" properties
 --------------------------------
+Related to the context of access modifiers, it is another modifier called `readonly`, used to indicate the fields in the class which should **not** change after their initialization. In the `Department` class a potential candidate is the `id` property. Below and example using the `readonly` modifier.
+
+```typescript
+class Department {
+    private employees: string[] = [];
+
+    constructor (private readonly id: string, public name: string) { }
+
+    describe() {
+        console.log(`Department ${this.name}`);
+        this.id = "d1" // id is a read-only property
+    }
+    ...
+}
+```
+
+Notice that if we try to assign a new values to `this.id` the TypeScript's compiler raise an error about the `readonly` condition.
+
+The `readonly` modifier adds extra safety to make clear that a certain property should only be initialized to once. This way you as developer make your intentions clear when you define the code. In a team, it is a good idea to write clearer and explicit code to help everyone what are the goal behind the logic.
+
+These modifiers only exist in TypeScript. When the are transpiled to JavaScript all the variables are public by default and the access to variables is handled via scope. For other hand, the methods are added to the `prototype` of the constructor function. Prototypes are an important concept behind vanilla JavaScript that it is out of the range for the section.
+
 Inheritance
 --------------------------------
 Overriding Properties & The "protected" Modifiers
