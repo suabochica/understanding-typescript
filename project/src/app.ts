@@ -14,15 +14,45 @@ class Department {
     addEmployee(employee: string) {
         this.employees.push(employee);
     }
+
+    printEmployeeInformation() {
+        console.log(this.employees.length);
+        console.log(this.employees);
+    }
 }
 
-const accounting = new Department('1', 'Accounting');
-accounting.describe(); // Department Accounting
+class ITDepartment extends Department {
+    admins: string[];
 
-accounting.addEmployee('Edward');
-accounting.addEmployee('Alphonse');
+    constructor(id: string, admins: string[]) {
+        super(id, 'IT'); // Call the constructor of the base class
+        this.admins = admins;
+    }
+}
+
+const it = new ITDepartment('d1', ['Roy']);
+it.describe(); // Department Accounting
+
+it.addEmployee('Edward');
+it.addEmployee('Alphonse');
 
 // accounting.employees[2] = 'Anna' // Error: Property employees is private to Department
 
-const accountingCopy = { describe: accounting.describe };
-accountingCopy.describe(); // Department: undefined
+class AccountingDepartment extends Department {
+    constructor(id: string, public reports: string[]) {
+        super(id, 'ACC'); // Call the constructor of the base class
+    }
+
+    addReport(text: string) {
+        this.reports.push(text);
+    }
+
+    printReports() {
+        console.log(this.reports);
+    }
+}
+
+const accounting = new AccountingDepartment('d2', []);
+
+accounting.addReport('Something went wrong...');
+accounting.printReports();

@@ -288,6 +288,88 @@ These modifiers only exist in TypeScript. When the are transpiled to JavaScript 
 
 Inheritance
 --------------------------------
+Until now we work with the `Department` to create an accounting department. However, we will need more departments and these departments might need more information and specific properties. The approach establish `Department` as a base class, an then we will have specialized methods and specific properties over the `Department` class. To goal this we should use **inheritance** on `Department` class.
+
+Let's recap the `Department` class:
+
+```typescript
+class Department {
+    private employees: string[] = [];
+
+    constructor (private readonly id: string, public name: string) { }
+
+    describe() {
+        console.log(`Department ${this.name}`);
+    }
+
+    printId() {
+        console.log(`Department ${this.id}`);
+    }
+
+    addEmployee(employee: string) {
+        this.employees.push(employee);
+    }
+
+    printEmployeeInformation() {
+        console.log(this.employees.length);
+        console.log(this.employees);
+    }
+}
+```
+
+Good. Now we will create an `ITDepartment` that will inherit the properties of `Department` and it will contain an specific property called `admind`. Please check the next code:
+
+```typescript
+class ITDepartment extends Department {
+    admins: string[];
+
+    constructor(id: string, admins: string[]) {
+        super(id, 'IT'); // Call the constructor of the base class
+        this.admins = admins;
+    }
+}
+
+const it = new ITDepartment('d1', ['Roy']);
+it.describe(); // Department Accounting
+
+it.addEmployee('Edward');
+it.addEmployee('Alphonse');
+```
+
+Notice the `extends` keyword in the signature of the `ITDepartment` class. This way, we inherit all the definitions in `Department` class. In addition, in the `constructor` method you can see the `super` keyword. This line call the constructor of the base class. With these two detail we can access to all the definitions in `Department` from `ITDepartment`.
+
+For the other hand, check the `admins` property. This property is exclusive for `ITDepartment`. It means that `Department` can access to the `admins` fields. Thus, we add specific definitions to the child class.
+
+To complement the range of inheritance, let's create the `AccountingDepartment` where it will have specific properties and specific methods. Please review the next snippet:
+
+```typescript
+class AccountingDepartment extends Department {
+    constructor(id: string, public reports: string[]) {
+        super(id, 'ACC'); // Call the constructor of the base class
+    }
+
+    addReport(text: string) {
+        this.reports.push(text);
+    }
+
+    printReports() {
+        console.log(this.reports);
+    }
+}
+
+const accounting = new AccountingDepartment('d2', []);
+
+accounting.addReport('Something went wrong...');
+accounting.printReports();
+```
+
+Just as before, we use the `extends` keyword and the super methods to establish the inheritance relation with the `Department` class.
+
+Otherwise, in the `AccountingDepartment` class we add the `reports` specific property, and the `addReport`, `printReports` methods. Again, this methods are exclusive to `AccountingDepartment`, then they not means nothing to the `Department` class.
+
+
+Inheritance is a great feature to structure you code and is one of the pillars for OOP. Also it helps to set the standards in you work with a team, so it is time to take advantage of it. 
+
 Overriding Properties & The "protected" Modifiers
 --------------------------------
 Getters & Setters
