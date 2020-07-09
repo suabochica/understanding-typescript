@@ -372,6 +372,45 @@ Inheritance is a great feature to structure you code and is one of the pillars f
 
 Overriding Properties & The "protected" Modifiers
 --------------------------------
+In inheritance we can override the methods of our base class. Let's override the `addEmployee` method of the `Department` class in `AccountingDepartment`:
+
+```typescript
+class Department {
+    private employees: string[] = [];
+
+    constructor (private readonly id: string, public name: string) { }
+    ...
+}
+
+class AccountingDepartment extends Department {
+    constructor(id: string, public reports: string[]) {
+        super(id, 'ACC'); // Call the constructor of the base class
+    }
+    ...
+    addEmployee(name: string) {
+        if (name === 'Edward') {
+            return;
+        }
+
+        this.employees.push(name);
+    }
+}
+```
+
+This way, all the variables instantiated via `AccountingDepartment` will have access to the `addEmployee` method we define above. This snippet currently has an error, an is that the `this.employees` property can't be accessed by `AccountingDepartment` because this field is a `private` field for `Department`. We can extend the range of the access to the base class properties with another modifier, `protected`:
+
+
+```typescript
+class Department {
+    protected employees: string[] = [];
+
+    constructor (private readonly id: string, public name: string) { }
+    ...
+}
+```
+
+The `protected` modifier makes the fields of the base class accessible from outside but it makes it accessible from inside of the classes that extend the base class.
+
 Getters & Setters
 --------------------------------
 Static Methods & Properties
