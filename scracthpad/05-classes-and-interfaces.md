@@ -413,6 +413,80 @@ The `protected` modifier makes the fields of the base class accessible from outs
 
 Getters & Setters
 --------------------------------
+To explain the a getter, let's add a new property in the `AccountingDepartment` class called `lastReport` as shown below:
+
+
+```typescript
+class AccountingDepartment extends Department {
+    private lastReport: string;
+
+    get mostRecentReport() {
+        if (this.lastReport) {
+            return this.lastReport;
+        }
+
+        throw new Error('No report found');
+    }
+
+    constructor(id: string, public reports: string[]) {
+        super(id, 'ACC'); // Call the constructor of the base class
+        this.lastReport = reports[0]
+    }
+
+    addReport(text: string) {
+        this.reports.push(text);
+        this.lastReport = text;
+    }
+    ...
+}
+
+const accounting = new AccountingDepartment('d2', []);
+
+accounting.addReport('Something went wrong...');
+accounting.printReports();
+
+console.log(accounting.mostRecentReport); // Using the get property
+```
+
+Several things to take in account for the last snippet. The first one is that `lastReport` is a `private` property, so, only can be accessed by `AccountingDepartment`. Second, we use the `get` keyword to define the `mostRecentReport` function. Despite `mostRecentReport` is defined as a function, for `AccountingDepartment` it will be a property, thanks to the use of the `get` keyword before his definition. That is the reason why in the log we use just `accounting.mostRecentReport` without the `()` to invoke a function.
+
+Something similar happens with a setter:
+
+```
+class AccountingDepartment extends Department {
+    private lastReport: string;
+    
+    ...
+
+    set mostRecentReport(value: string) {
+        if (!value) {
+            throw new Error('Please pass in a valid value!')
+        }
+
+        this.addReport(value)
+    }
+
+    constructor(id: string, public reports: string[]) {
+        super(id, 'ACC'); // Call the constructor of the base class
+        this.lastReport = reports[0]
+    }
+
+    ...
+}
+
+const accounting = new AccountingDepartment('d2', []);
+
+accounting.addReport('Something went wrong...');
+accounting.printReports();
+
+accounting.mostRecentReport = "Set most recent report"; // Using the set property
+console.log(accounting.mostRecentReport);
+```
+
+A general convention is that getters and setters share the same method name. A difference is that the `set` definition will receive and argument in the function definition, the value that will be set. To set this value we only use the assignation operator, as shown the code above.
+
+Getters and setters are great to encapsulate logic and for adding extra logic that should run when you try to read a property or when you try to set a property.
+
 Static Methods & Properties
 --------------------------------
 Abstract Classes

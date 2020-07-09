@@ -39,12 +39,33 @@ it.addEmployee('Alphonse');
 // accounting.employees[2] = 'Anna' // Error: Property employees is private to Department
 
 class AccountingDepartment extends Department {
+    private lastReport: string;
+
+    get mostRecentReport() {
+        if (this.lastReport) {
+            return this.lastReport;
+        }
+
+        throw new Error('No report found');
+    }
+
+
+    set mostRecentReport(value: string) {
+        if (!value) {
+            throw new Error('Please pass in a valid value!')
+        }
+
+        this.addReport(value)
+    }
+
     constructor(id: string, public reports: string[]) {
         super(id, 'ACC'); // Call the constructor of the base class
+        this.lastReport = reports[0]
     }
 
     addReport(text: string) {
         this.reports.push(text);
+        this.lastReport = text;
     }
 
     printReports() {
@@ -64,3 +85,6 @@ const accounting = new AccountingDepartment('d2', []);
 
 accounting.addReport('Something went wrong...');
 accounting.printReports();
+
+accounting.mostRecentReport = "Set most recent report";
+console.log(accounting.mostRecentReport);
