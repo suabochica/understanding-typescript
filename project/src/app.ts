@@ -1,7 +1,12 @@
 class Department {
+    static fiscalYear = 2020
     protected employees: string[] = [];
 
     constructor (private readonly id: string, public name: string) { }
+
+    static createEmployee(name: string) {
+        return { name: name };
+    }
 
     describe() {
         console.log(`Department ${this.name}`);
@@ -20,6 +25,9 @@ class Department {
         console.log(this.employees);
     }
 }
+
+const employee1 = Department.createEmployee('Winry');
+console.log(employee1);
 
 class ITDepartment extends Department {
     admins: string[];
@@ -48,7 +56,6 @@ class AccountingDepartment extends Department {
 
         throw new Error('No report found');
     }
-
 
     set mostRecentReport(value: string) {
         if (!value) {

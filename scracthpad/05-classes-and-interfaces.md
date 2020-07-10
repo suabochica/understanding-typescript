@@ -489,6 +489,42 @@ Getters and setters are great to encapsulate logic and for adding extra logic th
 
 Static Methods & Properties
 --------------------------------
+Static properties an methods are a feature that allow you to add properties and methods to classes which are not accessed on an instance of the class, so, you don't need to call the `new` to instantiate the class before to access to these properties. Instead, you access them directly from the class.
+
+A popular example is the when we use `Math` built-in object that has properties and methods fro mathematical constants and functions:
+
+```typescript
+Math.PI;
+Math.E;
+Math.pow();
+Math.random();
+```
+
+As you can see, we never instantiate `new Math`. Let's add a static property `fiscalYear` and a static method `createEmployee` to our `Department` class:
+
+```typescript
+
+class Department {
+    static fiscalYear = 2020
+    protected employees: string[] = [];
+
+    constructor (private readonly id: string, public name: string) { Department.fiscalYear }
+
+    static createEmployee(name: string) {
+        return { name: name };
+    }
+    ...
+
+}
+
+const employee1 = Department.createEmployee('Winry');
+console.log(employee1);
+```
+
+Notice the use of the `static` keyword to define static properties and static methods. Additionally, check in the constructor that we access to the `fiscalYear` via `Department.fiscalYear`. If we try to use `this.fiscalYear`, TypeScript's compiler raise an error because `this` access to the properties through the instance of the class, and the purpose of `static` is detach method and properties for the instance of the class.
+
+Static properties and methods are often used for utility functions that you want to group in a class, or global constants that you also want to store in a class.
+
 Abstract Classes
 --------------------------------
 Singletons & Private Constructors
