@@ -527,6 +527,71 @@ Static properties and methods are often used for utility functions that you want
 
 Abstract Classes
 --------------------------------
+We now that the methods of the base classes can be override in the child class. However, sometimes you do not just want to offer the option of overriding a method because this offer is done by default. Instead, you want to force that the classes that are extending a base class implement in mandatory way certain method of it.
+
+For this instruction we can use `abstract` keyword. Let's do that the `describe` method of the `Department` class will mandatory for the children class. Please check the next code:
+
+```typescript
+abstract class Department {
+    static fiscalYear = 2020
+    protected employees: string[] = [];
+
+    constructor (protected readonly id: string, public name: string) { }
+
+    static createEmployee(name: string) {
+        return { name: name };
+    }
+
+    abstract describe(this: Department): void;
+    
+    ...
+}
+```
+
+Notice that we use the `abstract` in the signature of the `Department` class and in the signature of the `describe` method. It is a requirement because for TypeScript, the abstract methods can only exist in abstract classes. With this definition, the TypeScript's compiler will raise an error on the `ITDepartment` and `AccountingDepartment` classes, because currently they don't have an implementation of the `describe` method. Time to add it:
+
+```typescript
+class ITDepartment extends Department {
+    admins: string[];
+
+    constructor(id: string, admins: string[]) {
+        super(id, 'IT'); // Call the constructor of the base class
+        this.admins = admins;
+    }
+
+    describe() {
+        console.log(`IT Department - ID: ${this.id}`);
+    }
+}
+
+const it = new ITDepartment('d1', ['Roy']);
+it.describe(); // IT Department
+
+class AccountingDepartment extends Department {
+    private lastReport: string;
+    
+    ...
+
+    constructor(id: string, public reports: string[]) {
+        super(id, 'ACC'); // Call the constructor of the base class
+        this.lastReport = reports[0]
+    }
+
+    describe() {
+        console.log(`Accounting Department - ID: ${this.id}`);
+    }
+    
+    ...
+}
+
+const accounting = new AccountingDepartment('d2', []);
+accounting.describe(); // Accounting Department
+```
+
+Now both classes have their respective `describe` method. An important detail is that abstract classes can't be instantiated with the `new` keyword, because abstract class just are to be inherit from. Then you should instantiate the classes that extends the abstract class.
+
+Abstract classes can therefore be very useful if you want to force that all classes based on some other class share some common method or property. We can all have abstract properties but at the same time you want to make sure that you don't have to provide concrete value to concrete implementation in the base class. Instead, the inheriting class will take all these responsibilities.
+
 Singletons & Private Constructors
 --------------------------------
 Classes Summary
