@@ -569,8 +569,8 @@ it.describe(); // IT Department
 
 class AccountingDepartment extends Department {
     private lastReport: string;
-    
-    ...
+
+    //...
 
     constructor(id: string, public reports: string[]) {
         super(id, 'ACC'); // Call the constructor of the base class
@@ -581,7 +581,7 @@ class AccountingDepartment extends Department {
         console.log(`Accounting Department - ID: ${this.id}`);
     }
     
-    ...
+    //...
 }
 
 const accounting = new AccountingDepartment('d2', []);
@@ -594,6 +594,45 @@ Abstract classes can therefore be very useful if you want to force that all clas
 
 Singletons & Private Constructors
 --------------------------------
+There is an interesting feature to introduce that is the private constructors. A private constructor is a pattern in OOP called **Singleton**. The Singleton pattern is about ensuring that you always only have one instance of a certain class. This can be useful in scenarios where you somehow cannot use the static methods or properties you do not want to, but, at the same time you want to make sure that you can create multiple objects based on a class.
+
+The next code is an implementation of the singleton pattern in the `AccountingDepartment` class:
+
+```typescript
+class AccountingDepartment extends Department {
+    private lastReport: string;
+    private static instance: AccountingDepartment;
+
+    //...
+
+    private constructor(id: string, public reports: string[]) {
+        super(id, 'ACC'); // Call the constructor of the base class
+        this.lastReport = reports[0]
+    }
+
+    static getInstance() {
+        if (AccountingDepartment) {
+            return this.instance;
+        }
+
+        this.instance = new AccountingDepartment('d2', []);
+        return this.instance;
+    }
+
+    //...
+}
+
+// const accounting = new AccountingDepartment('d2', []);
+const accounting = AccountingDepartment.getInstance();
+const accounting2 = AccountingDepartment.getInstance();
+```
+
+Several stuff to highlight here. First, check that we add a `private static instance` of type `AccountingDepartment` as a property for the class. This property will give store the only instance that `AccountingDepartment` will have.
+
+Second, the constructor now it is private, `private constructor`. So, we cannot instantiate the `AccountingDepartment` with a `new` keyword anymore. Instead, we create a `getInstance` method, where we validate if an instance of `AccountingDepartment` is already created to return it. If not, we create the instance and we assign it to the `this.instance` property and return it.
+
+Finally, we create two variables `accounting` and `accounting2` and we call in both variables the `getInstance` method. If you log these variables you get the same `AccountingDepartment` object in both case, having guarantees over our singleton.
+
 Classes Summary
 --------------------------------
 A First Interface

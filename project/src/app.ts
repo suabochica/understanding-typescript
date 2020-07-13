@@ -46,11 +46,12 @@ it.describe(); // Department Accounting
 it.addEmployee('Edward');
 it.addEmployee('Alphonse');
 
-// accounting.employees[2] = 'Anna' // Error: Property employees is private to Department
-
 class AccountingDepartment extends Department {
     private lastReport: string;
+    private static instance: AccountingDepartment;
 
+    /** Getters & Setters
+     --------------------------------------------*/
     get mostRecentReport() {
         if (this.lastReport) {
             return this.lastReport;
@@ -67,9 +68,20 @@ class AccountingDepartment extends Department {
         this.addReport(value)
     }
 
-    constructor(id: string, public reports: string[]) {
+    /** Constructor
+     --------------------------------------------*/
+    private constructor(id: string, public reports: string[]) {
         super(id, 'ACC'); // Call the constructor of the base class
         this.lastReport = reports[0]
+    }
+
+    static getInstance() {
+        if (AccountingDepartment) {
+            return this.instance;
+        }
+
+        this.instance = new AccountingDepartment('d2', []);
+        return this.instance;
     }
 
     describe() {
@@ -94,7 +106,9 @@ class AccountingDepartment extends Department {
     }
 }
 
-const accounting = new AccountingDepartment('d2', []);
+// const accounting = new AccountingDepartment('d2', []);
+const accounting = AccountingDepartment.getInstance();
+const accounting2 = AccountingDepartment.getInstance();
 
 accounting.addReport('Something went wrong...');
 accounting.printReports();
