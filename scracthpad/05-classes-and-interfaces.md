@@ -680,6 +680,59 @@ So this is an interface. It allows us to define the structure of an object we ca
 
 Using Interfaces with Classes
 --------------------------------
+Now you will say why we have to use interface if until now, we got the same behavior if we use the `type` keyword as show below:
+
+```typescript
+type Person {
+    name: string;
+    age: number;
+    greet(phrase: string): void;
+}
+```
+
+With this version we got the same result as before. Often, you can interchange `interface` with `type` but they have some differences. One major difference is that interfaces can only be used to describe the structure of an object, and this definition make it the clearer. For the other side, you can use type for that as well, but, instead of a custom type you can also store union types, and stuff that we did mention in chapter 2, making type a bit flexible.
+
+The second big difference is that you can implement an interface in an class, and this is probably the reason why you often work with interface indeed. An interface can be used as a contract. Then a class that implements the interface has to adhere to. Let's check an example:
+
+```typescript
+interface Greetable {
+    name: string;
+    greet(phrase: string): void;
+}
+
+class Person implements Greetable {
+    name: string;
+    age = 40
+
+    constructor(n: string) {
+        this.name = n
+    }
+
+    greet(phrase: string) {
+        console.log(`${phrase} ${this.name}`);
+    }
+}
+```
+
+Here, we have a interface `Greetable` that is implemented by a class `Person`. With this definition, the TypeScript's compiler will raise error if the `Person` class has not a `name` property and a `greet` method. Let's now check how we use the `Person` class:
+
+```typescript
+let user: Greetable;
+
+user = new Person('Edward')
+
+user.greet("Hello, I am")
+console.log(user); // Prints the Person object
+```
+
+Check that we are using the `new` keyword to instantiate the `Person` class, a class that is implementing the `Greetable` interface. Also we say the `user` variable has type `Greetable`. TypeScript's compiler has not problem with this definition, because `Greetable` is implemented by the `Person` class, then the person object store in the `user` has the readable interface.
+
+The key point is that we can work with classes as always, but with interfaces we forced to implement classes under an specific structure. Interfaces are often used to share functionality among different class not regarding their concrete implementation, but checking the feature structure that the class should have.
+
+So, interfaces are similarly to work with abstract classes, except that in abstract classes we have implementation details. In interfaces we just have a structure definition.
+
+That is interface in a nutshell.
+
 Why Interfaces
 --------------------------------
 Readonly Interface Properties
