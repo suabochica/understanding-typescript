@@ -635,8 +635,49 @@ Finally, we create two variables `accounting` and `accounting2` and we call in b
 
 Classes Summary
 --------------------------------
+So far we learned:
+
+- Classes themselves
+- Properties and access modifiers: public, private and protected
+- Inheritance and abstract classes/methods
+- Singleton and private constructors
+
+Under the hood, the TypeScript classes are transpiled to the prototype object of vanilla JavaScript. This is good to know, to understand the magic that TypeScript adds over the default JavaScript features.
+
 A First Interface
 --------------------------------
+Now, let's talk about **interfaces**. An interfaces is basically the definition of an object. Check the next example to illustrate the concept:
+
+```typescript
+interface Person {
+    name: string;
+    age: number;
+    greet(phrase: string): void;
+}
+```
+
+Notice that we don't have initialized values in this structure, we just define the property an the respective type. Also, check the convention of add a semicolon `;` after define the object property.
+
+Let's use this interface:
+
+```typescript
+let user: Person;
+
+user = {
+    name: 'Edward',
+    age: 18,
+    greet(phrase: string) {
+        console.log(`${phrase} ${this.name}`);
+    }
+}
+
+user.greet("Hello, I am") // Prints: "Hello, I am Edward"
+```
+
+As you can see, the type of the variable `user` is the `Person` interface we define before. In the assignation of the `user` object we match the values types with the types established in the interface. If we skip this detail, the TypeScript's will raise an error.
+
+So this is an interface. It allows us to define the structure of an object we can use it as a type to type check for objects that must have this structure.
+
 Using Interfaces with Classes
 --------------------------------
 Why Interfaces
