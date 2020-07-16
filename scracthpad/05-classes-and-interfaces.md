@@ -735,12 +735,110 @@ That is interface in a nutshell.
 
 Why Interfaces
 --------------------------------
+So now did we know about these powerful features an obvious question is why would we use that, why is that helpful? 
+
+Well it is useful in situations where we know we want to have a certain set of functionalities or methods and we want to ensure that a class has is forced to fit his implementation to this set.
+
+To goal that, we can implement an interface which forces the existence of these methods. Then, we can easily share functionality among classes and every class has to add its own implementation.
+
+Enforce a certain structure with the help of interfaces can be useful if we then have other parts of our code which rely on that structure. This allows us to write truly powerful and flexible code where we don't have to know everything about an object or everything about a class, just will be relevance for use the structure defined via interfaces.
+
 Readonly Interface Properties
 --------------------------------
+For interfaces we can use the `readonly` modifier. Recall that the `readonly` makes that the property in whatever object you built based on this interface must only be set once and is read only thereafter, so that it can't be changed off.
+
+
+For example:
+
+```typescript
+interface Greetable {
+    readonly name: string;
+    greet(phrase: string): void;
+}
+...
+
+user = new Person('Edward')
+user.name = 'Alphonse' // Error, name is a readonly property
+```
+
+Notice than the `name` property is `readonly` is for that reason that we can't modify it after instantiate the `Person` object.
+
 Extending Interfaces
 --------------------------------
+We can implement inheritance in interfaces. Let's adapt our code example to illustrate how we can apply inheritance on interfaces.
+
+```typescript
+interface Named {
+    readonly name: string;
+}
+
+interface Greetable extends Named {
+    greet(phrase: string): void;
+}
+
+class Person implements Greetable {
+    name: string;
+    age = 40
+    ...
+}
+```
+
+As you can see, the `Greetable` interface is extending the `Named` interface. If we define the `Person` class that is implementing the `Greetable` and we skip the `name` property, the TypeScript's compiler will raise an error saying that the `name` property is missing.
+
+Remember, that we can implement several interfaces in a class, that means that with the next code:
+
+```typescript
+class Person implements Greetable, Named {
+    name: string;
+    age = 40
+    ...
+}
+```
+
+We got the same results. However, we adapt the example to illustrate how we can extends interfaces.
+
+Finally, unlike inheritance in classes, interfaces can extends several interfaces and the same time. For example:
+
+```typescript
+interface Greetable extends Named, AnotherInterface {
+    greet(phrase: string): void;
+}
+```
+
+It is a valid use. Recall that in classes we only can extend one class.
+
 Interfaces as Functions Types
 --------------------------------
+So far, we now that interfaces are use to define the structure of an object. Also, we can use interfaces to define the structure of a function.
+
+Let's recall the definition of the function types to explain the equivalence. Check the snippet below:
+
+```typescript
+type addFunction = (a: number, b: number) => number;
+let add: addFunction;
+
+add = (n1: number, n2: number) => {
+    return n1 + n2;
+}
+```
+
+Here, we use the `type` keyword and for the `addFunction` we define an structure of two parameters of type `number` with a return of type `number` as well. Now let's use the `interface` syntax to achieve the same result.
+
+```typescript
+interface addFunction {
+    (a: number, b: number): number;
+}
+let add: addFunction;
+
+add = (n1: number, n2: number) => {
+    return n1 + n2;
+}
+```
+
+The two differences with this version is that the assignation operator `=` and the arrow function `=>` are skipped. Instead we follow a pair syntax where the expression before the colon `:` are the parameters of the function, and the definition after the colon is the return type of the function.
+
+Probably, the first version is more popular that the second one. We illustrate the option, to be aware that interfaces also offer use the possibility of define function types.
+
 Optional Parameters & Properties
 --------------------------------
 Compiling Interfaces to JavaScript
