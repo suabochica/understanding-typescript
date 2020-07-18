@@ -841,58 +841,69 @@ Probably, the first version is more popular that the second one. We illustrate t
 
 Optional Parameters & Properties
 --------------------------------
+TypeScript provides a Optional parameters feature. By using Optional parameters features, we can declare some parameters in the function optional, so that client need not required to pass value to optional parameters. We can use this feature in interfaces. Check the next code:
+
+```typescript
+interface Named {
+    readonly name?: string;
+    outputName?: string;
+}
+
+interface Greetable extends Named {
+    greet(phrase: string): void;
+}
+
+class Person implements Greetable {
+    name?: string;
+    age = 40
+
+    constructor(n?: string) {
+        this.name = n
+    }
+
+    greet(phrase: string) {
+        if (this.name) {
+            console.log(`${phrase} ${this.name}`);
+        } else {
+            console.log(`Hi!`);
+        }
+    }
+}
+```
+
+Notice that all the properties in the interface are optional. So when we implement the `greet` method in the `Person` class, we should consider the scenario when the name is not a parameter, being that we define it as an optional parameter.
+
 Compiling Interfaces to JavaScript
 --------------------------------
+An interesting detail with interfaces is that if you check the compiled `app.js` file we can't see anything related to interfaces. The interfaces definitions in our `.ts` files are not transpiled to vanilla JavaScript. This means that interfaces are a TypeScript pure feature and it is evaluated in during development stage, so you can use it to improve your code. 
+
 Wrap Up
 --------------------------------
+That is it for interfaces and classes in this module we had a detailed look at classes and what we can do there.
+
+Classes in TypeScript in the end just build up on classes for JavaScript and I already summarized those. Below some take aways for classes:
+
+- Classes allow you to prepare some type of blueprints for your objects
+- `private` makes accessible the variable for the class where is defined
+- `protected` is an extension of `private` and allows make accessible the variable for another classes
+- `public` keyword is a shortcut for create a property, getting the argument and assign it
+- Just use the dot notation and be aware of the properties's scope
+- Use the `extends` keyword when the class is defined to apply inheritance
+- The inherit class have to use the `super` keyword in his `constructor`
+- `static` keyword allow us to use the properties of a class without instantiate it. Ideal for helpers.
+- `abstract` keyword allow us to create classes that can't be instantiated. Works as a blueprint.
+- `abstract` keyword in methods doesn't have logic. Works as a guide to the class that use the abstract class to show that the logic of the abstract method is responsibility of that class.
+-  Abstract classes always have to be inherit
+- Singleton: is a pattern where you have just one instance of a class in runtime
+
+Interfaces are a different thing. They only exist in TypeScript very pure types with feature helping you to write clearly structured and very explicit code. They can help you to force classes to have certain features or objects in general to have a certain structure.
+
+- Interfaces could be defined as a custom type
+- Interfaces can be used as a function types.
+- Interfaces allow for optional properties and all the four optional methods by the way.
+- Interfaces are not compiled to JavaScript.
+
 Resources
 --------------------------------
-
-Creating classes and class properties
--------------------------------------
-1. Classes allow you to prepare some type of blueprints for your objects
-2. `private` makes accessible the variable for the class where is defined
-3. `protected` is an extension of `private` and allows make accessible the variable for another classes
-4. `public` keyword is a shortcut for create a property, getting the argument and assign it
-
-Class methods and access modifiers
-----------------------------------
-1. Just use the dot notation and be aware of the properties's scope
-
-Inheritance
------------
-1. Use the `extends` keyword when the class is defined
-
-Inheritance and Constructors
-----------------------------
-1. The inherit class have to use the `super` keyword in his `constructor`
-
-Inheritance Wrap Up
--------------------
-1. All the exposed super class's properties and methods are accessible by the inherit class
-
-Getters and Setter
-------------------
-1. Control the access to your properties.
-2. Assign a value
-3. Return a values
-
-Static properties and methods
-----------------------------
-1. `static` keyword allow us to use the properties of a class without instantiate it.
-2. Ideal for helpers classes
-
-Abstract Classes
-----------------
-1. `abstract` keyword allow us to create classes that can't be instantiated. Works as a blueprint.
-2. `abstract` keyword in methods doesn't have logic. Works as a guide to the class that use the abstract class to show that the logic of the abstract method is responsibility of that class.
-3.  Abstract classes always have to be inherit
-
-Private constructors & singletons
----------------------------------
-1. Singleton: is a pattern where you have just one instance of a class in runtime
-
-Read only properties
--------------------
-1. Use a getter
-2. Add the `readonly` keyword in the constructor parameter
+- [JS Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+- [TS Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)
