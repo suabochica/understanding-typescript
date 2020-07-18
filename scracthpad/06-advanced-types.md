@@ -1,9 +1,47 @@
 Section 06: Namespaces and Modules
 ==================================
+It is time to moving forward and review the advanced features that TypeScript offers on Types. The next image summarized the contents of this section:
 
-An Introduction to Namespaces
+![Advanced Types](../assets/s06-advanced-types.png "Advanced Types")
+
+
+Index
+-----------------------------
+1. Intersection Types
+2. More on Type Guards
+3. Discriminated Unions
+4. Type Casting
+5. Index Properties
+6. Function Overloads
+7. Optional Chaining
+8. Nullish Coalescing
+9. Wrap Up
+10. Resources
+
+
+Intersection Types
+-----------------------------
+More on Type Guards
+-----------------------------
+Discriminated Unions
+-----------------------------
+Type Casting
+-----------------------------
+Index Properties
+-----------------------------
+Function Overloads
+-----------------------------
+Optional Chaining
+-----------------------------
+Nullish Coalescing
+-----------------------------
+Wrap Up
+-----------------------------
+Resources
 -----------------------------
 
+Intro to namespace
+-----------------------------
 1. Check the next code:
 
 ```javascript
