@@ -18,9 +18,54 @@ Index
 9. Wrap Up
 10. Resources
 
-
 Intersection Types
 -----------------------------
+Intersection types allow us to combine our types. Please check the snippet below:
+
+```typescript
+type Admin = {
+    name: string;
+    privelges: string[];
+}
+
+type Employee = {
+    name: string;
+    startDate: Date;
+}
+
+type ElevatedEmployee = Admin & Employee;
+
+const employee: ElevatedEmployee = {
+    name: 'Edward',
+    privelges: ['alchemy'],
+    startDate: new Date(),
+}
+```
+
+Notice that the `ElevatedEmployee` is the combined type of `Admin` and `Employee`, and the key operator for intersect type is the ampersand `&`. With this definition, we can create an object with the combined type as is `employee`. We could get the same result using interfaces, as shown next:
+
+```typescript
+interface Admin {
+    name: string;
+    privelges: string[];
+}
+
+interface Employee = {
+    name: string;
+    startDate: Date;
+}
+
+interface ElevatedEmployee extends Admin, Employee {};
+
+const employee: ElevatedEmployee = {
+    name: 'Edward',
+    privelges: ['alchemy'],
+    startDate: new Date(),
+}
+```
+
+However, this syntax is a little bit longer, and it is common use the `type` version. So, for object types, intersection types it is simply the combination of these object properties. This features can sometimes be useful. You will not use the all the time but you definitely can encounter situations where you can express something in a simpler way by using intersection types.
+
 More on Type Guards
 -----------------------------
 Discriminated Unions
