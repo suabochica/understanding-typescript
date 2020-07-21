@@ -68,6 +68,78 @@ However, this syntax is a little bit longer, and it is common use the `type` ver
 
 More on Type Guards
 -----------------------------
+Type guards, is a condition to check if an specific property over a type is true, to then execute a default logic. Keep in mind that type guards are useful when you are using union types. So, let's check an example: 
+
+```typescript
+type Combinable = string | number;
+
+function add(a: Combinable, b: Combinable) {
+    if (typeof a === 'string'|| b === 'string') {
+        return a.toString() + b.toString();
+    }
+
+    return a + b;
+}
+```
+
+In the last code the type guard is in the `if` statement. This condition validate if the parameters are `string` types using the JavaScript `typeof` key word to concatenate it instead of execute the sum. Here we apply the type guard over JavaScript default types. Now, let's check how use them in custom types:
+
+```typescript
+type UnknownEmployee = Employee | Admin;
+
+function printEmployeeInformation(emp: UnknownEmployee) {
+    console.log('Name: ' + emp.name);
+
+    if ('privileges' in emp) {
+        console.log('Privileges: ' + emp.privileges);
+    }
+    if ('startDate' in emp) {
+        console.log('Start Date: ' + emp.startDate);
+    }
+}
+
+printEmployeeInformation(employee);
+```
+
+Again, the type guard is in the `if` statements. However, here we can't use the `typeof` because we will apply the type guard over a custom class. For this case, we should use the `in` syntax of JavaScript to validate if the property exist in the object. If the condition is true, then we execute a concrete logic.
+
+Finally let's review how to apply type guards on classes. Pay attention to the next code:
+
+```typescript
+class Car {
+    drive() {
+        console.log('Driving...');
+    }
+}
+
+class Truck {
+    drive() {
+        console.log('Driving a truck...');
+    }
+
+    loadCargo(amount: number) {
+        console.log('Loading cargo...' + amount);
+    }
+}
+
+type Vehicle = Car | Truck;
+
+const v1 = new Car();
+const v2 = new Truck();
+
+function useVehicle(vehicle: Vehicle) {
+    vehicle.drive();
+    if (vehicle instanceof Truck) {
+        vehicle.loadCargo(1000)
+    }
+}
+
+useVehicle(v1);
+useVehicle(v2);
+```
+
+Notice the use of the `instanceof` JavaScript keyword to validate if the current object belongs to the particular class. Keep in mind that for the three type guards sample we use vanilla JavaScript features. This means that we can't apply a type guard directly on interfaces because there are a feature for TypeScript development stage.
+
 Discriminated Unions
 -----------------------------
 Type Casting
