@@ -142,6 +142,42 @@ Notice the use of the `instanceof` JavaScript keyword to validate if the current
 
 Discriminated Unions
 -----------------------------
+Discriminated unions is a pattern that help us to implement type guard easier on objects and even interfaces. Check the next snippet:
+
+```typescript
+interface Bird {
+    type: 'bird';
+    flyingSpeed: number;
+}
+
+interface Horse {
+    type: 'horse';
+    runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+    let speed: number;
+
+    switch (animal.type){
+        case 'bird':
+            speed = animal.flyingSpeed;
+            break;
+        case 'horse':
+            speed = animal.runningSpeed;
+            break;
+    }
+    console.log('Moving with speed: ' + speed);
+}
+
+moveAnimal({type: 'bird', flyingSpeed: 10});
+```
+
+Notice that the type guard is defined via `switch/case` statement over the possible values for the `animal.type` property. The pattern consist in set a property type that we know it will exist and use it to check which type of object we are working with. This is a discriminated union because we have one common property in every object that makes our union object easier to identify. We can use this property that describes this object in our check to have type safety and understand which properties are available for such an object and which properties are not.
+
+Therefore it is a very useful pattern when working with objects and union types.
+
 Type Casting
 -----------------------------
 Index Properties
