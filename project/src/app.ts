@@ -44,6 +44,8 @@ function printEmployeeInformation(emp: UnknownEmployee) {
 
 printEmployeeInformation(employee);
 
+/* Determined unions
+   -------------------------------------------*/
 
 class Car {
     drive() {
@@ -103,3 +105,12 @@ function moveAnimal(animal: Animal) {
 }
 
 moveAnimal({type: 'bird', flyingSpeed: 10});
+
+/* Type Cast
+   -------------------------------------------*/
+const paragraphElement = document.querySelector('p'); // HTMLParagraphElement | null
+const paragraphIdElement = document.getElementById('message-output'); // HTMLElement | null
+// const userInputElement = <HTMLInputElement>document.getElementById('user-input')!
+const userInputElement = document.getElementById('user-input')! as HTMLInputElement
+
+userInputElement.value = 'Hi there!';

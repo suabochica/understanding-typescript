@@ -180,6 +180,45 @@ Therefore it is a very useful pattern when working with objects and union types.
 
 Type Casting
 -----------------------------
+Type casting is a feature that helps you to tell TypeScript that some value is of a specific type when TypeScript is no able to detect it on its own. Let's explain the feature with a example using the next DOM elements:
+
+```html
+<body>
+    <p></p>
+    <p id="message-output"></p>
+    <input id="user-input" type= "text"></input>
+</body>
+```
+
+Mark up ready, now let's access to this elements in our `app.ts` file:
+
+```typescript
+const paragraphElement = document.querySelector('p'); // HTMLParagraphElement | null
+const paragraphIdElement = document.getElementById('message-output'); // HTMLElement | null
+// const userInputElement = <HTMLInputElement>document.getElementById('user-input')!
+const userInputElement = document.getElementById('user-input')! as HTMLInputElement
+
+userInputElement.value = 'Hi there!';
+```
+
+To illustrate the type cast concept we set three elements in the mark up: First, a `paragraphElement` that is identified by TypeScript as a `HTMLParagraphElement` type. For this case the TypeScript compiler execute the type inference properly. Second, we got a `paragraphIdElement`, that is identified by TypeScript as a `HTMLElement`. We will start to have some issues over this element if we want to interact with it, because `HTMLElement` is a generic type. In the last element, we use type cast to specify that the element is of `HTMLInputElement` type, and not as `HTMLElement` type, that will be the type defined by TypeScript without the type cast. 
+
+For this example, if we skip the `HTMLInputElement` type cast, we will get errors on the last line of the snippet, because for a `HTMLElement` the `value` property isn't exist.
+
+Lastly, as you can see we have two syntax to specify the type casting:
+
+```typescript
+const userInputElement = <HTMLInputElement>document.getElementById('user-input')!
+```
+
+and,
+
+```typescript
+const userInputElement = document.getElementById('user-input')! as HTMLInputElement
+```
+
+Both get the same result, and the choice is about the context. If you are in a React project is recommendable use the second syntax, to avoid confusion with JSX. On the contrary, go ahead with the first version.
+
 Index Properties
 -----------------------------
 Function Overloads
