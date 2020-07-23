@@ -240,6 +240,46 @@ So this is now such a error back we could build with the help of our container w
 
 Function Overloads
 -----------------------------
+Function overloads is a TypeScript feature that allow you to handle the possible scenarios of a flexible function. Let's recall the `add` function with `Combinable` type:
+
+```typescript
+type Combinable = string | number;
+
+function add(a: Combinable, b: Combinable) {
+    if (typeof a === 'string'|| b === 'string') {
+        return a.toString() + b.toString();
+    }
+
+    return a + b;
+}
+
+const result = add('Edward','Elric');
+```
+
+
+When you check the type of the `result` variable we get that his type is `Combinable`. Sort of, this is true, but behind of scenes we expect that the `result` variable be a `string` type. With this current implementation we have the next limitation: If we want to use an `string` method like `split`, the TypeScript's compiler will raise an error saying that the `Combinable` type has not a `split` method.
+
+To solve this error we can use function overloads to specify the possible scenarios of our functions according the parameters types. Below we show the syntax for this feature:
+
+```typescript
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: number, b: string): string;
+function add(a: string, b: number): string;
+function add(a: Combinable, b: Combinable) {
+    if (typeof a === 'string'|| b === 'string') {
+        return a.toString() + b.toString();
+    }
+
+    return a + b;
+}
+
+const result = add('Edward','Elric');
+result.split(' ');
+```
+
+Now we can use the `split` method on our variable `result`. It is important to highlight, that the function overloads is a TypeScript's pure feature, so this code is not traspiled to JavaScript, an is a feature that is just able in development phase.
+
 Optional Chaining
 -----------------------------
 Nullish Coalescing
