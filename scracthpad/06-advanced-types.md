@@ -221,6 +221,23 @@ Both get the same result, and the choice is about the context. If you are in a R
 
 Index Properties
 -----------------------------
+Index properties is a feature that is under the category of features that help us to write flexible code. This feature allow us to create objects regarding the properties they might hold. Letś review an example where you will handle error messages for the login validation of an user:
+
+```typescript
+interface ErrorContainer {
+    [prop: string]: string;
+}
+
+const errorBag: ErrorContainer = {
+    email: 'Not a valid email!',
+    username: 'Must start with a capital character!'
+}
+```
+
+Notice the notation `[prop:string]` to define the index property. With this body in the interface we are saying that we are expecting a key of type `string` with a value that also will be a `string`. This definition is used in the `erroBag` variable. Here we are defining two possible error message, one for a invalid email, and, other for a invalid username. According the index (i.e email, username) we will use their respective error message.
+
+So this is now such a error back we could build with the help of our container which gives us this extra flexibility that we don't need to know in advance which property names we want to use and how many properties we need.
+
 Function Overloads
 -----------------------------
 Optional Chaining
