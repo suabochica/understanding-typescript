@@ -282,6 +282,30 @@ Now we can use the `split` method on our variable `result`. It is important to h
 
 Optional Chaining
 -----------------------------
+Let me introduce a very neat feature, optional chaining. Optional chaining is an operator that helps us to safely access to nested properties and nested objects in a object data.
+
+For example:
+
+```typescript
+const fetchedUserData = {
+    id: 'u1',
+    name: 'Max',
+    // job: { title: 'CEO', description: 'My own company' }
+}
+
+console.log(fetchedUserData.job && fetchedUserData.job.title)
+```
+
+The `fetchedUserData` is a object mock of a response object from the back-end. Sometimes, these responses can skip on of the properties. For this case, the `job` property was missing. This scenario make us to do a validation in the JavaScript code to have guarantees over the property existence, such as we specify in the log line.
+
+With the optional changing operator, we got a short syntax and a legible code, as show next:
+
+```typescript
+console.log(fetchedUserData?.job?.title)
+```
+
+The property in front of the question mark is undefined it will not access the thing they're after and therefore will not flow a runtime error but instead it will just not continue. So behind the scenes does is basically compile to if check which checks whether Dad exists before it tries to access this.
+
 Nullish Coalescing
 -----------------------------
 Wrap Up
