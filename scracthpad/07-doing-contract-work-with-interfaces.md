@@ -1,142 +1,141 @@
 Section 07: Doing Contract Work with Interfaces
 ===============================================
 
-Introduction
-------------
-1. Time to come to some features which are brand new after TypeScript: Interfaces
-
-The Basics about Interfaces
----------------------------
-1.   An *Interface* basically is a contract signed between objects to guarantee the use of a property, function, whatever...
-2.   The next code shows how to define interfaces in TypeScript:
+Intro to namespace
+-----------------------------
+1. Check the next code:
 
 ```javascript
-interface NamedPerson {
-    firstName: string
-}
 
-function greet(person: NamedPerson) {
-    console.log("Hello" + person.firstName);
-}
+namespace myMath() {
+	const PI = 3.14;
 
-function changeName(person: NamedPerson) {
-    person.firstName = "Leonardo";
-}
+	export function calculateCircumference(diameter: number) {
+		return diameter * PI;
+	}
 
-const person = {
-    name: "Sergio",
-    age: 26
+	export function calculateRectangle(width: number, length:number) {
+		return width * length;
+	}
 }
-
-greet(person);
-changeName(person);
-greet(person);
 
 ```
-Interfaces and Properties
--------------------------
-1. If we try pass an object literal like `greet(name: "Sergio", age: 14)` the TypeScript compiler will throw an error
-2. This error is because in the `greet()` is expected a `NamedPerson` interface whose does not have specified an `age` property.
-3. To solve this we have to remove the age property from the object literal or add the property `age` to the `NamedPerson` interface
+
+2. The namespace allow us split our code avoiding the use of global scope. The TS compiler use JS IIFE to split the code blocks
+
+
+Namespaces and Multiple Files
+-----------------------------
+1. We can split our `myMath` namespace in two files `circleMath.ts` and `rectangleMath.ts`, and add the respective calculate functions.
+2. If we run the new structure the browser will throw the error `Uncaught Reference`. To solve this issue we have three possibilities:
+    1. Import the  `circleMath.js` and the `rectangleMath.js` files in the `index.html`
+    2. Use the TypeScript option compiler `-- outFile {{outputsFile.js}} {{inputFile*.ts}}`
+    3. Please check the Namespace Import section
+
+Namespace Imports
+-----------------
+1. TypeScript has his own syntax to import namespace. The next code shows this syntax:
 
 ```javascript
-interface NamedPerson {
-    firstName: string,
-    age?: number,               // Notation for optional property
-    [propName: string]: any     // Notation for expected property
-}
+
+/// <reference path="circleMath.ts />"
+/// <reference path="rectangleMath.ts />"
+
 ```
 
-Interfaces and Methods
+More on Namespaces
+------------------
+1. Nested Namespaces
+2. Set namespace aliases
+
+Limitations Namespaces
 ----------------------
-1. Check the comment that illustrate the method declaration syntax for an interface
+1. Namespaces are not declarative.
+2. For small projects use Namespaces. For big projects use Modules.
 
-```javascript
-interface NamedPerson {
-    firstName: string,
-    age?: number,
-    [propName: string]: any,
-    greet(lastName: string): void   // Notation for add methods in the interface
-}
+Modules
+-------
+1. For use modules, you should change your project structure to something like:
 
-const person = {
-    name: "Sergio",
-    age: 26
-    hobbies: ["Sports", "Videogames"]
-    greet(lastName: string) {
-        console.log("Hi my last name is" + lastName);
-    }
-}
-
-person.greet("Benítez"); //-> "Hi my last name is Benítez"
+```
+app
+|-- modules
+|   |-- moduleFileOne.ts
+|   |-- moduleFileTwo.ts
+|-- app.ts
 ```
 
-Using Interfaces with Classes
------------------------------
-1. You can use interfaces in classes through the keyword `implements`. Check the next code:
+2. In the app.ts you will `import` the element that are `export` in the modules files.
+
+Loading Modules
+---------------
+1. The module dependency management in JavaScript has a long history. Please check the article [JavaScript Module System Shutdown](https://auth0.com/blog/javascript-module-systems-showdown/)
+2. For this learning you will use the *All-in-one solution: SystemJS*
+    1. Install it with `npm install --save systemjs`
+    2. Add the respective configuration in the `index.html` file
+
+Importing and Exporting Modules
+-------------------------------
+1. Bear in mind that first you have to export and then you import. Then follow the next syntax:
 
 ```javascript
-interface NamedPerson {
-    firstName: string,
-    age?: number,
-    [propName: string]: any,
-    greet(lastName: string): void   // Notation for add methods in the interface
+// rectangle.ts file
+export function calculateRectangle(width: number, length:number) {
+	return width * length;
 }
-
-class Person implements NamedPerson {
-    firstName: string;          // Mandatory property by NamedPerson
-    nickName: string            // We can add more properties or methods in our class!
-    greet(firstName: string, nickName: string) {   // Mandatory method by NamedPerson
-        console.log("Hi my first name is " + firstName +" a.k.a " nickName);
-    }
-}
-
-const myClassPerson = new Person();
-myClassPerson.firstName = "Sergio";
-myClassPerson.nickName = "Kun"
-myClassPerson.greet(myClassPerson.firstName, myClassPerson.nickName) //-> "Hi my first name is Sergio a.k.a Kun
 
 ```
 
-Interfaces and Function Types
------------------------------
-1. Check the next code syntax to use function types as interfaces:
-
 ```javascript
-interface DoubleValueFunction {
-    (number1: number, number2: number): number;
-}
+// app.ts file
+import {calculateRectangle} from 'path/to/rectangle.ts'
 
-let myDoubleValueFunction: DoubleValueFunction;
-
-myDoubleValueFunction = function(value1: number, value2: number) {
-    return (value1 + value2) * 2
-}
-
-console.log(myDoubleValueFunction(5, 6)) //-> 22
+console.log(calculateRectangle(20,10))
 ```
 
-Interface Inheritance
+2. Alias are enable in module imports
+
+```javascript
+// app.ts file
+import * as Rectangle from 'path/to/rectangle.ts'
+console.log(Rectangle.calculateRectangle(20,10))
+
+```
+
+3. Export default syntax
+
+```javascript
+// rectangle.ts file
+export default function calculateRectangle(width: number, length:number) {
+	return width * length;
+}
+
+```
+
+```javascript
+// app.ts file
+import calcRectangle from 'path/to/rectangle.ts'
+
+console.log(calcRectangle(20,10))
+```
+
+Module Resolution
+-----------------
+1. Import with relative paths
+2. Import with absolute paths. Common use whe you use TypeScript with Angular
+3. Automatic resolution of `.ts` files
+
+Namespaces vs Modules
 ---------------------
-1. Works similarly to the inheritance in classes. You have to use the keyword `extends`
 
-```javascript
-interface AgedPerson extends NamedPerson {
-    age: number     // Makes the age property mandatory
-}
+Namespaces
+- Organize application with JavaScript Objects
+- Can be split up over multiple files
+- No module loader required
+- Dependencies get difficult to manage in bigger applications
 
-let oldPerson: AgedPerson {
-    age: 26
-    firstName: "Sergio"
-    greet(firstName: string, nickName: string) {   // Mandatory method by NamedPerson
-        console.log("Hi")
-    }
-}
-
-console.log(oldPerson)  //-> object
-```
-
-What happens once the interfaces get compiled
----------------------------------------------
-1. Interfaces does not exist in native JavaScript. So when are compiled the interfaces disappears
-2. The use of interfaces in TypeScript have the only purpose to find error during development time
+Modules
+- Organize application with real Modules
+- Can be split up over multiple files
+- Module loader required
+- Explicit dependency declaration
