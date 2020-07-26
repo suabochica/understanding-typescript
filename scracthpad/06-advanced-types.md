@@ -1,4 +1,4 @@
-Section 06: Namespaces and Modules
+Section 06: Advanced Types
 ==================================
 It is time to moving forward and review the advanced features that TypeScript offers on Types. The next image summarized the contents of this section:
 
@@ -341,4 +341,3 @@ These are all interesting patterns said can help you improve your code your code
 Resources
 -----------------------------
 - [Advanced Types](https://www.typescriptlang.org/docs/handbook/advanced-types.html)
-

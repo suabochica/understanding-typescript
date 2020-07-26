@@ -1,6 +1,8 @@
 Section 07: Doing Contract Work with Interfaces
 ===============================================
 
+TODO: Reorganize in the the structure of the new contents
+
 Intro to namespace
 -----------------------------
 1. Check the next code:

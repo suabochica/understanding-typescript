@@ -1,9 +1,43 @@
-Section 08: Generics
+Section 07: Generics
 ====================
 
-Introduction
-------------
-1. *Generics* is a powerful tool to write dynamic code that use the features of TypeScript and the benefits of a Typed language.
+*Generics* is a powerful tool to write dynamic code that use the features of TypeScript and the benefits of a Typed language. Keep in mind that generics exist in TypeScript, not in vanilla JavaScript, So there is no real translation here. However, we can use the concept of generics types and take advantages of the different tools that it offer to us.
+
+Index
+-----
+
+1. Built-in Generics && What are generics?
+2. Creating a Generic Function
+3. Working with Constraints
+4. Another Generic Function
+5. The "keyof" Constraints
+6. Generic Classes
+7. A First Summary
+8. Generic Utility Types
+9. Generic Types vs Union Types
+10. Resources
+
+
+Built-in Generics && What are generics?
+------------------------
+Creating a Generic Function
+------------------------
+Working with Constraints
+------------------------
+Another Generic Function
+------------------------
+The "keyof" Constraints
+------------------------
+Generic Classes
+------------------------
+A First Summary
+------------------------
+Generic Utility Types
+------------------------
+Generic Types vs Union Types
+------------------------
+Resources
+------------------------
 
 Why and What?
 -------------
