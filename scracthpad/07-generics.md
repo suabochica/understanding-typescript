@@ -17,9 +17,49 @@ Index
 9. Generic Types vs Union Types
 10. Resources
 
-
 Built-in Generics && What are generics?
 ------------------------
+A generic type is a definition to connect two or more types. JavaScript comes with some generic types in his core. Let's examine one of them, the popular `Array`:
+
+```typescript
+const names: Array = [];
+```
+
+With this line, the TypeScript's compiler will raise the next error: Generic type 'Array<T>' requires 1 type argument. That syntax corresponds to generics, and, as the error mentions, we need to specify a type to associate the `names` variable with the generic type.
+
+```typescript
+const names: Array<string> = [];
+names[0].split('');
+```
+
+For this case we specify the `string` type. That means that every item of the array should be of `string` type, and then, we can use the string methods like `split`. Inside the generic type, we can use union type like `Array<string | number>`.
+
+Let's review another generic type in the core of JavaScript, `Promise`:
+
+```typescript
+const promise: Promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve(10)
+    }, 2000)
+});
+```
+Checking the definition of promise, we got the generic type `Promise<unknown>`. We can take advantage over the generic type and specify the type of the promise response:
+
+
+```typescript
+const promise: Promise<number> = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve(10)
+    }, 2000)
+});
+```
+
+Here, The main type is `Promise` but a promise just like an array kind of works to gather with other types an for this case we use the `number` type.
+
+So you're really flexible regarding what you do with that generic type information an array knows which data it stores and a  promise knows which data it returns.
+
+If you build your own generic classes or functions you might do something totally different in there but in the end generic types help you to get additional type information if you've got a more complex class or more complex function that does something with the data that's coming in in a way where it doesn't really care about the data being of one particular type but where you want to store the type information of the incoming data to get better typescript support.
+
 Creating a Generic Function
 ------------------------
 Working with Constraints
