@@ -7,7 +7,7 @@ const promise: Promise<number> = new Promise((resolve, reject) => {
     }, 2000)
 });
 
-function merge<T, U>(objA: T, objB: U) {
+function merge<T extends object, U extends object>(objA: T, objB: U) {
     return (<any>Object).assign(objA, objB);
 }
 

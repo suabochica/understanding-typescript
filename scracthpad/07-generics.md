@@ -81,7 +81,7 @@ function merge<T, U>(objA: T, objB: U) {
 }
 
 const mergedObj = merge({name: 'Max'}, {age: 30});
-mergedObj.name; // Error, merge object has not 'name' property
+mergedObj.name;
 ```
 
 Notice in the function signature the `<T, U>` syntax to specify the generic function, saying that our `objA` will be of type `T` and the `objB` will be of type `U`. The result of object assigned types could automatically understands that this function returns the intersection `T & U`.
@@ -98,6 +98,32 @@ Generics are all about that you can fill in different concrete types for differe
  
 Working with Constraints
 ------------------------
+We got started with generics and hopefully it's clear what types does here. We passed some extra information into the merge function so that we can work in a better way with the result of the merge function and that's typically what generics are therefore they allow you to continue working with your data in a typescript optimal way.
+
+However, we are expose to some unexpected behaviors, like the next snippet.
+
+```typescript
+function merge<T, U>(objA: T, objB: U) {
+    return (<any>Object).assign(objA, objB);
+}
+
+const mergedObj = merge({name: 'Max'}, 30);
+mergedObj.name;
+```
+
+Here, we don't get any errors, but if we print the `mergedObj` in console, we can't see that the `30` argument passed in the definition of `mergedObj` is skipped. This is know as a silence problem in JavaScript, because the function is expected an `object`, not a `number`, but the compiler can't identify this inconsistency. To solve this silence problem, we can use type constraints, as shown below:
+
+```typescript
+function merge<T extends object, U extends object>(objA: T, objB: U) {
+    return (<any>Object).assign(objA, objB);
+}
+
+const mergedObj = merge({name: 'Max'}, {age: 30});
+mergedObj.name;
+```
+
+Here we constraint our generic types, and now the compiler is able to identify if the passed argument isn't an object, as we specify in the signature of the function.
+
 Another Generic Function
 ------------------------
 The "keyof" Constraints
