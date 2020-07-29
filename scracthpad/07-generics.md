@@ -126,6 +126,33 @@ Here we constraint our generic types, and now the compiler is able to identify i
 
 Another Generic Function
 ------------------------
+Let's practicing with generic types. Please check the next snippet:
+
+```typescript
+interface Lengthy {
+    length: number;
+}
+
+function countAndPrint<T extends Lengthy> (element: T): [T, string] {
+    let descriptionText = 'Got no value.'
+    if (element.length === 1) {
+        descriptionText = 'Got 1 element.'
+    } else if (element.length > 1){
+        descriptionText = `Got ${element.length} elements`
+    }
+    return [element, descriptionText]
+}
+
+console.log(countAndPrint('Hi there!')) // ['Hi there!', Got 9 elements]
+console.log(countAndPrint(['Alchemy', 'Travel'])) // [Array[2], Got 2 elements]
+```
+
+The `countAndPrint` is a generic function that give and element of generic type `T` will return the element itself and the length of this element. In the above example we pass the `'Hi there!'` string and we got a length of 9 elements, that corresponds to the quantity of characters. Also we pass an array of two elements and we got a length of two elements. Here, we start to see the benefits of use generics.
+
+Again we got our generic function idea is similar to the function before we want to be a bit unspecific about the type of data we get here.
+
+We don't really care if it's a `string` if it's an `array` or anything else which has a `length` property. We just care about that it does have a `length` property and then we want to do something with it because we rely on the `length` property in our code so we need to guarantee that we get that.
+
 The "keyof" Constraints
 ------------------------
 Generic Classes
