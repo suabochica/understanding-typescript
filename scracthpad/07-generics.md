@@ -62,6 +62,40 @@ If you build your own generic classes or functions you might do something totall
 
 Creating a Generic Function
 ------------------------
+To start to understand generic function let's explain the next example:
+
+```typescript
+function merge(objA: object, objB: object) {
+    return Object.assign(objA, objB);
+}
+
+const mergedObj = merge({name: 'Max'}, {age: 30});
+mergedObj.name; // Error, merge object has not 'name' property
+```
+
+Here we have a `merge` function that given two objects it will create a big object from these parameters. However, we get an error trying to access to a property in our `mergedObj`. TypeScript will not identify `name` as a property of the `mergedObj`. We can solve this adding typecasting, but the code will be verbose. Instead, we can use generics, as shown below. 
+
+```typescript
+function merge<T, U>(objA: T, objB: U) {
+    return (<any>Object).assign(objA, objB);
+}
+
+const mergedObj = merge({name: 'Max'}, {age: 30});
+mergedObj.name; // Error, merge object has not 'name' property
+```
+
+Notice in the function signature the `<T, U>` syntax to specify the generic function, saying that our `objA` will be of type `T` and the `objB` will be of type `U`. The result of object assigned types could automatically understands that this function returns the intersection `T & U`.
+
+Now we can start to play with our merged function. In the assignation we can specify the types, for example:
+
+```typescript
+const mergedObj = merge<string, number>('Max',30);
+```
+
+Is a valid use of our generic function. Nonetheless, specify the type could be redundant, because we can take advantage of the TypeScript's type inference feature.
+
+Generics are all about that you can fill in different concrete types for different function calls but we don't need to do that here because typescript simply infers the types of the values we're passing as arguments.
+ 
 Working with Constraints
 ------------------------
 Another Generic Function
