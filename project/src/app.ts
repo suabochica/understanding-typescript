@@ -38,3 +38,36 @@ function extactAndConvert<T extends object, U extends keyof T>(
 }
 
 extactAndConvert({name: 'Max'}, 'name');
+
+
+class DataStorage<T> {
+    private data: T[] = [];
+
+    addItem(item: T) {
+        this.data.push(item);
+    }
+
+    removeItem(item: T) {
+        if (this.data.indexOf(item) === -1)
+            return
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+
+    getItems() {
+        return [...this.data];
+    }
+}
+
+const textStorage = new DataStorage<string>();
+textStorage.addItem('Edward');
+textStorage.addItem('Alphonse');
+textStorage.removeItem('Alphonse');
+textStorage.getItems(); // Edward
+
+const objectStorage = new DataStorage<object>();
+const edObject = {name: 'Edward'};
+const alObject = {name: 'Alphobse'};
+objectStorage.addItem(edObject);
+objectStorage.addItem(alObject);
+objectStorage.removeItem(alObject); // Some errors here for how works objects in JS
+textStorage.getItems();

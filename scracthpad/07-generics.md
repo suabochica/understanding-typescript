@@ -175,6 +175,54 @@ This way we tell TypeScript that we want to ensure that we have this correct str
 
 Generic Classes
 ------------------------
+Let's apply the concept of generic to classes via an `DataStorage` example:
+
+```typescript
+class DataStorage<T> {
+    private data: T[] = [];
+
+    addItem(item: T) {
+        this.data.push(item);
+    }
+
+    removeItem(item: T) {
+        if (this.data.indexOf(item) === -1)
+            return
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+
+    getItems() {
+        return [...this.data];
+    }
+}
+```
+
+As you can see, the data storage will work with the generic type `T` and have a private property `data` that is an array of the generic type. Additionally we specify three methods for this class: `addItem`, `removeItem` and `getItems`. Time to use our class definition:
+
+```typescript
+const textStorage = new DataStorage<string>();
+textStorage.addItem('Edward');
+textStorage.addItem('Alphonse');
+textStorage.removeItem('Alphonse');
+textStorage.getItems(); // Edward
+
+const objectStorage = new DataStorage<object>();
+const edObject = {name: 'Edward'};
+const alObject = {name: 'Alphobse'};
+objectStorage.addItem(edObject);
+objectStorage.addItem(alObject);
+objectStorage.removeItem(alObject); // Some errors here for how works objects in JS
+textStorage.getItems();
+```
+
+Here, is the flexibility of generics. we have to instances of `DataStorage`: one to apply the class on `string` called `textStorage`and other to apply it on `object` called `objectStorage`. For strings these code works perfectly, but for object we have some issues with the `removeItem` method, because remember that in JavaScript objects are accessed via memory reference. But, the attention is how the `DataStorage` generic class can be used for different types.
+
+Keep in mind that you're not limited to one type when you work with classes and you can also have methods which have their own generic types inside of classes so you could introduce new generic types in class methods.
+
+If you have some generic type which only is needed in a certain method and not in the entire class so you're really flexible there you can use constraints everywhere and in general generic types are there to make your life easier and to give you that perfect combination of full flexibility we can use any primitive value we want here and type safety because we know perfectly well what is stored in this data storage and what is stored in this data storage.
+
+So this combination is the awesome thing that generic types give us.
+
 A First Summary
 ------------------------
 Generic Utility Types
