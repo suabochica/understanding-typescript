@@ -29,3 +29,12 @@ function countAndPrint<T extends Lengthy> (element: T): [T, string] {
 }
 
 console.log(countAndPrint('Hi there!'))
+
+function extactAndConvert<T extends object, U extends keyof T>(
+    obj: T,
+    key: U
+) {
+    return 'Value: ' + obj[key];
+}
+
+extactAndConvert({name: 'Max'}, 'name');

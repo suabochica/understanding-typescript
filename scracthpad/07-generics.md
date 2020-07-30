@@ -155,6 +155,24 @@ We don't really care if it's a `string` if it's an `array` or anything else whic
 
 The "keyof" Constraints
 ------------------------
+
+The `keyof` constraint is a mechanism to establish relations between generics types. For example:
+
+```typescript
+function extactAndConvert<T extends object, U extends keyof T>(
+    obj: T,
+    key: U
+) {
+    return 'Value: ' + obj[key];
+}
+
+extactAndConvert({name: 'Max'}, 'name');
+```
+
+Notice the generic definition `<T extends object, U extends keyof T>`, where we specify that the generic type `U` have a dependency with a key of the `T` generic type.
+
+This way we tell TypeScript that we want to ensure that we have this correct structure and that's of course really useful because it allows us to ensure that we don't make dumb mistakes where we tried to call this function which in the end would try to access a property that doesn't exist.
+
 Generic Classes
 ------------------------
 A First Summary
