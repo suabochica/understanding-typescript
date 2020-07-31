@@ -225,12 +225,55 @@ So this combination is the awesome thing that generic types give us.
 
 A First Summary
 ------------------------
+So that is it for generic types already. They can really be tricky to understand, but basically, they give us flexibility combined with type safety. We're flexible regarding the values we pass in or the values we use in our class at least as long as we adhere to the possible constraints which you might have added.
+
+We got full pipe support for what we then do with the class or with the result of a generic function because TypeScript then knows which concrete type we pass in what we call the function here or when we instantiate the class here.
+
 Generic Utility Types
 ------------------------
+TypeScript offer us a large list of utility types that can be handy if we use them as a combination with generics. In this section we will review two of them: `Partial` and `Readonly`. Let's start with the first one, via the next snippet:
+
+```typescript
+interface CourseGoal {
+    title: string;
+    description: string;
+    completeUntil: Date;
+}
+
+function createCourseGoal(
+    title: string,
+    description: string,
+    date: Date,
+) {
+    let courseGoal: Partial<CourseGoal> = {};
+
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+
+    return courseGoal as CourseGoal;
+}
+```
+
+Partial Constructs a type with all properties of `T` set to optional. This utility will return a type that represents all subsets of a given type. In the last code, all the properties of `courseGoal` are partially passed before return it.
+
+For the other hand, the `Readonly` type, takes a type `T` and marks all of its properties as `readonly` using mapped types. Here is a demo that uses it in practice:
+
+```typescript
+const nicknames: Readonly<string[]> = ['Edward', 'Winry'];
+nicknames.push('Pinako') // not allowed
+```
+
+With this definition, we can add or remove items for `nicknames`.
+
+In the resources section we will share the documentation of the utility types in TypeScript.
+
 Generic Types vs Union Types
 ------------------------
 Resources
 ------------------------
+
+- [Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
 
 Why and What?
 -------------

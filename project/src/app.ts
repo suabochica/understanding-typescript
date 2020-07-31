@@ -66,8 +66,33 @@ textStorage.getItems(); // Edward
 
 const objectStorage = new DataStorage<object>();
 const edObject = {name: 'Edward'};
-const alObject = {name: 'Alphobse'};
+const alObject = {name: 'Alphonse'};
 objectStorage.addItem(edObject);
 objectStorage.addItem(alObject);
 objectStorage.removeItem(alObject); // Some errors here for how works objects in JS
 textStorage.getItems();
+
+
+interface CourseGoal {
+    title: string;
+    description: string;
+    completeUntil: Date;
+}
+
+function createCourseGoal(
+    title: string,
+    description: string,
+    date: Date,
+) {
+    let courseGoal: Partial<CourseGoal> = {};
+
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+
+    return courseGoal as CourseGoal;
+}
+
+
+const nicknames: Readonly<string[]> = ['Edward', 'Winry'];
+nicknames.push('Pinako') // not allowed
