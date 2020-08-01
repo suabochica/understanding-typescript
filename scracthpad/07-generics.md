@@ -270,12 +270,22 @@ In the resources section we will share the documentation of the utility types in
 
 Generic Types vs Union Types
 ------------------------
+If you want to have a function which you can call with one of several types every time you call it, generic types are great. If you want to lock in a certain type that is the same type throughout the entire class instance you create, you use the same type throughout the entire function that's where you want the generic type.
+
+You want union types when you are flexible to have a different types, with every method or function calls. 
+
+Takeaways
+---------
+When can "Generics" come in very handy?
+
+In cases where you have a type that actually works together with multiple other possible types (e.g. an object which emits data of different types). Generics help you create data structures that work together or wrap values of a broad variety of types (e.g. an array that can hold any type of data).
+
 Resources
 ------------------------
-
+- [Generics](https://www.typescriptlang.org/docs/handbook/generics.html)
 - [Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
 
-Why and What?
+Examples
 -------------
 1. Start with the next example:
 
@@ -293,8 +303,7 @@ console.log(echo({name:"Max", age: 27}));     //-> Object   | undefined
 3. However, the browser prints the information in the second column.
 3. This means that you are not take advantage of the typed language benefits
 
-Creating a generic function
----------------------------
+### Creating a generic function
 1. Below you can see an improve over the echo function:
 
 ```javascript
@@ -310,13 +319,11 @@ console.log(genericEcho({name:"Max", age: 27}));     //-> Object   | Compiler er
 2. This example throws compiler errors if you try to use `.length` property on a type different to `string`.
 3. Also you can specify the explicitly type for the function: `console.log(genericEcho<number>(27));`
 
-A built-in Generic Type: Arrays
--------------------------------
+### A built-in Generic Type: Arrays
 1. By default `Array` is a generic type
 2. With TypeScript we can specify the type of the elements inside the array
 
-Generic Types and Arrays
-------------------------
+### Generic Types and Arrays
 1. We can add a Generic type to the elements inside the array. Please check the next syntax:
 
 ```javascript
@@ -329,8 +336,7 @@ printAll<number>([28, 30]);
 
 ```
 
-Using Generic Types
--------------------
+### Using Generic Types
 1. Generic Types have a tricky syntax. Check below:
 
 ```javascript
@@ -341,8 +347,7 @@ console.log(typeEcho<string>("Something"));
 
 2. The type is always defined between the `:` and the `=`
 
-Creating a Generic Class
-------------------------
+### Creating a Generic Class
 1. You can apply the *Generic* concept on classes. Check the next syntax:
 
 ```javascript
@@ -365,8 +370,7 @@ console.log(simpleMath.calculateMultiplication());  //-> 200 as expected
 
 2. This class is not completely generic, because we can have several types in the class properties
 
-Constraints
------------
+### Constraints
 1. Constraints help you to be more explicit with the class type.
 2. The errors will be reported by the TS compiler
 
@@ -388,8 +392,7 @@ simpleMath.multiplyValue = 20;
 console.log(simpleMath.calculateMultiplication());  //-> 200 as expected
 ```
 
-Using more than one GenericType
-------------------------------
+### Using more than one GenericType
 1. Get messy, but we can set several Generic Types in a Class.
 
 ```javascript
