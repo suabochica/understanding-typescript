@@ -1,10 +1,66 @@
-Section 09: Behind the Scenes with Decorators
+Section 08: Decorators
 =============================================
+Let's dive into the next more advanced feature that would be decorators. Decorators are a feature which can be very useful for meta-programming.
 
-Introduction
-------------
-1. *Decorators* are functions that you can attach to classes, methods, properties, to add an extra functionality.
-2. *Decorators* could be a kind of metaprogramming.
+Now what does meta-programming mean.
+
+It means that you typically won't use tech writers that often to have a direct impact on the end users of your page.
+
+So, off the users visiting your page but instead decorators are particularly well suited instrument for writing code which is then easier to use by other developers.
+
+Now that might sound strange but you'll see what I mean from this module.
+
+Decorators are functions that you can attach to classes, methods, properties, to add an extra functionality.
+
+Index
+--------------------------
+1. A First Class Decorator
+2. Working with Decorator Factories
+3. Building Useful Decorators
+4. Adding Multiple Decorators
+5. Diving into Property Decorators
+6. Accessor & Parameter Decorators
+7. When Do Decorators Execute?
+8. Returning a Class in a Class Decorator
+9. Other Decorator Return Types
+10. Example: Creating an "Autobind" Decorator
+11. Validation with Decorators - Part one
+12. Validation with Decorators - Part two
+13. Fixing a Validator Bug
+14. Wrap Up
+
+A First Class Decorator
+--------------------------
+Working with Decorator Factories
+--------------------------
+Building Useful Decorators
+--------------------------
+Adding Multiple Decorators
+--------------------------
+Diving into Property Decorators
+--------------------------
+Accessor & Parameter Decorators
+--------------------------
+When Do Decorators Execute?
+--------------------------
+Returning a Class in a Class Decorator
+--------------------------
+Other Decorator Return Types
+--------------------------
+Example: Creating an "Autobind" Decorator
+--------------------------
+Validation with Decorators - Part one
+--------------------------
+Validation with Decorators - Part two
+--------------------------
+Fixing a Validator Bug
+--------------------------
+Wrap Up
+--------------------------
+Resources
+--------------------------
+
+
 
 Creating a Class Decorator
 --------------------------
