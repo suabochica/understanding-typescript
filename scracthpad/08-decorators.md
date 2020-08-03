@@ -31,6 +31,42 @@ Index
 
 A First Class Decorator
 --------------------------
+Before to start, please enable this option in your `tsconfig` file:
+
+```json
+    "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+```
+
+Otherwise, we can't apply properly the use of decorator in the code.
+
+Now, lets write our first decorator. Let's add a decorator called `Logger`. It is really important to understand that a decorator isn't the end just a function, instead is a function that you apply to something, for example to a class in a certain way. Please check the next snippet:
+
+```typescript
+function Logger(constructor: Function) {
+    console.log('logging');
+    console.log(constructor);
+}
+
+@Logger
+class Person {
+    name: string = 'Edward';
+
+    constructor() {
+        console.log('Creating person object');
+    }
+}
+
+const person = new Person();
+```
+
+As we mentioned `Logger` is the decorator. The capitalize format is a convention to define decorators, but it is not mandatory. This decorator is applied to the `Person` class with the `@Logger`, where we just call the definition of the function. This syntax specifies the use of decorators syntax.
+
+If you check the logs, you can note that our decorator output logging is printed first that the `constructor` log. That's really important detail of decorators, they execute when your class is defined not when it is instantiate. If you don't need to instantiate your class at all we could remove that code for instantiating the class and we would still get death decorator output.
+
+So the decorator runs when JavaScript finds the class definition not when you use that constructor function to instantiate an object. That's really important to understand.
+
+So this is our first decorator it's not the only way of how we can create a decorator though.
+
 Working with Decorator Factories
 --------------------------
 Building Useful Decorators
@@ -48,7 +84,7 @@ Returning a Class in a Class Decorator
 Other Decorator Return Types
 --------------------------
 Example: Creating an "Autobind" Decorator
---------------------------
+-------------------------- 
 Validation with Decorators - Part one
 --------------------------
 Validation with Decorators - Part two
