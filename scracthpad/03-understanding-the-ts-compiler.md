@@ -18,7 +18,7 @@ Index
 4. Setting a Compilation Target
 5. Understanding TypeScript Core Libraries
 6. More Configuration & Compilation Options
-7. Working wit Source Maps
+7. Working with Source Maps
 8. rootDir & outDir
 9. Stop Emitting Files on Compilation Errors
 10. Strict Compilation

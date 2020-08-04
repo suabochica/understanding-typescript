@@ -101,6 +101,61 @@ So using decorator factories can give us some more power and more possibilities 
 
 Building Useful Decorators
 --------------------------
+We will build a decorator that given an element in the DOM by id we will apply a template to render it in the respective element. So let's start modifying the markup.
+
+```html
+<html>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+```
+
+Once added the `id="app"`, we will define a new factory decorator called `WithTemplate` with the next body:
+
+```typescript
+function WithTemplate(template: string, hookId: string) {
+    return function(constructor: any) {
+        const hookEl = document.getElementById(hookId);
+        const p = new constructor()
+
+        if (hookEl){
+            hookEl.innerHTML = template;
+            hookEl.querySelector('h1')!.textContent = p.name;
+        }
+    }
+}
+```
+
+Check that this decorator factory expect a `template` and a `hookId` as parameters. Then, it gets the `hookEl` and after validate it, ill will apply the template. Below we show how use this decorator:
+
+```typescript
+@WithTemplate('<h1>My Person Object</h1>', 'app')
+class Person {
+    name: string = 'Edward';
+
+    constructor() {
+        console.log('Creating person object');
+    }
+}
+
+const person = new Person();
+```
+
+If you check your localhost, you will see that the values of `My Person Object` was replaced by `Edward` due to the specifications given in the `WithTemplate` decorator.
+
+Consider Angular a very popular framework that uses TypeScript and it use decorators like `@Component` to allow you to pass in an object where you specify things like the template component and the selector in the DOM where the template should be rendered.
+
+This is relatively close to what we defined here: a template and then a place where it should be rendered.
+
+Now needless to say the angular decorators are of course way more advanced and elaborate than our basic decorator here. Nonetheless the core idea is the same angular it gives you the decorators here so that you can specify some HTML code which can be connected to your component class that will be rendered to the DOM when this component gets rendered.
+
+So that's one of the things you can do with decorators or specifically here with decorator factories because that allows us to pass in that extra corn flake which we need here ,and, that's also what meta programming means.
+
+We're creating decorator functions which you might say have some impact on the end user. In the end we do render something on the screen here but we do that with a tool which we expose to our developers because this decorator is such a tool which our developers have to use by adding it to a class in this example. Otherwise this would do nothing.
+
+So, we provide extra utilities to developers which the other developers can use to for example conveniently render something on the screen for a given class.
+
 Adding Multiple Decorators
 --------------------------
 Diving into Property Decorators

@@ -11,7 +11,6 @@ Index
 6. Setting Up A Code Editor / IDE
 7. The Course Project Set Up
 
-
 What Is TypeScript & Why Should You Use It?
 ---------------------------------
 To check what is TypeScript lets use the next diagram:
