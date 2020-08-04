@@ -69,6 +69,36 @@ So this is our first decorator it's not the only way of how we can create a deco
 
 Working with Decorator Factories
 --------------------------
+Besides creating a decorator we saw before, we can also define a decorator factory which basically returns a decorator function that allows us to configure it when we assign it as a decorator. Let's convert our previous decorator in a factory decorator:
+
+```typescript
+function Logger(logString: string) {
+    return function (constructor: Function) {
+        console.log(logString);
+        console.log(constructor);
+    };
+}
+
+@Logger('LOGIN - PERSON')
+class Person {
+    name: string = 'Edward';
+
+    constructor() {
+        console.log('Creating person object');
+    }
+}
+
+const person = new Person();
+```
+
+Notice that now our decorator function returns an anonymous function that use the parameter in the function statement. This way we create a factory decorator.
+
+This version now call our decorator because we're not executing the decorator function but we're executing a function that will return such a decorator function (`return function (constructor: Function)`).
+
+The advantage just is that we now can pass in values which will be used by that inner returned decorator function. Now we see the old output but with our custom log string here.
+
+So using decorator factories can give us some more power and more possibilities of configuring what the decorator then does internally.
+
 Building Useful Decorators
 --------------------------
 Adding Multiple Decorators
