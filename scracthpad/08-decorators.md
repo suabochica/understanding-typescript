@@ -158,6 +158,48 @@ So, we provide extra utilities to developers which the other developers can use 
 
 Adding Multiple Decorators
 --------------------------
+We can apply multiple decorators to a class. Let's fit our example use the `Logger` and `WithTemplate` decorators in the `Person` class:
+
+```typescript
+function Logger(logString: string) {
+    console.log('Logger Factory');              // [1]
+    return function (constructor: Function) {
+        console.log(logString);                 // [4]
+        console.log(constructor);
+    };
+}
+
+function WithTemplate(template: string, hookId: string) {
+    console.log('Template Factory');            // [2]
+    return function(constructor: any) {
+        console.log('Template Execution');      // [3]
+        const hookEl = document.getElementById(hookId);
+        const p = new constructor()
+
+        if (hookEl){
+            hookEl.innerHTML = template;
+            hookEl.querySelector('h1')!.textContent = p.name;
+        }
+    }
+}
+
+@Logger('LOGGING')
+@WithTemplate('<h1>My Person Object</h1>', 'app')
+class Person {
+    name: string = 'Edward';
+
+    constructor() {
+        console.log('Creating person object');
+    }
+}
+
+const person = new Person();
+```
+
+So, a valid question is what is the order of how the decorators are applied, and it is important to clarify that the order changes according to the definition of the decorator. So, if we define a traditional decorator, the execution is top-to-bottom, like show the logs before the `return` statement. But, if you use a decorator factory, the execution is bottom-to-top.
+
+The numbers in the snippet allow us to identify the decorator order execution of the code for this case.
+
 Diving into Property Decorators
 --------------------------
 Accessor & Parameter Decorators
