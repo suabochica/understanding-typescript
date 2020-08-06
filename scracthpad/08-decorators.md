@@ -202,6 +202,42 @@ The numbers in the snippet allow us to identify the decorator order execution of
 
 Diving into Property Decorators
 --------------------------
+Keep in mind that decorators should be applied also in class properties. If you add a decorator to a property the decorator receives two arguments. The first argument is the `target` of the property, and for it will be refer to the class object itself. The second argument we get is the property name simply that could be a `string` here could of course also be a `Symbol`. For example:
+
+```typescript
+function Log(target: any, propertyName: string | Symbol) {
+    console.log('Property decorator!');
+    console.log(target, propertyName); // ({Product obj} , title)
+}
+
+class Product {
+    @Log
+    title: string;
+    private _price: number;
+
+    set price(val: number) {
+        if (val > 0) {
+            this._price = val;
+        } else {
+            throw new Error('Invalid price - should be positive!')
+        }
+    }
+
+    constructor(t: string, p:number) {
+        this.title = t;
+        this._price = p;
+    }
+
+    getPriceWithTax(tax: number) {
+        return this._price * (1 + tax);
+    }
+}
+```
+
+Here the `Log` function is a traditional decorator that is applied to the `title` property of the `Product` class. If you chekc the logs inside the decorator function, the `target` is the `Product` object, and the `propertyName` is the expected `title`.
+
+Now when exactly thus is `Log` execute though?. Well as you can tell since we never instantiate any product, so, it executes basically when your class definition is registered by JavaScript. Therefore, it executes when you define this property to JavaScript as part of your class. In this particular case, the `Log` decorator is executed as part of the constructor function when we set `this.title = t`.
+
 Accessor & Parameter Decorators
 --------------------------
 When Do Decorators Execute?
