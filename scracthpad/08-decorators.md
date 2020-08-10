@@ -240,6 +240,73 @@ Now when exactly thus is `Log` execute though?. Well as you can tell since we ne
 
 Accessor & Parameter Decorators
 --------------------------
+We can apply decorators in several places of our code like:
+
+1. Accessors
+2. Methods
+3. Parameters
+
+Let's create some decorators for our Product class:
+
+```typescript
+function Log(target: any, propertyName: string | Symbol) {
+    console.log('Property decorator!');
+    console.log(target, propertyName); // ({Product obj} , title)
+}
+
+function LogAccessor(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+    console.log('Accessor decorator!');
+    console.log(target); // {Product obj}
+    console.log(propertyName); // price
+    console.log(descriptor); // {Object with getters and setters}
+}
+
+function LogMethod(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+    console.log('Method decorator!');
+    console.log(target); // {Product obj}
+    console.log(propertyName); // getPriceWithTax
+    console.log(descriptor); // {writable: true, enumerable: false, configurable: true, ...}
+}
+
+function LogParameter(target: any, propertyName: string | Symbol, position: number) {
+    console.log('Parameter decorator!');
+    console.log(target); // {Product obj}
+    console.log(propertyName); // getPriceWithTax
+    console.log(position); // 0
+}
+```
+
+Notice how according the decorator type, we should pass specific parameters. For the case of accessors and methods we have the same three parameters: `target`, `propertyName`, and `descriptor`. For parameters the last parameter is the `position` of it. Let's apply these decorators in the Product class:
+
+```typescript
+class Product {
+    @Log
+    title: string;
+    private _price: number;
+
+    @LogAccessor
+    set price(val: number) {
+        if (val > 0) {
+            this._price = val;
+        } else {
+            throw new Error('Invalid price - should be positive!')
+        }
+    }
+
+    constructor(t: string, p:number) {
+        this.title = t;
+        this._price = p;
+    }
+
+    @LogMethod
+    getPriceWithTax(@LogArgument tax: number) {
+        return this._price * (1 + tax);
+    }
+}
+```
+
+So these are all the places where we can add decorators with TypeScript and we can do various things with them.Several libraries or frameworks make heavy use of decorators and the goal is check how these tools work with decorators to give you an idea of the power that decorators can have.
+
 When Do Decorators Execute?
 --------------------------
 Returning a Class in a Class Decorator

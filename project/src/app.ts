@@ -39,11 +39,33 @@ function Log(target: any, propertyName: string | Symbol) {
     console.log(target, propertyName); // ({Product obj} , title)
 }
 
+function LogAccessor(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+    console.log('Accessor decorator!');
+    console.log(target); // {Product obj}
+    console.log(propertyName); // price
+    console.log(descriptor); // {Object with getters and setters}
+}
+
+function LogMethod(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+    console.log('Method decorator!');
+    console.log(target); // {Product obj}
+    console.log(propertyName); // getPriceWithTax
+    console.log(descriptor); // {writable: true, enumerable: false, configurable: true, ...}
+}
+
+function LogParameter(target: any, propertyName: string | Symbol, position: number) {
+    console.log('Parameter decorator!');
+    console.log(target); // {Product obj}
+    console.log(propertyName); // getPriceWithTax
+    console.log(position); // 0
+}
+
 class Product {
     @Log
     title: string;
     private _price: number;
 
+    @LogAccessor
     set price(val: number) {
         if (val > 0) {
             this._price = val;
@@ -57,7 +79,8 @@ class Product {
         this._price = p;
     }
 
-    getPriceWithTax(tax: number) {
+    @LogMethod
+    getPriceWithTax(@LogArgument tax: number) {
         return this._price * (1 + tax);
     }
 }
