@@ -309,6 +309,27 @@ So these are all the places where we can add decorators with TypeScript and we c
 
 When Do Decorators Execute?
 --------------------------
+Before we dive into more examples let's understand the order in which decorators run though. Here it's important to understand that first of all they're all running without us instantiating a class. For this case, if we do this:
+
+```typescript
+const p1 = new Product('Book', 19);
+const p2 = new Product('Shoes', 29);
+```
+
+This compiles without errors but our decorator logs keep being the same. So it's not the instantiation of this class that matters.
+
+All these decorators no matter if it was a property decorator, method decorator, an accessor decorator, or a parameter decorator they all executed when you defined this class and that's important to understand.
+
+These are not decorators that run at runtime when you call a method or when you work with a property. This is not what they do.
+
+Instead these decorators allow you to do additional behind the scenes setup work. When a class is defined back to that meta programming concept I explained earlier.
+
+That's the idea behind decorators, their core use case is that they're not attached to event listeners, then when you work with a property you can run some code. You can make something like that work with decorators actually but by tweaking and editing something behind the scenes.
+
+Remember, the decorator itself really is just a function that executes when your classes defined. So, you can then use the decorators to do some extra work like set up some code that should run whatever it is called to add additional metadata or store some data about in a property somewhere else in your project or in your library which you're creating.
+
+This is what you can use decorators for and that's all the pattern you'll kind of see when I now show you these examples of what you could build with decorators. They're adding extra functionality which then sometimes can execute when you do something with your claws or with your method but which can also do totally different things.
+
 Returning a Class in a Class Decorator
 --------------------------
 Other Decorator Return Types
