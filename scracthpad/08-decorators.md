@@ -332,6 +332,38 @@ This is what you can use decorators for and that's all the pattern you'll kind o
 
 Returning a Class in a Class Decorator
 --------------------------
+Let's fit the `WithTemplate` function decorator to return a class like an extension of the original class, in this case the `Person` class:
+
+```typescript
+function WithTemplate(template: string, hookId: string) {
+    console.log('Template Factory');
+    return function<T extends {new (...args: any[]): {name: string}}>(
+        originalConstructor: T
+    ) {
+        return class extends originalConstructor {
+            constructor(..._: any[]) {
+                super();
+                console.log('Renedering template')
+                const hookEl = document.getElementById(hookId);
+
+                if (hookEl){
+                    hookEl.innerHTML = template;
+                    hookEl.querySelector('h1')!.textContent = this.name;
+                }
+            }
+        }
+    }
+}
+```
+
+Several changes in this code. First, in the first function signature we use a generic type to represent the constructor of the object where we will apply the decorator (`<T extends {new (...args: any[]): {name: string}}>`). In this type definition, we are specifying that the object should have a `name` property. Also this function receives as parameter an `originalConstructor` that work on the constructor of the `Person` class.
+
+Second, we are returning a class that extends from `originalConstructor`. Inside this class we specify his own constructor and with `super` we relate both constructors. Now we access to the `name` property via `this` and not via the `p` element.
+
+
+Decorators are powerful if you really understand what you can do with them. You can use them as functions and also you can find them with factory functions. Moreover, with some decorator you can always return something to replace the thing you add at the decorator to. In our case to class with a new class that can implement the old class but also add its new custom logic
+
+
 Other Decorator Return Types
 --------------------------
 Example: Creating an "Autobind" Decorator
