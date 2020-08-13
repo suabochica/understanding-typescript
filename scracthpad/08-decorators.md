@@ -366,8 +366,40 @@ Decorators are powerful if you really understand what you can do with them. You 
 
 Other Decorator Return Types
 --------------------------
-Example: Creating an "Autobind" Decorator
+We saw how we can build quite amazing things with decorators. Decorator factories and then also by utilizing the return values of decorators which in the example of a class decorator allows us to basically replace the class.
+
+Now you can return values in our decorators too but not all of them or not in all of them. The return value is respected in decorators that you add to *methods* and the decorators you add to *accessories*. We can't add return values in decorators used to parameter and properties.
+
+For accesors, we get objects like:
+
+```json
+{
+    configurable: true
+    enumerable: false
+    get: undefined
+    set: f price(val)
+    __proto__: Object
+}
+```
+
+We can modify these properties in a `return` statement for the accesor decorator. This means that we can set a `get` function in the return of the function.
+
+For decorators on methods we get:
+```json
+{
+    configurable: true
+    enumerable: false
+    value: f getPriceWithTax(tax)
+    writeable: true
+    __proto__: Object
+}
+```
+
+Also here, all these properties can be updated in the `return` statement of our method decorator.
+
+Example: Creating an Autobind Decorator
 -------------------------- 
+
 Validation with Decorators - Part one
 --------------------------
 Validation with Decorators - Part two
