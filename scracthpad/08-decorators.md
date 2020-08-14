@@ -399,6 +399,72 @@ Also here, all these properties can be updated in the `return` statement of our 
 
 Example: Creating an Autobind Decorator
 -------------------------- 
+Lets review and example where a descriptor decorator can be useful. This example is related to the use of the JavaScript `bind` method to keep the context of `this`. First, lets add a button in the markup.
+
+```html
+...
+    <button>Click me</button>
+```
+
+Now, lets create a `Printer` class with a method to print a message when the previous button is clicked. Keep in mind, that we have to instantiate the `Printer` class in a variable, and use the `addEventListener` to attend the click event. Check the next code.
+
+```typescript
+class Printer {
+    message = 'This works';
+
+    showMessage() {
+        console.log(this.message);
+    }
+}
+
+const printer = new Printer()
+
+const button = document.querySelector('button')!;
+button.addEventListener('click', printer.showMessage.bind(printer));
+```
+
+Notice the last line of the last snippet. Without the `.bind(printer)` this example will get an `undefined` every time you click the button. The reason is because the context of `this` is different inside the `addEventListener`, and then the `showMessage` method is out of the scope.
+
+Now, lets create an `Autobind` descriptor decorator to handle the binding of the last scenario.
+
+```typescript
+function Autobind(target: any, methodName: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    const adjustedDescriptor: PropertyDescriptor = {
+        configurable: true,
+        enumerable: false,
+        get() {
+            const boundFunction = originalMethod.bind(this);
+
+            return boundFunction;
+        }
+    };
+
+    return adjustedDescriptor;
+}
+```
+
+In this decorator, we store the `descriptor.value` in a `originalMethod` variable to bound the `this` of the function in the `get` property of the `adjustedDescriptor`. Finally, we return the `adjustedDescriptor`. Lets use the `Autobind` decorator.
+
+```typescript
+class Printer {
+    message = 'This works';
+
+    @Autobind
+    showMessage() {
+        console.log(this.message);
+    }
+}
+
+const printer = new Printer()
+
+const button = document.querySelector('button')!;
+button.addEventListener('click', printer.showMessage);
+```
+
+Here, we get the same result, but in this version, it is not necessary call the `bind` method after the `printer.showMessage` argument in the `addEventListener`.
+
+So this is one neat example of how you can utilize decorators to build a quite amazing functionality and save you the hassle of manually calling bind everywhere.
 
 Validation with Decorators - Part one
 --------------------------
