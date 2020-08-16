@@ -468,6 +468,94 @@ So this is one neat example of how you can utilize decorators to build a quite a
 
 Validation with Decorators - Part one
 --------------------------
+Lets check another scenario where decorators could be a good alternative. Form validations. Lets illustrate the sample with a basic `Course` structure whose properties are a `title` and a `price`. First of all, lets add a respective form into the markup the get the input of the course data.
+
+```html
+  <form action="">
+      <input type="text" name="title" value="" placeholder="Course title" id="title" />
+      <input type="text" name="price" value="" placeholder="Course price" id="price" />
+      <button type=" submit">Save</button>
+  </form>
+```
+
+Now, lets create the types script code to start to play with the `Course` class. Remember type your properties and add the event listener to the `submit` element of the form.
+
+```typescript
+class Course {
+    title: string;
+    price: number;
+
+    constructor(_title: string, _price:number) {
+        this.title = _title;
+        this.price = _price;
+    }
+}
+
+const courseForm = document.querySelector('form')!;
+
+courseForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const titleElement = document.getElementById('title') as HTMLInputElement;
+    const priceElement = document.getElementById('price') as HTMLInputElement;
+
+    const title = titleElement.value;
+    const price = +priceElement.value;
+
+    const createdCourse = new Course(title, price);
+    console.log(createdCourse);
+})
+```
+
+So far, this code have a expected behavior if the user fills both fields in the course form. However, if the user submit the form without data the `Course` instance will be created. So, we have to add some validation to the course form, to have all the guarantees over the expected input. The next functions are possible validations to the form.
+
+```typescript
+function Required() {}
+
+function PositiveNumber() {}
+
+function validate(obj: object) {}
+```
+
+We just have the signatures of the decorators, later we will review the body for them. An important thing here is that you can consider that these elements could be stored in a third party file. So, we can export them and later use them in our `Course` class as show next.
+
+```typescript
+class Course {
+    @Required
+    title: string;
+    @PositiveNumber
+    price: number;
+
+    constructor(_title: string, _price:number) {
+        this.title = _title;
+        this.price = _price;
+    }
+}
+
+const courseForm = document.querySelector('form')!;
+
+courseForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const titleElement = document.getElementById('title') as HTMLInputElement;
+    const priceElement = document.getElementById('price') as HTMLInputElement;
+
+    const title = titleElement.value;
+    const price = +priceElement.value;
+
+    const createdCourse = new Course(title, price);
+    if (!validate(createdCourse)) {
+        alert('Invalid input, please try again!');
+
+        return;
+    }
+    console.log(createdCourse);
+})
+```
+
+Again keep in mind this could be part of our own third party library. So in there we could have some kind of storage that stores these decorators for the `Course` class and for the `title` property.
+
+For example, we want wanted to be required and invalidate we can then check if in this storage object we got for the class the object is based on we do have a validated registered for the title for the price and so on and we then run our validation logic.
+
+
 Validation with Decorators - Part two
 --------------------------
 Fixing a Validator Bug
