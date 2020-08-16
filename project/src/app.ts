@@ -1,5 +1,6 @@
 function Logger(logString: string) {
     console.log('Logger Factory');
+
     return function (constructor: Function) {
         console.log(logString);
         console.log(constructor);
@@ -59,14 +60,14 @@ function Log(target: any, propertyName: string | Symbol) {
     console.log(target, propertyName); // ({Product obj} , title)
 }
 
-function LogAccessor(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+function LogAccessor(target: any, propertyName: string | Symbol, descriptor?: PropertyDescriptor) {
     console.log('Accessor decorator!');
     console.log(target); // {Product obj}
     console.log(propertyName); // price
     console.log(descriptor); // {Object with getters and setters}
 }
 
-function LogMethod(target: any, propertyName: string | Symbol, descriptor: PropertyDescriptor) {
+function LogMethod(target: any, propertyName: string | Symbol, descriptor?: PropertyDescriptor) {
     console.log('Method decorator!');
     console.log(target); // {Product obj}
     console.log(propertyName); // getPriceWithTax
@@ -100,7 +101,7 @@ class Product {
     }
 
     @LogMethod
-    getPriceWithTax(@LogArgument tax: number) {
+    getPriceWithTax(@LogParameter tax: number) {
         return this._price * (1 + tax);
     }
 }
@@ -108,8 +109,8 @@ class Product {
 const p1 = new Product('Book', 19);
 const p2 = new Product('Shoes', 29);
 
-function Autobind(target: any, methodName: string, descriptor: PropertyDescriptor) {
-    const originalMethod = descriptor.value;
+function Autobind(target: any, methodName: string, descriptor?: PropertyDescriptor) {
+    const originalMethod = descriptor!.value;
     const adjustedDescriptor: PropertyDescriptor = {
         configurable: true,
         enumerable: false,
@@ -137,13 +138,52 @@ const printer = new Printer()
 const button = document.querySelector('button')!;
 button.addEventListener('click', printer.showMessage);
 
-function Required() {
+
+interface ValidatorConfig {
+    [property: string]: {
+        [validatableProp: string]: string[]; // ['required', 'positive']
+    }
 }
 
-function PositiveNumber() {
+const registeredValidators: ValidatorConfig = {};
+
+function Required(target: any, propName: string) {
+    registeredValidators[target.constructor.name] = {
+        ...registeredValidators[target.constructor.name],
+        [propName]: ['required']
+    }
 }
 
-function validate(obj: object) {}
+function PositiveNumber(target: any, propName: string) {
+    registeredValidators[target.constructor.name] = {
+        ...registeredValidators[target.constructor.name],
+        [propName]: ['positive']
+    }
+}
+
+function validate(obj: any) {
+    const objValidatorConfig = registeredValidators[obj.constructor.name];
+    let isValidProp: boolean = true
+
+    if(!objValidatorConfig) {
+        return true;
+    }
+
+    for (const prop in objValidatorConfig) {
+        for (const validator of objValidatorConfig[prop]) {
+            switch (validator) {
+                case 'required':
+                    isValidProp = isValidProp && !!obj[prop];
+                    break;
+                case 'positive':
+                    isValidProp = isValidProp && obj[prop] > 0;
+                    break;
+            }
+        }
+    }
+
+    return isValidProp;
+}
 
 class Course {
     @Required

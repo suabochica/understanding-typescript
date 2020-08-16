@@ -558,6 +558,73 @@ For example, we want wanted to be required and invalidate we can then check if i
 
 Validation with Decorators - Part two
 --------------------------
+First of all, lets create an interface `ValidatorConfig` where we want to configure that storage. We work with the idea of there is to have a couple of properties and hence we use the index type notation to access them.
+
+These index are basically strings where the value is yet another object. Here would be basically the class name for which you want to register some validated properties and then in the object which was stored there.
+
+We have two concrete properties of the class that have validators attached to them : `required` and `positive`. Then, we create a variable `registeredValidators` whose type is the created interface.
+
+```typescript
+interface ValidatorConfig {
+    [property: string]: {
+        [validatableProp: string]: string[]; // ['required', 'positive']
+    }
+}
+
+const registeredValidators: ValidatorConfig = {};
+```
+
+Now, lets add the body of our decorators. Here, we will get the `constructor.target.name` property in both cases, and set the prop name values to the `required` and `positive` respectively. Also, is important use the spread operator to avoid replace the `registeredValidators` object.
+
+```typescript
+function Required(target: any, propName: string) {
+    registeredValidators[target.constructor.name] = {
+        ...registeredValidators[target.constructor.name],
+        [propName]: ['required']
+    }
+}
+
+function PositiveNumber(target: any, propName: string) {
+    registeredValidators[target.constructor.name] = {
+        ...registeredValidators[target.constructor.name],
+        [propName]: ['positive']
+    }
+}
+```
+
+Finally the `validate` function. This function will works over the `registeredValidators[obj.constructor.name]`, because our validations will go over the indexed we have store there. So, first of all, we have to validate that the object is valid. Additionally we create a `isValidProp` to check that our validation will be applied over the expected indexes.
+
+Then we iterate over all prop in `objValidatorConfig`, and again, we iterate over the `objValidatorConfig[prop]` to apply the validation with a switch/case syntax. Next code show us the example:
+
+```typescript
+function validate(obj: any) {
+    const objValidatorConfig = registeredValidators[obj.constructor.name];
+    let isValidProp: boolean = true
+
+    if(!objValidatorConfig) {
+        return true;
+    }
+
+    for (const prop in objValidatorConfig) {
+        for (const validator of objValidatorConfig[prop]) {
+            switch (validator) {
+                case 'required':
+                    isValidProp = isValidProp && !!obj[prop];
+                    break;
+                case 'positive':
+                    isValidProp = isValidProp && obj[prop] > 0;
+                    break;
+            }
+        }
+    }
+
+    return isValidProp;
+}
+```
+And this is now a first naive implementation of how such a validator could work with the help of typescript decorators. Keep in mind that all of that here all the decorators to validate function and the registry would be hidden away from you.
+
+That could be part of the third party library which you're working on of course in a more elaborate way than probably which you share with your end users and you as an end user would just import these things at these decorators and called validate and you would have a very convenient way of adding validation to your class system.
+
 Fixing a Validator Bug
 --------------------------
 Wrap Up
