@@ -627,198 +627,51 @@ That could be part of the third party library which you're working on of course 
 
 Fixing a Validator Bug
 --------------------------
+In the current form, our validation logic is not entirely correct. It's not working as intended.
+
+At the moment, only one validator value is stored in the array (e.g. 'required') - of course that's not what we need. Multiple values should be stored instead - at least potentially.
+
+Here's how you can adjust the code to make that work:
+
+```typescript
+const registeredValidators: ValidatorConfig = {};
+ 
+function Required(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: [...registeredValidators[target.constructor.name][propName], 'required']
+  };
+}
+ 
+function PositiveNumber(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: [...registeredValidators[target.constructor.name][propName], 'positive']
+  };
+}
+```
+
 Wrap Up
 --------------------------
+So here again decorators are used for meta programming to add extra configuration extra logic which then is taken into account by in this case the code of the framework which executes your code or which works together with your code and that's it.
+
+For decorators this hopefully gives you a good overview of what you can do with decorators why they can be very helpful and how they generally work.
+
+In this section we review:
+
+- *Creating a Class Decorator*: The only condition to define a function as decorator is pass as argument the constructor of the function where the decorator will attached.
+- *Decorator Factories*: A *Factory*  help you to set what decorators will be used by the class:
+- *Creating a useful Decorator*: Decorators turn useful when you take advantage of the JavaScript prototypal inheritance.
+- *Using Multiple Decorators*
+- *Method Decorators*: A *Method Decorator* is declared just before a method declaration. The decorator is applied to the `Property Descriptor` for the method, and can be used to observe, modify, or replace a method definition.
+- *Property Decorators*: A *Property Decorator* is declared just before a property declaration. A property decorator cannot be used in a declaration file, or in any other ambient context.
+- *Parameter Decorators*: A *Parameter Decorator* is declared just before a parameter declaration. The parameter decorator is applied to the function for a class constructor or method declaration.
+
 Resources
 --------------------------
+Tools and frameworks that use decorators:
 
-
-
-Creating a Class Decorator
---------------------------
-1. The only condition to define a function as decorator is pass as argument the constructor of the function where the decorator will attached.
-2. Check the next code:
-
-```javascript
-function logged(constructorFunction: Function) {
-    console.log(constructorFunction);
-}
-
-@logged
-class Person {
-    constructor() {
-        console.log("Hi")
-    }
-}
-```
-
-Decorator Factories
--------------------
-1. A *Factory*  help you to set what decorators will be used by the class:
-2. Check the next code:
-
-```javascript
-function logging(value: boolean) {
-    return value ? logged : null;
-}
-
-@logging(true)
-class Car {
-
-}
-```
-
-3. Above, the `logging()` function is a factory
-
-Creating a useful Decorator
---------------------------
-1. Decorators turn useful when you take advantage of the JavaScript prototypal inheritance.
-2. Check the next code:
-
-```javascript
-function printable(constructorFunction: Function) {
-    constructorFunction.prototype.print = function() {
-        console.log(this);
-    }
-}
-
-@printable
-class Plant {
-    name = "Green Plant"
-}
-
-cons plant = new Plant();
-(<any>plant).print()
-```
-
-3. Above, the code use a weird syntax `(<any>plant)`. Unfortunately, this is the only way to use the function in the decorator
-
-Using Multiple Decorators
--------------------------
-1. Just add the factory to the class that will use it.
-
-```javascript
-@logging(true)
-@printable
-class Plant {
-    name = "Green Plant"
-}
-
-cons plant = new Plant();
-(<any>plant).print()
-```
-
-Method Decorators
------------------
-1. A *Method Decorator* is declared just before a method declaration.
-2. The decorator is applied to the `Property Descriptor` for the method, and can be used to observe, modify, or replace a method definition.
-3. Check the next code:
-
-```javascript
-function editableMethod(value: boolean) {
-    return function(target: any, propName: string, descriptor: PropertyDescriptor) {
-        descriptor.writable = value;
-    }
-}
-
-class Project {
-    projectName: string;
-
-    constructor(name: string) {
-        this.projectName = name;
-    }
-
-    @editableMethod(true)
-    calculateBudget() {
-        console.log(1000);
-    }
-}
-
-const project = new Project("Super Project");
-
-project.calculateBudget();
-
-project.calculateBudget = function() {
-    console.log(2000);  // -> editable ? 2000 : 1000
-}
-
-project.calculateBudget();
-```
-
-Property Decorators
--------------------
-1. A *Property Decorator* is declared just before a property declaration.
-2. A property decorator cannot be used in a declaration file, or in any other ambient context.
-3. Check the next code:
-
-```javascript
-function editableProperty(value: boolean) {
-    return function(target: any, propName: string): any {
-        const newDescriptor: PropertyDescriptor = {
-            writable: value
-        }
-
-        return newDescriptor;
-    }
-}
-
-class Project {
-    @editableProperty(true)
-    projectName: string;
-
-    constructor(name: string) {
-        this.projectName = name;
-    }
-
-    @editableMethod(true)
-    calculateBudget() {
-        console.log(1000);
-    }
-}
-
-const project = new Project("Super Project");
-
-project.calculateBudget();
-
-project.calculateBudget = function() {
-    console.log(2000);
-}
-
-project.calculateBudget();
-```
-
-Parameter Decorators
---------------------
-1. A *Parameter Decorator* is declared just before a parameter declaration.
-2. The parameter decorator is applied to the function for a class constructor or method declaration.
-3. Check the next code:
-
-```javascript
-function printableParameter(target: any, methodName: string, paramIndex: number) {
-    console.log("target: ", target)
-    console.log("methodName: ", methodName)
-    console.log("paramIndex: ", paramIndex)
-}
-
-class Course {
-    name: string;
-
-    constructor(name: string) {
-        this.name = name;
-    }
-
-    printStudentsNumbers(mode: string, @printableParameter printAll: boolean) {
-        if (printAll) {
-            console.log(40)
-        } else {
-            console.log(10)
-        }
-    }
-}
-
-const course = new Course("Super Course");
-
-course.printStudentNumbers("anything", true);
-course.printStudentNumbers("anything", false);
-
-```
+- [Official Decorators Documentation](https://www.typescriptlang.org/docs/handbook/decorators.html)
+- [Class Validator](https://github.com/typestack/class-validator)
+- [Angular](https://angular.io)
+- [Nest](https://nestjs.com)
