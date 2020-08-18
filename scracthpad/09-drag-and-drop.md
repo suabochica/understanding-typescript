@@ -24,6 +24,12 @@ Index
 
 Getting Started
 ----------------
+We're going to build a small little demo application a little project.
+
+The app we're going to build will not be too complex but it will be a nice application where we essentially will be able to manage a couple of projects where a project essentially is as a goal. You could say is that we have lists of projects and we'll have two lists of projects an active list and a finished list and we'll be able to drag and drop items from one list to the other and stuff like that.
+
+Now of course the application itself will be nice but the most important thing is that it will allow us to practice many of the things we learned thus far and that's of course the goal of this module.
+
 DOM Element Selection & OOP Rendering
 ----------------
 Interacting with DOM Elements
