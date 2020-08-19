@@ -114,9 +114,50 @@ const prjInput = new ProjectInput();
 
 Here, we use the `document.getElementById` method to select the `templateElement` and the `hostElement`. the `attach` method will let us to insert the `templateElement` element, that in this case is a form, as an adjacent element of the `hostElement`. Finally, when you instantiate the `ProjectInput` class you will get a rendered form in the TypeScript server.
 
-
 Interacting with DOM Elements
 ----------------
+If you check the markup, we have a form with a title, a description and a people field. Let's get these elements to start to interact with them:
+
+```typescript
+class ProjectInput {
+    // ...
+    titleInputElement: HTMLInputElement;
+    descriptionInputElement: HTMLInputElement;
+    peopleInputElement: HTMLInputElement;
+
+    constructor() {
+        // ...
+
+        this.titleInputElement = this.element.querySelector('#title') as HTMLInputElement;
+        this.descriptionInputElement = this.element.querySelector('#description') as HTMLInputElement;
+        this.peopleInputElement = this.element.querySelector('#people') as HTMLInputElement;
+
+        this.configure();
+        this.attach();
+    }
+
+    private submitHandler(event: Event) {
+        event.preventDefault();
+        console.log(this.titleInputElement.value);
+    }
+
+    private configure() {
+        this.element.addEventListener('submit', this.submitHandler.bind(this));
+
+    }
+
+    private attach() {...}
+}
+
+const prjInput = new ProjectInput();
+```
+
+First, we define the respective class properties to each of the fields in the form. Using the `this.element.querySelector("#{id}")` we get the DOM elements and now we can start to play with them. So far, we just will limited to the access of the elements.
+
+The interaction is in the private method `configure`. In this method, we add a event listener to the `submit` element of the form, and we set the `submitHandler` callback to log the value of the title element in the browser's console. Notice the use of the `bind` JavaScript's method at t he moment of set the callback. This is necessary to keep the scope of the class inside the `submitHandler` method and get the value of the title element.
+
+Now we will add a decorator to autobind the `this` in our functions.
+
 Creating & Using an "Autobind" Decorator
 ----------------
 Fetching Udrt Input
