@@ -73,9 +73,15 @@
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
     "exclude": [
+        "src/advanced-types.ts",
+        "src/analytics.ts",
         "src/basics.ts",
+        "src/classes.ts",
         "src/core-types.ts",
-        "src/function.ts",
+        "src/decorators.ts",
+        "src/functions.ts",
+        "src/generics.ts",
+        "src/interfaces.ts",
         "src/union-aliases.ts",
     ],
 }

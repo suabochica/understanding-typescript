@@ -160,6 +160,49 @@ Now we will add a decorator to autobind the `this` in our functions.
 
 Creating & Using an "Autobind" Decorator
 ----------------
+Let's recall the useful scenario for the property descriptor decorator `autobind` that we reviewed in the last section. The decorator had the next implementation.
+
+```typescript
+function autobind(
+    target: any,
+    methodName: string,
+    descriptor: PropertyDescriptor
+) {
+    const originalMethod = descriptor.value;
+    const adjustedDescriptor: PropertyDescriptor = {
+        configurable: true,
+        enumerable: false,
+        get() {
+            const boundFunction = originalMethod.bind(this);
+
+            return boundFunction;
+        }
+    };
+
+    return adjustedDescriptor;
+}
+```
+
+To use the decorator, we just need to add the decorator syntax in the `submitHandler` function, and remove the `bind` function in the event listener as show next:
+
+```typescript
+//...
+    @autobind
+    private submitHandler(event: Event) {
+        event.preventDefault();
+        console.log(this.titleInputElement.value);
+    }
+
+    private configure() {
+        this.element.addEventListener('submit', this.submitHandler);
+
+    }
+```
+
+Now thanks to our `autobind` decorator which hopefully also shows that this decorator can have some real use.
+
+Of course here it's actually a bit more work than just calling `bind`, but imagine this being used on more and more methods which all have to be bound not having to call `bind` this manually can then reuse save you some time and also prevent some potential errors in cases where you just forgot it.
+
 Fetching Udrt Input
 ----------------
 Creating a Re-Usable Validation Functionality
