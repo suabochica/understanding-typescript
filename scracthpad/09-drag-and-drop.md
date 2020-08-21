@@ -203,8 +203,53 @@ Now thanks to our `autobind` decorator which hopefully also shows that this deco
 
 Of course here it's actually a bit more work than just calling `bind`, but imagine this being used on more and more methods which all have to be bound not having to call `bind` this manually can then reuse save you some time and also prevent some potential errors in cases where you just forgot it.
 
-Fetching Udrt Input
+Fetching User Input
 ----------------
+Now, let's fetch all the information shared enter by the user via form. To achieve that, we will create a `gaterUserInput` method, which will get the values of the form's field, and set a exhaustive validation over each field. If one of the fields is missing, then a alert message will throw saying that the input is invalid.
+
+For other side, we want to clear all the input after submit the form. A method called `clearInputs` will handle this logic. Basically it will set the values of each elements as an empty string.
+
+```typescript
+    private gatherUserInput(): [string, string, number] | void {
+        const enteredTitle = this.titleInputElement.value;
+        const enteredDescription = this.descriptionInputElement.value;
+        const enteredPeople = this.peopleInputElement.value;
+
+        if (
+            enteredTitle.trim().length === 0 ||
+            enteredDescription.trim().length === 0 ||
+            enteredPeople.trim().length === 0
+        ) {
+            alert('Invalid input, please try again');
+            return;
+        } else {
+            return [enteredTitle, enteredDescription, +enteredPeople];
+        }
+    }
+
+    private clearInputs() {
+        this.titleInputElement.value = '';
+        this.descriptionInputElement.value = '';
+        this.peopleInputElement.value= '';
+    }
+
+    @autobind
+    private submitHandler(event: Event) {
+        event.preventDefault();
+        const userInput = this.gatherUserInput();
+
+        if (Array.isArray(userInput)) {
+            const [title, description, people] = userInput;
+            console.log(title, description, people)
+            this.clearInputs();
+        }
+    }
+```
+
+We will consume this methods in the `submitHandler` method. There we get the user input from the form ant we validate if the returned values is an array. For that case via destructuring, we get each value, and for the moment, we are log them in the console. Finally we clear the inputs.
+
+An point that we can improve from the last code is the form validation. For this case we are doing a exhaustive validation and this approach is not easy to scale. Let's check how to create a reusable validation functionality.
+
 Creating a Re-Usable Validation Functionality
 ----------------
 Rendering Project Lists
