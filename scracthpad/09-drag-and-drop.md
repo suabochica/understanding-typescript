@@ -252,6 +252,81 @@ An point that we can improve from the last code is the form validation. For this
 
 Creating a Re-Usable Validation Functionality
 ----------------
+To create a usable validation functionality, let's recall the `interface` concept of past lessons. We will create a `Validatable` interface with several properties that could be optional, and the mandatory property is the value of the input element. With this interface we can create a `isValidInput` function with a parameter of type `Validable`. Then we set if statements over each of the properties in the input. Check the next code:
+
+```typescript
+interface Validatable {
+    value: string | number;
+    required?: boolean;
+    minStringLength?: number;
+    maxStringLength?: number;
+    minNumberLength?: number;
+    maxNumberLength?: number;
+}
+
+function isValidInput(validatableInput: Validatable) {
+    let isValid = true;
+
+    if (validatableInput.required) {
+        isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+    }
+    if (validatableInput.minStringLength != null && typeof validatableInput.value === 'string') {
+        isValid = isValid && validatableInput.value.length > validatableInput.minStringLength;
+    }
+    if (validatableInput.maxStringLength != null && typeof validatableInput.value === 'string') {
+        isValid = isValid && validatableInput.value.length < validatableInput.maxStringLength;
+    }
+    if (validatableInput.minNumberLength != null && typeof validatableInput.value === 'number') {
+        isValid = isValid && validatableInput.value.length > validatableInput.minNumberLength;
+    }
+    if (validatableInput.maxNumberLength != null && typeof validatableInput.value === 'number') {
+        isValid = isValid && validatableInput.value.length < validatableInput.maxNumberLength;
+    }
+
+    return isValid;
+}
+```
+
+An additional detail with this snippet is the `isValid` variable that is used like an condition to match the possible scenarios of the input element. In the end, the `isValid` variable is returned in the `isValidInput`.
+
+To use this helper, in the if statement of the `gatherUserInput` we call the `isValidInput` function with the values retrieved from the respective DOM elements as shows next:
+
+```typescript
+    private gatherUserInput(): [string, string, number] | void {
+        const enteredTitle = this.titleInputElement.value;
+        const enteredDescription = this.descriptionInputElement.value;
+        const enteredPeople = this.peopleInputElement.value;
+        const titleValidatable: Validatable = {
+            value: enteredTitle,
+            required: true
+        },
+        const descriptionValidatable: Validatable = {
+            value: enteredDescription,
+            required: true,
+            minStringLength: 5,
+        },
+        const peopleValidatable: Validatable = {
+            value: +enteredPeople,
+            required: true,
+            minNumberLength = 1,
+            maxNumberLength = 5,
+        },
+
+        if (
+            !isValidInput(titleValidatable) ||
+            !isValidInput(descriptionValidatable) ||
+            !isValidInput(peopleValidatable)
+        ) {
+            alert('Invalid input, please try again');
+            return;
+        } else {
+            return [enteredTitle, enteredDescription, +enteredPeople];
+        }
+    }
+```
+
+Keep in mind that we negate the function because the `alert` code is executed if one of the validation fails. 
+
 Rendering Project Lists
 ----------------
 Managing Application State with Singletons
