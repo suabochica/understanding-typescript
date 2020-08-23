@@ -277,10 +277,10 @@ function isValidInput(validatableInput: Validatable) {
         isValid = isValid && validatableInput.value.length < validatableInput.maxStringLength;
     }
     if (validatableInput.minNumberLength != null && typeof validatableInput.value === 'number') {
-        isValid = isValid && validatableInput.value.length > validatableInput.minNumberLength;
+        isValid = isValid && validatableInput.value > validatableInput.minNumberLength;
     }
     if (validatableInput.maxNumberLength != null && typeof validatableInput.value === 'number') {
-        isValid = isValid && validatableInput.value.length < validatableInput.maxNumberLength;
+        isValid = isValid && validatableInput.value < validatableInput.maxNumberLength;
     }
 
     return isValid;
@@ -308,8 +308,8 @@ To use this helper, in the if statement of the `gatherUserInput` we call the `is
         const peopleValidatable: Validatable = {
             value: +enteredPeople,
             required: true,
-            minNumberLength = 1,
-            maxNumberLength = 5,
+            minNumberLength: 1,
+            maxNumberLength: 5,
         },
 
         if (
@@ -329,6 +329,65 @@ Keep in mind that we negate the function because the `alert` code is executed if
 
 Rendering Project Lists
 ----------------
+
+Before to start with the implementation of the code to render the project list, lets recall the markup of them.
+
+```html
+    <template id="project-list">
+      <section class="projects">
+        <header>
+          <h2></h2>
+        </header>
+        <ul></ul>
+      </section>
+    </template>
+```
+
+With this reference is clearer what DOM elements are relevant to the `ProjectList` class. It is important to highlight that we will have two type of projects: active and finished. So, we should pass a parameter in the constructor method of the `ProjectList` class. This code is pretty similar to the `ProjecInput` class. Below we show the code for the `ProjectList` class.
+
+```typescript
+class ProjectList {
+    templateElement: HTMLTemplateElement;
+    hostElement: HTMLDivElement;
+    element: HTMLElement;
+
+    constructor(private type: 'active' | 'finished') {
+        this.templateElement = document.getElementById(
+            'project-list'
+        )! as HTMLTemplateElement;
+        this.hostElement = document.getElementById('app')! as HTMLDivElement;
+
+        const importedNode = document.importNode(
+            this.templateElement.content,
+            true
+        );
+        this.element = importedNode.firstElementChild as HTMLElement;
+        this.element.id = `${this.type}-projects`;
+        this.attach();
+        this.renderContent();
+    }
+
+    private renderContent() {
+        const listId = `${this.type}-project-list`;
+        this.element.querySelector('ul')!.id = listId;
+        this.element.querySelector('h2')!.textContent = this.type.toUpperCase() + 'PROJECTS';
+    }
+
+    private attach() {
+        this.hostElement.insertAdjacentElement('beforeend', this.element);
+    }
+}
+
+//...
+const activeProjectList = new ProjectList('active');
+const finishedProjectList = new ProjectList('finished');
+```
+
+Some minor changes in this class. All the ids of the in the `querySelector` were fit to the markup showed before. The `renderContent` method handle a dynamic code to list both list (active and finished) with the same snippet via template literals. If you update your browser, now we will see to new empty containers with their respective title that will hold the list elements.
+
+The next step is integrate the click on the "Add Project" button to get the information of the form an put it in the list container.
+
+
 Managing Application State with Singletons
 ----------------
 More Classes & Custom Types

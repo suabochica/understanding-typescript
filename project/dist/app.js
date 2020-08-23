@@ -8,6 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+function isValidInput(validatableInput) {
+    var isValid = true;
+    if (validatableInput.required) {
+        isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+    }
+    if (validatableInput.minStringLength != null && typeof validatableInput.value === 'string') {
+        isValid = isValid && validatableInput.value.length > validatableInput.minStringLength;
+    }
+    if (validatableInput.maxStringLength != null && typeof validatableInput.value === 'string') {
+        isValid = isValid && validatableInput.value.length < validatableInput.maxStringLength;
+    }
+    if (validatableInput.minNumberLength != null && typeof validatableInput.value === 'number') {
+        isValid = isValid && validatableInput.value > validatableInput.minNumberLength;
+    }
+    if (validatableInput.maxNumberLength != null && typeof validatableInput.value === 'number') {
+        isValid = isValid && validatableInput.value < validatableInput.maxNumberLength;
+    }
+    return isValid;
+}
 /* Decorators
    -----------------------------------*/
 function autobind(target, methodName, descriptor) {
@@ -24,6 +43,27 @@ function autobind(target, methodName, descriptor) {
 }
 /* Classes
    -----------------------------------*/
+var ProjectList = /** @class */ (function () {
+    function ProjectList(type) {
+        this.type = type;
+        this.templateElement = document.getElementById('project-list');
+        this.hostElement = document.getElementById('app');
+        var importedNode = document.importNode(this.templateElement.content, true);
+        this.element = importedNode.firstElementChild;
+        this.element.id = this.type + "-projects";
+        this.attach();
+        this.renderContent();
+    }
+    ProjectList.prototype.renderContent = function () {
+        var listId = this.type + "-project-list";
+        this.element.querySelector('ul').id = listId;
+        this.element.querySelector('h2').textContent = this.type.toUpperCase() + ' PROJECTS';
+    };
+    ProjectList.prototype.attach = function () {
+        this.hostElement.insertAdjacentElement('beforeend', this.element);
+    };
+    return ProjectList;
+}());
 var ProjectInput = /** @class */ (function () {
     function ProjectInput() {
         this.templateElement = document.getElementById('project-input');
@@ -41,9 +81,24 @@ var ProjectInput = /** @class */ (function () {
         var enteredTitle = this.titleInputElement.value;
         var enteredDescription = this.descriptionInputElement.value;
         var enteredPeople = this.peopleInputElement.value;
-        if (enteredTitle.trim().length === 0 ||
-            enteredDescription.trim().length === 0 ||
-            enteredPeople.trim().length === 0) {
+        var titleValidatable = {
+            value: enteredTitle,
+            required: true
+        };
+        var descriptionValidatable = {
+            value: enteredDescription,
+            required: true,
+            minStringLength: 5,
+        };
+        var peopleValidatable = {
+            value: +enteredPeople,
+            required: true,
+            minNumberLength: 1,
+            maxNumberLength: 5,
+        };
+        if (!isValidInput(titleValidatable) ||
+            !isValidInput(descriptionValidatable) ||
+            !isValidInput(peopleValidatable)) {
             alert('Invalid input, please try again');
             return;
         }
@@ -79,4 +134,6 @@ var ProjectInput = /** @class */ (function () {
     ], ProjectInput.prototype, "submitHandler", null);
     return ProjectInput;
 }());
-var prjInput = new ProjectInput();
+var projectInput = new ProjectInput();
+var activeProjectList = new ProjectList('active');
+var finishedProjectList = new ProjectList('finished');
