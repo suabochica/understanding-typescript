@@ -390,6 +390,106 @@ The next step is integrate the click on the "Add Project" button to get the info
 
 Managing Application State with Singletons
 ----------------
+To handle the state of the project we will follow an approach used in the modern front-end frameworks that consist in set the state like an unique instance and as a global object. We could use an `addProject` function as part of the `ProjectInput` class and handle the state from there via the `getElementById` and start to play with the DOM object to render the inputs in the containers of the `ProjectList` class. However, the global state approach allow us handle the event in a reactive way, so let's go ahead with the implementation with this idea in mind:
+
+```typescript
+class ProjectState {
+    private listeners: any[] = [];
+    private projects: any[] = [];
+    private static instance: ProjectState;
+
+    private constructor() {}
+
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new ProjectState();
+
+        return this.instance;
+    }
+
+    addListener(listenerHandler: Function) {
+        this.listeners.push(listenerHandler);
+    }
+
+    addProject(title: string, description: string, numOfPeople: number) {
+        const newProject = {
+            id: Math.random().toString(),
+            title: title,
+            description: description,
+            people: numOfPeople,
+        }
+        this.projects.push(newProject);
+
+        for (const listenerHandler of this.listeners) {
+            listenerHandler(this.projects.slice());
+        }
+    };
+}
+const projectState = ProjectState.getInstance();
+```
+
+The `ProjectState` class is our global state with holds the `projects` of our application. We follow the singleton pattern on this class to keep guarantees that all the application is modifying the same state. That the reason why we have an `instance` property and a `getInstance()` method. Additionally, we have a `listeners` property to manage the events that will interact with the state. Each of these properties have their own methods to add a `listener` and a `project` respectively.
+
+Finally in the variable `projectState` we store the only instance of the state. Now, let's review how to consume this global object form the `ProjectInput` class.
+
+```typescript
+class ProjectInput {
+//...
+    @autobind
+    private submitHandler(event: Event) {
+        event.preventDefault();
+        const userInput = this.gatherUserInput();
+
+        if (Array.isArray(userInput)) {
+            const [title, description, people] = userInput;
+            projectState.addProject(title, description, people);
+            this.clearInputs();
+        }
+    }
+}
+```
+
+The relative method of this class to interact with the state is the `submitHandler`. After validate the inputs of the form, we can add the project with these arguments to the state via `projectState.addProject()`. Now, the state have a project when the user clicks on the _Add Project_ button. Let's check how to render the state information in the `ProjectList` class.
+
+```typescript
+class ProjectList {
+    //...
+    assignedProjects: any[] = [];
+
+    constructor(private type: 'active' | 'finished') {
+        //...
+        this.assignedProjects = [];
+
+
+        //...
+        projectState.addListener((projects: any[]) => {
+            this.assignedProjects = projects;
+            this.renderProjects();
+        });
+
+        this.attach();
+        this.renderContent();
+    }
+
+    private renderProjects() {
+        const listElement = document.getElementById(`${this.type}-project-list`)! as HTMLUListElement;
+
+        for (const projectItem of this.assignedProjects) {
+            const listItem = document.createElement('li');
+
+            listItem.textContent = projectItem.title;
+            listElement.appendChild(listItem);
+        }
+    }
+}
+```
+In this call we add a property `assignedProjects` to get the project that are in the state. Before to attach the containers, through the `projectState.addListener` we emit a subscription to get access of the object in our state. Then we render the information using the `renderProjects` method, creating a `li` element to append the new list item in the project containers.
+
+If you test this code we got an advance, but also we have several bugs. For example, if you add a second project, the list we will render the first element again. Let's go ahead to figure out this unexpected behaviors.
+
+
 More Classes & Custom Types
 ----------------
 Filtering Projects with Enums
