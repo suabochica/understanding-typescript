@@ -492,6 +492,74 @@ If you test this code we got an advance, but also we have several bugs. For exam
 
 More Classes & Custom Types
 ----------------
+Now, let's work in our any types. Remember that the idea behind use type is reduce as much as possible the use of the `any` type. To replace the `any` type, we can rely on custom types. Let's create a `Project` class that we can use as type, but we will left it as a class because we will instantiate it after.
+
+
+```typescript
+enum ProjectStatus {
+    Active,
+    Finished,
+}
+
+class Project {
+    constructor(
+        public id: string,
+        public title: string,
+        public description: string,
+        public people: number,
+        public status: ProjectStatus,
+    ) {}
+}
+```
+
+As you can see, the `Project` class in his constructor have all the properties of our project. Additionally, we include the `status` property that is supported by an enum `ProjectStatus` type, to indicate the state of the project.
+
+We have a similar scenario with the `Listener` in the `ProjectState`. We can use the next custom type to replace the `any` keyword in the listeners declaration:
+
+```typescript
+type Listener = (items: Project[]) => void;
+```
+
+Now we can replace the `any` type by the created custom types, as show the next code.
+
+```typescript
+class ProjectState {
+    private listeners: Listener[] = [];
+    private projects: Project[] = [];
+    private static instance: ProjectState;
+
+    private constructor() {}
+
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new ProjectState();
+
+        return this.instance;
+    }
+
+    addListener(listenerHandler: Listener) {
+        this.listeners.push(listenerHandler);
+    }
+
+    addProject(title: string, description: string, numOfPeople: number) {
+        const newProject = new Project(
+            Math.random().toString(),
+            title,
+            description,
+            numOfPeople,
+            ProjectStatus.Active,
+        )
+        this.projects.push(newProject);
+
+        for (const listenerHandler of this.listeners) {
+            listenerHandler(this.projects.slice());
+        }
+    };
+}
+```
+
 Filtering Projects with Enums
 ----------------
 Adding Inheritance & Generics
