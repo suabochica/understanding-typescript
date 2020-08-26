@@ -101,7 +101,13 @@ var ProjectList = /** @class */ (function () {
         this.element = importedNode.firstElementChild;
         this.element.id = this.type + "-projects";
         projectState.addListener(function (projects) {
-            _this.assignedProjects = projects;
+            var relevantProjects = projects.filter(function (project) {
+                if (_this.type === 'active') {
+                    return project.status === ProjectStatus.Active;
+                }
+                return project.status === ProjectStatus.Finished;
+            });
+            _this.assignedProjects = relevantProjects;
             _this.renderProjects();
         });
         this.attach();
@@ -109,6 +115,7 @@ var ProjectList = /** @class */ (function () {
     }
     ProjectList.prototype.renderProjects = function () {
         var listElement = document.getElementById(this.type + "-project-list");
+        listElement.innerHTML = '';
         for (var _i = 0, _a = this.assignedProjects; _i < _a.length; _i++) {
             var projectItem = _a[_i];
             var listItem = document.createElement('li');
