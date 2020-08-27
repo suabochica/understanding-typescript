@@ -614,6 +614,130 @@ Now our bugs were fixed. It is pending add some improvements in the code, becaus
 
 Adding Inheritance & Generics
 ----------------
+
+TODO: add changes explanations.
+
+```typescript
+abstract class ProjectComponent<T extends HTMLElement, U extends HTMLElement> {
+    templateElement: HTMLTemplateElement;
+    hostElement: T;
+    element: U;
+
+    constructor(
+        templateId: string,
+        hostElementId: string,
+        insertAtStart: boolean,
+        newElementId: string
+    ) {
+        this.templateElement = document.getElementById(
+              templateId
+            )! as HTMLTemplateElement;
+        this.hostElement = document.getElementById(hostElementId)! as T
+
+        const importedNode = document.importNode(
+            this.templateElement.content,
+            true
+        );
+
+        this.element = importedNode.firstElementChild as U;
+
+        if (newElementId) {
+            this.element.id = newElementId
+        }
+
+        this.attach(insertAtStart)
+    }
+
+    private attach(insertAtBeginning: boolean) {
+        this.hostElement.insertAdjacentElement(
+            insertAtBeginning ? 'afterbegin' : 'beforeend',
+            this.element
+        );
+    }
+
+    abstract configure(): void;
+    abstract renderContent(): void;
+}
+```
+
+```typescript
+class ProjectList extends ProjectComponent<HTMLDivElement, HTMLElement> {
+    assignedProjects: Project[] = [];
+
+    constructor(private type: 'active' | 'finished') {
+        super('project-list', 'app', false, `${type}-projects`);
+
+        this.assignedProjects = [];
+
+        this.configure();
+        this.renderContent();
+    }
+
+    configure() {
+        projectState.addListener((projects: Project[]) => {
+            const relevantProjects = projects.filter(project => {
+                if (this.type === 'active') {
+                    return project.status === ProjectStatus.Active;
+                }
+                return project.status === ProjectStatus.Finished;
+            })
+            this.assignedProjects = relevantProjects;
+            this.renderProjects();
+        });
+    }
+
+    renderContent() {
+        const listId = `${this.type}-project-list`;
+        this.element.querySelector('ul')!.id = listId;
+        this.element.querySelector('h2')!.textContent = this.type.toUpperCase() + ' PROJECTS';
+    }
+
+    private renderProjects() {
+        const listElement = document.getElementById(`${this.type}-project-list`)! as HTMLUListElement;
+
+        listElement.innerHTML = '';
+
+        for (const projectItem of this.assignedProjects) {
+            const listItem = document.createElement('li');
+
+            listItem.textContent = projectItem.title;
+            listElement.appendChild(listItem);
+        }
+    }
+}
+```
+
+```typescript
+class ProjectInput extends ProjectComponent<HTMLDivElement, HTMLFormElement>{
+    titleInputElement: HTMLInputElement;
+    descriptionInputElement: HTMLInputElement;
+    peopleInputElement: HTMLInputElement;
+
+    constructor() {
+        super('project-input', 'app', true, 'user-input');
+
+        this.titleInputElement = this.element.querySelector('#title') as HTMLInputElement;
+        this.descriptionInputElement = this.element.querySelector('#description') as HTMLInputElement;
+        this.peopleInputElement = this.element.querySelector('#people') as HTMLInputElement;
+
+        this.configure();
+    }
+
+    configure() {
+        this.element.addEventListener('submit', this.submitHandler);
+    }
+
+    renderContent() {}
+
+    private gatherUserInput(): [string, string, number] | void {...}
+
+    private clearInputs() {...}
+
+    @autobind
+    private submitHandler(event: Event) {...}
+}
+```
+
 Rendering Project Items with a Class
 ----------------
 Using a Getter
