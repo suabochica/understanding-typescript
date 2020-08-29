@@ -343,7 +343,7 @@ Before to start with the implementation of the code to render the project list, 
     </template>
 ```
 
-With this reference is clearer what DOM elements are relevant to the `ProjectList` class. It is important to highlight that we will have two type of projects: active and finished. So, we should pass a parameter in the constructor method of the `ProjectList` class. This code is pretty similar to the `ProjecInput` class. Below we show the code for the `ProjectList` class.
+With this reference is clearer what DOM elements are relevant to the `ProjectList` class. It is important to highlight that we will have two type of projects: active and finished. So, we should pass a parameter in the constructor method of the `ProjectList` class. This code is pretty similar to the `ProjectInput` class. Below we show the code for the `ProjectList` class.
 
 ```typescript
 class ProjectList {
@@ -614,6 +614,14 @@ Now our bugs were fixed. It is pending add some improvements in the code, becaus
 
 Adding Inheritance & Generics
 ----------------
+
+Currently, the `ProjectList` and the `ProjectInput` have duplicate code in the next aspects:
+
+1. The classes are using a template element to handle the rendering
+2. The classes consume a `hostElement` to attach the content
+3. The classes uses a `element` to render his contents
+4. The classes have an `attach` function
+5. The classes can share the `configure` and the `renderContent` methods
 
 TODO: add changes explanations.
 
