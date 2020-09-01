@@ -623,7 +623,7 @@ Currently, the `ProjectList` and the `ProjectInput` have duplicate code in the n
 4. The classes have an `attach` function
 5. The classes can share the `configure` and the `renderContent` methods
 
-TODO: add changes explanations.
+These aspects are good symptoms to rely in the use of inheritance and generics. Let's create a `ProjectComponent` abstract class that will wrap and structure a way to make our code reusable. Please check the next snippet.
 
 ```typescript
 abstract class ProjectComponent<T extends HTMLElement, U extends HTMLElement> {
@@ -667,6 +667,14 @@ abstract class ProjectComponent<T extends HTMLElement, U extends HTMLElement> {
     abstract renderContent(): void;
 }
 ```
+
+Here, we define the `ProjectComponent` with two generic `T` and `U` that extends from the `HTMLElement` type. This way we get flexibility at the moment of use the class, because the according the child class we can define as `element` or `hostElement` different types. For the other hand the `templateElement` will be of the same type, no matter the case. Remember that in the mark up we define `<template>` tags to accomplish our dynamic rendering.
+
+In the constructor of the function we got four properties: `templateId` to access to our `templateElement`, `hostElementId` to access to the `hostElement`, `insertAtStart` to determine where attach our new element, and `newElementId` to access to the new element we are building. Check that inside the body of the `constructor`, we handle the logic to get the elements, import the node and attach the new element.
+
+Finally, we define the `attach` method that use the `insertAtStart` property to determine where insert the new element, and we have two abstract methods that will be implemented to the child classes. 
+
+Now, let's check how to consume the `ProjectComponent` parent class:
 
 ```typescript
 class ProjectList extends ProjectComponent<HTMLDivElement, HTMLElement> {
@@ -715,6 +723,14 @@ class ProjectList extends ProjectComponent<HTMLDivElement, HTMLElement> {
 }
 ```
 
+For `ProjectList` class we extends the `ProjectComponent` class with these types: `HTMLDivElement` and `HTMLElement`. We define the `assignedProjects` property, that is relevant only for the `ProjectList`, and in the `constructor` function is the key point where we use the logic that we define in the `ProjectComponent`, more precisely in the `super` method, where we call the `ProjectComponent` class with the next properties: `project-list` as the `templateId`, `app` as the `hostElementId`, `false` as the value for `insertAtStart` and `active-projects` as the `newElementId`.
+
+This connection will execute all the logic inside the body of the `ProjectComponent`s `constructor` method. Additionally, we implement the `configure` and the `renderContent` methods, that are abstract methods in our parent class. In the `cofigure` method we handle the to update our `projectState` via listeners and in the `renderContent` we render the title of our project list containers.
+
+Notice that the `renderProjects` method is private to the `ProjectList` class, then it does not have any relation with the `ProjectComponent` parent class.
+
+Now, it's time to check how we consume the `ProjectComponent` in the `ProjectInput` class:
+
 ```typescript
 class ProjectInput extends ProjectComponent<HTMLDivElement, HTMLFormElement>{
     titleInputElement: HTMLInputElement;
@@ -745,6 +761,13 @@ class ProjectInput extends ProjectComponent<HTMLDivElement, HTMLFormElement>{
     private submitHandler(event: Event) {...}
 }
 ```
+In this case, we extends the `ProjectComponent` class with the `HTMLDivElement` and `HTMLFormElement` types. He is evident the benefit of use generics in the parent class definition.
+
+Again, the connection with the `ProjectComponent` is done in the `super` method of the `constructor`. Here we set the `project-inpu` as the `templateId`, `app` as the `hostElementId`, `true` as value of `insertAtStart` and `userInput` as the `newElementId`.
+
+Same way, we have to define the body of our abstract methods, but in this case the `renderContent` body is empty. We can set these methods as optional, or left it empty as we did.
+
+In summary, with this example we highlight the benefits of use inheritance and generics. Now we have a cleaner and maintainable code.
 
 Rendering Project Items with a Class
 ----------------
