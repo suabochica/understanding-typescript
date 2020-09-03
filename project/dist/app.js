@@ -137,10 +137,22 @@ var ProjectItem = /** @class */ (function (_super) {
         _this.renderContent();
         return _this;
     }
+    Object.defineProperty(ProjectItem.prototype, "handlePersonPlural", {
+        get: function () {
+            if (this.project.people == 1) {
+                return '1 person';
+            }
+            else {
+                return this.project.people + " persons";
+            }
+        },
+        enumerable: false,
+        configurable: true
+    });
     ProjectItem.prototype.configure = function () { };
     ProjectItem.prototype.renderContent = function () {
         this.element.querySelector('h2').textContent = this.project.title;
-        this.element.querySelector('h3').textContent = this.project.people.toString();
+        this.element.querySelector('h3').textContent = this.handlePersonPlural + ' assigned';
         this.element.querySelector('p').textContent = this.project.description;
     };
     return ProjectItem;
@@ -214,8 +226,8 @@ var ProjectInput = /** @class */ (function (_super) {
         var peopleValidatable = {
             value: +enteredPeople,
             required: true,
-            minNumberLength: 1,
-            maxNumberLength: 5,
+            minNumberLength: 0,
+            maxNumberLength: 8,
         };
         if (!isValidInput(titleValidatable) ||
             !isValidInput(descriptionValidatable) ||

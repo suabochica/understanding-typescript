@@ -165,6 +165,14 @@ abstract class ProjectComponent<T extends HTMLElement, U extends HTMLElement> {
 class ProjectItem extends ProjectComponent<HTMLUListElement, HTMLLIElement> {
     private project: Project;
 
+    get handlePersonPlural() {
+        if (this.project.people == 1) {
+            return '1 person';
+        } else {
+            return `${this.project.people} persons`;
+        }
+    }
+
     constructor(hostId: string, project: Project) {
         super('single-project', hostId, false, project.id);
 
@@ -178,7 +186,7 @@ class ProjectItem extends ProjectComponent<HTMLUListElement, HTMLLIElement> {
 
     renderContent() {
         this.element.querySelector('h2')!.textContent = this.project.title;
-        this.element.querySelector('h3')!.textContent = this.project.people.toString();
+        this.element.querySelector('h3')!.textContent = this.handlePersonPlural + ' assigned';
         this.element.querySelector('p')!.textContent = this.project.description;
     }
 }
@@ -262,8 +270,8 @@ class ProjectInput extends ProjectComponent<HTMLDivElement, HTMLFormElement>{
         const peopleValidatable: Validatable = {
             value: +enteredPeople,
             required: true,
-            minNumberLength: 1,
-            maxNumberLength: 5,
+            minNumberLength: 0,
+            maxNumberLength: 8,
         };
 
         if (

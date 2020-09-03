@@ -836,6 +836,41 @@ In short, now are rendering our project items with a class.
 
 Using a Getter
 ----------------
+Now lets use a getter over the people property of the project to complement our output with useful information. In the `ProjectItme` we will add a getter `handlePersonPlural` the print the singular case, if we had just one person, and the plural case if we got more.
+
+```typescript
+class ProjectItem extends ProjectComponent<HTMLUListElement, HTMLLIElement> {
+    private project: Project;
+
+    get handlePersonPlural() {
+        if (this.project.people == 1) {
+            return '1 person';
+        } else {
+            return `${this.project.people} persons`;
+        }
+    }
+
+    constructor(hostId: string, project: Project) {
+        super('single-project', hostId, false, project.id);
+
+        this.project = project;
+
+        this.configure();
+        this.renderContent();
+    }
+
+    configure() {}
+
+    renderContent() {
+        this.element.querySelector('h2')!.textContent = this.project.title;
+        this.element.querySelector('h3')!.textContent = this.handlePersonPlural + ' assigned';
+        this.element.querySelector('p')!.textContent = this.project.description;
+    }
+}
+```
+
+To use the getter, we just call the `this.handlePersonPlural` in the `renderContent` method over the people element.
+
 Utilizing Interfaces to Implement Drag & Drop
 ----------------
 Drag Events & Reflecting the Current State in the UI
