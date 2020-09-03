@@ -771,6 +771,69 @@ In summary, with this example we highlight the benefits of use inheritance and g
 
 Rendering Project Items with a Class
 ----------------
+Currently, we are rendering the project items directly as a unordered list inside the containers via `document.createElement("ul")`, and we are just displaying the title of the project. This is fine, but now we can a `Project` custom type, so will be a good idea use this type to render our projects with a class. First we'll going to add some elements to the list markup:
+
+```html
+<!-- ... -->
+    <template id="single-project">
+        <li>
+            <h2></h2>
+            <h3></h3>
+            <p></p>
+        </li>
+    </template>
+```
+
+The `<h2>` will render the title, `<h3>` the people and `<p>` the description. Now, we will use our `ProjectComponent` to create a `ProjectItem` class. We will take advantage of the `renderContent` method to display the project item through a class. Please check the next code:
+
+```typescript
+class ProjectItem extends ProjectComponent<HTMLUListElement, HTMLLIElement> {
+    private project: Project;
+
+    constructor(hostId: string, project: Project) {
+        super('single-project', hostId, false, project.id);
+
+        this.project = project;
+
+        this.configure();
+        this.renderContent();
+    }
+
+    configure() {}
+
+    renderContent() {
+        this.element.querySelector('h2')!.textContent = this.project.title;
+        this.element.querySelector('h3')!.textContent = this.project.people.toString();
+        this.element.querySelector('p')!.textContent = this.project.description;
+    }
+}
+```
+
+Notice the types that we pass to the `ProjectComponent` class. We're putting the project item as a `HTMLLIElement` inside a `HTMLUListElement`. We define a private property called project, that will be passed in the in the `constructor` of the class together a `hostId` of the element that will wrap the item. Finally in the `renderContent` method we add the respective `textContent` of our element with the properties of the project.
+
+Now, let's consume this class. If you review the `ProjectList` class, we have a `renderProjects` method. This class has a assignedProjects property that is a array of projects. When we iterate over this array, we got our project element that will passed as parameter of the `ProjectItem` class. Please check the next snippet.
+
+```typescript
+
+class ProjectList extends ProjectComponent<HTMLDivElement, HTMLElement> {
+    assignedProjects: Project[] = [];
+
+    //...
+
+    private renderProjects() {
+        const listElement = document.getElementById(`${this.type}-project-list`)! as HTMLUListElement;
+
+        listElement.innerHTML = '';
+
+        for (const projectItem of this.assignedProjects) {
+            new ProjectItem(this.element.querySelector('ul')!.id, projectItem)
+        }
+    }
+}
+```
+
+In short, now are rendering our project items with a class.
+
 Using a Getter
 ----------------
 Utilizing Interfaces to Implement Drag & Drop
