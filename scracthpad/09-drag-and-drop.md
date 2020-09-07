@@ -873,6 +873,57 @@ To use the getter, we just call the `this.handlePersonPlural` in the `renderCont
 
 Utilizing Interfaces to Implement Drag & Drop
 ----------------
+Let's organize the app to attend the drag and drop events to pass our active projects to finished. Here we have to accomplish two goals. The first one is add all the logic related to the drag and drop, and then, we have to modify our state to reflect the drag and drop event into the application state. Before to start, lets use the `draggable` attribute in the `single-project` element of the mark up. Please check the next code.
+```html
+    <template id="single-project">
+        <li draggable="true">
+            <h2></h2>
+            <h3></h3>
+            <p></p>
+        </li>
+    </template>
+```
+
+Good! Now let's use interfaces to implement the drag and drop functionality. We will build it via two interfaces, a `Draggable` interface that will applied over the element that will be draggable and it will contains two handlers, one for the `dragstart` event and other for the `dragend` event. The second interface is the `DragTarget`, and it will contains the three handlers: `dragOverHandler`, `dropHandler`, and `dragLeaveHandler`. The next snippet reflects both interfaces definitions.
+
+```typescript
+interface Draggable {
+    dragStartHandler(event: DragEvent): void;
+    dragEndHandler(event: DragEvent): void;
+}
+
+interface DragTarget {
+    dragOverHandler(event: DragEvent): void;
+    dropHandler(event: DragEvent): void;
+    dragLeaveHandler(event: DragEvent): void;
+}
+```
+
+Once created the interfaces we have to use them. For this case, we will use the `Draggable` interface in the `ProjectItem` class. Remember use the `implements` keyword to establish the relation between the class and the interface like show the next code:
+
+```typescript
+class ProjectItem extends ProjectComponent<HTMLUListElement, HTMLLIElement> implements Draggable {
+    private project: Project;
+    // ...
+    dragStartHandler(event: DragEvent) {
+        console.log(event);
+    }
+
+    dragEndHandler(_: DragEvent) {
+        console.log('DragEnd')
+    }
+
+    configure() {
+        this.element.addEventListener('dragstart', this.dragStartHandler);
+        this.element.addEventListener('dragend', this.dragEndHandler);
+    }
+
+    renderContent() {...}
+}
+```
+
+Notice that in the `configure` method we add the event listener to the respective `dragstart` and `dragend` events, setting as callbacks the methods `dragStartHandler` and `dragEndHandler` that we define in the `Draggable` interface. For now, we will just log some message to validate that the events and their callback are working as expected.
+
 Drag Events & Reflecting the Current State in the UI
 ----------------
 Adding a Dropable Area
