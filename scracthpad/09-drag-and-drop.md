@@ -964,6 +964,48 @@ So far, we will add and remove the `droppable` style in the `ul` container of th
 
 Adding a Dropable Area
 ----------------
+Time to start to implement the logic in the handlers. The first step is identify what data will be moved from the active container to the finished container. So, all the flow start from the `dragStartHandler` method inside the `ProjectClass`
+
+```typescript
+class ProjectItem extends ProjectComponent<HTMLUListElement, HTMLLIElement> implements Draggable{
+    /...
+    dragStartHandler(event: DragEvent) {
+        event.dataTransfer!.setData('text/plain', this.project.id);
+        event.dataTransfer!.effectAllowed = 'move';
+    }
+}
+```
+
+Here, we use the `event.dataTransfer` property to manipulate the data related to the project. With the `setData` method we specify that we will send a `text/plain` data that contains the project id. The `effectAllowed` is a way to indicate to the browser that we want to move the data. Now, let's check how consume the exposition in the `dragOverHandler` and `dropHandler` methods.
+
+```typescript
+class ProjectList extends ProjectComponent<HTMLDivElement, HTMLElement> implements DragTarget {
+    /...
+    @autobind
+    dragOverHandler(event: DragEvent) {
+        if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+            event.preventDefault(); 
+            const listElement = this.element.querySelector('ul')!;
+            listElement.classList.add('droppable');
+        }
+    }
+
+    dropHandler(event: DragEvent) {
+        console.log(event.dataTransfer!.getData('text/plain'));
+    }
+
+    @autobind
+    dragLeaveHandler(_: DragEvent) {
+        const listElement = this.element.querySelector('ul')!;
+        listElement.classList.remove('droppable');
+    }
+}
+```
+
+Notice that in the `dragOverHandler` we add a validation to verify that the `event.dataTransfer` field has a data of type `text/plain`. If this validation is true, then we prevent the default behavior of event (by the default the browser don't allow draggable elements) and then we add our `droppable` class. Finally in the `dropHandler` we log the id of the project via `getData` method of the `event.dataTransfer` property.
+
+So far, we will log the id of the project in the browser, but now, we have some data transferred between the containers.
+
 Finishing Drag & Drop
 ----------------
 Wrap Up
