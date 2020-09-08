@@ -926,6 +926,42 @@ Notice that in the `configure` method we add the event listener to the respectiv
 
 Drag Events & Reflecting the Current State in the UI
 ----------------
+Now, let's implement the `DragTarget` interface into the `ProjectList` class. Similarly as before we use the `implements` keyword and the we add the three methods defined in the interface: `dragOverHandler`, `dropHandler` and `dragLeaveHandler`. In the `configure` method we add the event listeners to this object the attend the respective events.
+
+```typescript
+class ProjectList extends ProjectComponent<HTMLDivElement, HTMLElement> implements DragTarget {
+    //...
+
+    @autobind
+    dragOverHandler(_: DragEvent) {
+        const listElement = this.element.querySelector('ul')!;
+        listElement.classList.add('droppable');
+    }
+
+    dropHandler(_: DragEvent) {}
+
+    @autobind
+    dragLeaveHandler(_: DragEvent) {
+        const listElement = this.element.querySelector('ul')!;
+        listElement.classList.remove('droppable');
+    }
+
+    configure() {
+        this.element.addEventListener('dragover', this.dragOverHandler);
+        this.element.addEventListener('dragleave', this.dragLeaveHandler);
+        this.element.addEventListener('drop', this.dropHandler);
+
+        projectState.addListener((projects: Project[]) => {...});
+    }
+
+    renderContent() {...}
+
+    private renderProjects() {...}
+}
+```
+
+So far, we will add and remove the `droppable` style in the `ul` container of the project list. We add the class in the `dragover` event and we remove it in the `dragleave`. These change have an impact in the UI, but it is still pending modify the state.
+
 Adding a Dropable Area
 ----------------
 Finishing Drag & Drop
