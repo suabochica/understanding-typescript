@@ -1008,5 +1008,70 @@ So far, we will log the id of the project in the browser, but now, we have some 
 
 Finishing Drag & Drop
 ----------------
+Almost done, to finish the implementation, we have to complete the action in the `drop` event. So, we will store the project id from the `event.dataTransfer` in a variable. With this id, we have the resources to update the state of the application. Then we will consume the `projectState` global object and we will set a `moveProject` method to achieve this goal. Check the next snippet:
+
+```typescript
+class ProjectList extends ProjectComponent<HTMLDivElement, HTMLElement> implements DragTarget {
+    /...
+    @autobind
+    dragOverHandler(event: DragEvent) { ... }
+
+    dropHandler(event: DragEvent) {
+        event.preventDefault();
+        const projectId = event.dataTransfer!.getData('text/plain');
+
+        projectState.moveProject(
+            projectId,
+            this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished
+        );
+    }
+
+    @autobind
+    dragLeaveHandler(_: DragEvent) { ... }
+}
+```
+
+Notice that the `moveProject` has a second parameter, the project status. This is the property that we will update in the state. Now let's focus on the `moveProject` method in the `ProjectState` class. This method will identify the project with the given project id and it will update the status property. Additionally it will update the listeners as show the next code:
+
+```typescript
+class ProjectState extends State<Project>{
+    // ...
+
+    addProject(title: string, description: string, numOfPeople: number) { ... };
+
+    moveProject(projectId: string, newStatus: ProjectStatus) {
+        const project = this.projects.find(project => project.id === projectId);
+
+        if (project && project.status !== newStatus) {
+            project.status = newStatus;
+            this.updateListeners();
+        }
+    };
+
+    private updateListeners() {
+        for (const listenerHandler of this.listeners) {
+            listenerHandler(this.projects.slice());
+        }
+    }
+}
+```
+
+Now, if you test the application, we got the expected behavior when we move the projects from the active container to the finished container and vice versa.
+
 Wrap Up
 ----------------
+With this project we use the next TypeScript features:
+
+- Types
+- Custom types
+- Classes
+- Abstract classes
+- Inheritance
+- Private and public props
+- Event handling
+- Set global state
+- Decorators and interfaces and how they can help us and how we can write type safe scalable code.
+
+Now Definitely feel free to build up on this project add more features on your own explorer what you could change there and simply practice working with typescript.
+
+Currently we have all the logic in one file. In the next lesson we will split this file into multiple files to managing our code base in a better way.

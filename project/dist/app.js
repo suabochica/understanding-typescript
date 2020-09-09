@@ -66,12 +66,23 @@ var ProjectState = /** @class */ (function (_super) {
     ProjectState.prototype.addProject = function (title, description, numOfPeople) {
         var newProject = new Project(Math.random().toString(), title, description, numOfPeople, ProjectStatus.Active);
         this.projects.push(newProject);
+        this.updateListeners();
+    };
+    ;
+    ProjectState.prototype.moveProject = function (projectId, newStatus) {
+        var project = this.projects.find(function (project) { return project.id === projectId; });
+        if (project && project.status !== newStatus) {
+            project.status = newStatus;
+            this.updateListeners();
+        }
+    };
+    ;
+    ProjectState.prototype.updateListeners = function () {
         for (var _i = 0, _a = this.listeners; _i < _a.length; _i++) {
             var listenerHandler = _a[_i];
             listenerHandler(this.projects.slice());
         }
     };
-    ;
     return ProjectState;
 }(State));
 var projectState = ProjectState.getInstance();
@@ -192,7 +203,9 @@ var ProjectList = /** @class */ (function (_super) {
         }
     };
     ProjectList.prototype.dropHandler = function (event) {
-        console.log(event.dataTransfer.getData('text/plain'));
+        event.preventDefault();
+        var projectId = event.dataTransfer.getData('text/plain');
+        projectState.moveProject(projectId, this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished);
     };
     ProjectList.prototype.dragLeaveHandler = function (_) {
         var listElement = this.element.querySelector('ul');
@@ -233,6 +246,12 @@ var ProjectList = /** @class */ (function (_super) {
         __metadata("design:paramtypes", [DragEvent]),
         __metadata("design:returntype", void 0)
     ], ProjectList.prototype, "dragOverHandler", null);
+    __decorate([
+        autobind,
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [DragEvent]),
+        __metadata("design:returntype", void 0)
+    ], ProjectList.prototype, "dropHandler", null);
     __decorate([
         autobind,
         __metadata("design:type", Function),
