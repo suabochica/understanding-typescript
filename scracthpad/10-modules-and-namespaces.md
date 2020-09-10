@@ -1,6 +1,45 @@
-Using JavaScript Libraries (like jQuery) with TypeScript
+Modules & Namespaces
 ========================================================
 
+Index
+----------------------------------------
+
+1. Module introduction 
+2. Writing module code
+3. Organizing files and folders
+4. A problem with namespace imports
+5. Browsers note 
+6. Using ES modules
+7. Understanding various import and export syntax
+8. How does code in module execute
+9. Wrap up
+
+Module introduction
+----------------------------------------
+Our practice project has a lot of code all in one file and this is arguably not a super complex project. You can definitely ride way more elaborate projects and applications and you would end up with way more code so putting it all into one file is probably not what you want to do.
+
+So what you want to do instead is you want to write modular code which simply means you want to split your code across multiple files so that each file on its own stays manageable and maintainable and you then simply import and export from into these files and make sure that data for all these files are connected but they're connected by typescript or by the browser or by some third party build tool and not by you.
+
+Now in this module we'll have a look at two main options that help us with organizing our code in multiple files and we'll not just learn about them in theory but also in practice will of course apply these different approaches and see how we can split our code.
+
+Writing module code
+----------------------------------------
+Organizing files and folders
+----------------------------------------
+A problem with namespace imports
+----------------------------------------
+Browsers note 
+----------------------------------------
+Using ES modules
+----------------------------------------
+Understanding various import and export syntax
+----------------------------------------
+How does code in module execute
+----------------------------------------
+Wrap up
+----------------------------------------
+
+TODO: Content for section 12
 Introduction
 ------------
 1. In a TypeScript project you will need third-party package as jQuery.
