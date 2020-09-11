@@ -22,8 +22,29 @@ So what you want to do instead is you want to write modular code which simply me
 
 Now in this module we'll have a look at two main options that help us with organizing our code in multiple files and we'll not just learn about them in theory but also in practice will of course apply these different approaches and see how we can split our code.
 
-Writing module code
+Writing module code - Your Options
 ----------------------------------------
+
+The next image show us the options with their respective features that we have to write module code in big projects: Namespaces & File Bundling and ES6 Imports/Exports.
+
+![Splitting code into multiple files](../assets/s10-splitting_code_into_multiple_files "Splitting code into multiple files")
+
+One option would be to simply write multiple code files then automatically compile all code files in the source directory and manually import to compiled JavaScript files into HTML.
+
+That is an option and for some projects this might be just right. But you would have to manage all these imports manually which can be cumbersome and error prone and when using certain types of features you also give up type support.
+
+Now let's review the namespace and file bundling option. A namespace is a container for set of identifiers, functions, methods and all that. It gives a level of direction to its contents so that it will be well distinguished and organized. So, you can have a namespace for a file.
+
+Moreover, it also bundles the files together into one file. So that you have less imports to manage and you don't need to manually manage different imports and then html file.
+
+For other side, we have the ES6 import/export feature, also now as ES6 modules as a solution for modern JavaScript.
+
+Modern Java stripped out of the box supports import and export statements which allows to stay to which file depends on which other file and then you have all these individual files but you don't need to manage imports manually instead browsers.
+
+Modern browsers do that they understand it and automatically download and run files or a number of files. depends on how you use the import export syntax for that, and typescript all the supports this so therefore you can use different types good without any issues you will compile per file but you only need one script import because as I just mentioned modern browsers know how to then fetch all our dependencies and you'll also see dad in action in this core section here.
+
+Now one important note here is that we technically will end up with multiple files still and whilst we won't have to manage the imports manually the script imports we still have some disadvantages because of that because every failure depending on needs to be downloaded separately which means more HTTP requests hands on and therefore you can bundle files together to work on multiple files during development but ship a single file for production but you need third party tools for that. For example Webpack.
+
 Organizing files and folders
 ----------------------------------------
 A problem with namespace imports
