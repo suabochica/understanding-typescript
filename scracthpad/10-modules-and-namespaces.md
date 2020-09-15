@@ -6,13 +6,14 @@ Index
 
 1. Module introduction 
 2. Writing module code
-3. Organizing files and folders
-4. A problem with namespace imports
-5. Browsers note 
-6. Using ES modules
-7. Understanding various import and export syntax
-8. How does code in module execute
-9. Wrap up
+3. Working wiht namespaces
+4. Organizing files and folders
+5. A problem with namespace imports
+6. Browsers note 
+7. Using ES modules
+8. Understanding various import and export syntax
+9. How does code in module execute
+10. Wrap up
 
 Module introduction
 ----------------------------------------
@@ -44,6 +45,90 @@ Modern Java stripped out of the box supports import and export statements which 
 Modern browsers do that they understand it and automatically download and run files or a number of files. depends on how you use the import export syntax for that, and typescript all the supports this so therefore you can use different types good without any issues you will compile per file but you only need one script import because as I just mentioned modern browsers know how to then fetch all our dependencies and you'll also see dad in action in this core section here.
 
 Now one important note here is that we technically will end up with multiple files still and whilst we won't have to manage the imports manually the script imports we still have some disadvantages because of that because every failure depending on needs to be downloaded separately which means more HTTP requests hands on and therefore you can bundle files together to work on multiple files during development but ship a single file for production but you need third party tools for that. For example Webpack.
+
+Working with namespaces
+----------------------------------------
+Let's start with the namespace approach. First of all lets create a `drag-drop-interfaces.ts` file and we will put the next body on there:
+
+```typescript
+// drag-drop-interfaces.ts
+namespace App {
+  export interface Draggable {
+      dragStartHandler(event: DragEvent): void;
+      dragEndHandler(event: DragEvent): void;
+  }
+
+  export interface DragTarget {
+      dragOverHandler(event: DragEvent): void;
+      dropHandler(event: DragEvent): void;
+      dragLeaveHandler(event: DragEvent): void;
+  }
+}
+```
+
+Notice the use of the keyword `namespace` with the `App` id. Inside the namespace we have the `export` keyword before the interfaces to indicate that we will expose the interfaces. No, lets consume the namespace, as shown below:
+
+```typescript
+// app.ts
+/// <reference path="drag-drop-interfaces.ts">
+namespace App {
+  
+  // All the application
+  // Project Type
+  // Project State Management
+  // Validation Interface
+  // Decorators
+  // Abstract Classes
+  // Classes
+}
+```
+
+The `///` is an special comment in typescript. In this case,the compiler understands it as a reference to some path, the file with the drag and drop interfaces. To use these interface, we have to create a namespace with the same `App` identifier. Without this detail, we can't consume the interfaces. Then we have to put all the code inside the namespace. If you have you watcher running, you'll see that in the `dist` folder we get to compiled files: `app.js` and `drag-drop-interface.js`. Keep this in mind, and now we will add a new file `project-model.ts` with the next content:
+
+```typescript
+namespace App {
+  export enum ProjectStatus {
+      Active,
+      Finished,
+  }
+
+  export class Project {
+      constructor(
+          public id: string,
+          public title: string,
+          public description: string,
+          public people: number,
+          public status: ProjectStatus,
+      ) {}
+  }
+}
+```
+Again, we create a namespace with the `App` identifier and we export the enum and the class inside the project model. We have to add the `/// <reference path="project-model.ts">` in the `app.ts` file, but, this time if you test the application we got an error add the moment of drag and drop a project because the `Active` type is undefined. If you check again the `dist` folder, you will see three compiled files: `app.js` `drag-drop-interfaces.js` and `project-model.js`. Then the problem is that the `Active` project status is out of the scope of the `app.js` file, that is the current file that we are importing from the `index.html`.
+
+To fix this issue, we have to update the `tsconfig` file with the next values:
+
+```json
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+    /* Basic Options */
+    // "incremental": true,                   /* Enable incremental compilation */
+    "target": "ES5",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    "module": "amd",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost"
+    ],                             /* Specify library files to be included in the compilation. */
+    // ...
+    "outFile": "./dist/bundle.js",                   /* Concatenate and emit output to single file. */
+```
+
+It is important change the `"module"` property to `"amd"` value, that supports namespaces, and enable the `"outFile"` property with the path of a file that will concatenate all the sources files into just one file. In this case the `bundle.js` file. This means that we have to update the `<script>` tag value in out `index.html` file.
+
+We have these namespace is here which is one step in the right direction because it is already is a bit more manageable. Now let's split this into even more files before we then have a look at the average splitting option.
 
 Organizing files and folders
 ----------------------------------------
