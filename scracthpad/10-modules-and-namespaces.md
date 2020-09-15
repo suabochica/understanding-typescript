@@ -28,7 +28,7 @@ Writing module code - Your Options
 
 The next image show us the options with their respective features that we have to write module code in big projects: Namespaces & File Bundling and ES6 Imports/Exports.
 
-![Splitting code into multiple files](../assets/s10-splitting_code_into_multiple_files "Splitting code into multiple files")
+![Splitting code into multiple files](../assets/s10-splitting_code_into_multiple_files.png "Splitting code into multiple files")
 
 One option would be to simply write multiple code files then automatically compile all code files in the source directory and manually import to compiled JavaScript files into HTML.
 
@@ -86,6 +86,7 @@ namespace App {
 The `///` is an special comment in typescript. In this case,the compiler understands it as a reference to some path, the file with the drag and drop interfaces. To use these interface, we have to create a namespace with the same `App` identifier. Without this detail, we can't consume the interfaces. Then we have to put all the code inside the namespace. If you have you watcher running, you'll see that in the `dist` folder we get to compiled files: `app.js` and `drag-drop-interface.js`. Keep this in mind, and now we will add a new file `project-model.ts` with the next content:
 
 ```typescript
+// project-model.ts
 namespace App {
   export enum ProjectStatus {
       Active,
@@ -107,7 +108,7 @@ Again, we create a namespace with the `App` identifier and we export the enum an
 
 To fix this issue, we have to update the `tsconfig` file with the next values:
 
-```json
+```javascript
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
@@ -132,6 +133,77 @@ We have these namespace is here which is one step in the right direction because
 
 Organizing files and folders
 ----------------------------------------
+
+So, we can continue with this split strategy, so let's create a new file called named `validation.ts` with the next content:
+
+```typescript
+// validation.ts
+namespace App {
+  export interface Validatable {
+      value: string | number;
+      required?: boolean;
+      minStringLength?: number;
+      maxStringLength?: number;
+      minNumberLength?: number;
+      maxNumberLength?: number;
+  }
+
+  export function isValidInput(validatableInput: Validatable) {
+      let isValid = true;
+
+      if (validatableInput.required) {
+          isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+      }
+      if (validatableInput.minStringLength != null && typeof validatableInput.value === 'string') {
+          isValid = isValid && validatableInput.value.length > validatableInput.minStringLength;
+      }
+      if (validatableInput.maxStringLength != null && typeof validatableInput.value === 'string') {
+          isValid = isValid && validatableInput.value.length < validatableInput.maxStringLength;
+      }
+      if (validatableInput.minNumberLength != null && typeof validatableInput.value === 'number') {
+          isValid = isValid && validatableInput.value > validatableInput.minNumberLength;
+      }
+      if (validatableInput.maxNumberLength != null && typeof validatableInput.value === 'number') {
+          isValid = isValid && validatableInput.value < validatableInput.maxNumberLength;
+      }
+
+      return isValid;
+  }
+}
+```
+
+Similarly, we can split the code for `autobind.ts` related to the decorator:
+
+```typescript
+// autobind.ts
+namespace App {
+  export function autobind(
+      target: any,
+      methodName: string,
+      descriptor: PropertyDescriptor
+  ) {
+      const originalMethod = descriptor.value;
+      const adjustedDescriptor: PropertyDescriptor = {
+          configurable: true,
+          enumerable: false,
+          get() {
+              const boundFunction = originalMethod.bind(this);
+
+              return boundFunction;
+          }
+      };
+
+      return adjustedDescriptor;
+  }
+}
+```
+
+At this point we notice that we have several files at root level. So it is a good idea start to create folders to organize better the code. for example, we can create a `models` folder and put there `project-state.ts` and `drag-drop-interface.ts`. A `decorators` folder can store the `autobind.ts`, a `util` folder holds the `validation.ts` file, as so forth so on. In the end we got a folder structure as show the next image:
+
+![Organizing files](../assets/s10-organizing_files.png "Organizing files")
+
+Keep in mind that we have to update the path references to guarantee the project functionality.
+
 A problem with namespace imports
 ----------------------------------------
 Browsers note 
