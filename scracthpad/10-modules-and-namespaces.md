@@ -28,7 +28,7 @@ Writing module code - Your Options
 
 The next image show us the options with their respective features that we have to write module code in big projects: Namespaces & File Bundling and ES6 Imports/Exports.
 
-![Splitting code into multiple files](../assets/s10-splitting_code_into_multiple_files.png "Splitting code into multiple files")
+![Splitting code into multiple files](../assets/s10-splitting-code-into-multiple-files.png "Splitting code into multiple files")
 
 One option would be to simply write multiple code files then automatically compile all code files in the source directory and manually import to compiled JavaScript files into HTML.
 
@@ -200,14 +200,28 @@ namespace App {
 
 At this point we notice that we have several files at root level. So it is a good idea start to create folders to organize better the code. for example, we can create a `models` folder and put there `project-state.ts` and `drag-drop-interface.ts`. A `decorators` folder can store the `autobind.ts`, a `util` folder holds the `validation.ts` file, as so forth so on. In the end we got a folder structure as show the next image:
 
-![Organizing files](../assets/s10-organizing_files.png "Organizing files")
+![Organizing files](../assets/s10-organizing-files.png "Organizing files")
 
 Keep in mind that we have to update the path references to guarantee the project functionality.
 
 A problem with namespace imports
 ----------------------------------------
+Now one important note by the way you might be wondering why `@autobind` works in `project-item.ts` and `project-list.ts` even though I didn't add import to the autobind decorator.
+
+Well because in `app.ts` we have all the imports. Now, actually if we removed all the imports that are not in the component folder, which would be correct because in `app.ts` we technically only use to project input and the project lists on, we'll have a problem that you can see if does reloads. We have an error here even though we get no compilation error unfortunately but we get a runtime error so we need to make sure we import everything we use in a file into that file to be safe.
+
+Technically we can import everything an `app.ts` and since `project-input.ts` and `project-list.ts` which for example used the `autobind.ts` decorator come later the order by decorator will be available when they need it.
+
+But this is not the cleanest possible way. So what's the solution here. Well let's go back to the files and import what they need.
+
+So it is the proper way of doing it every file specifies what it needs and we can split our code and still end up with one file so we get the best of both worlds. We could say yes, this is not necessarily the best possible way of doing it.
+
 Browsers note 
 ----------------------------------------
+
+> Important: In the next lecture, we'll use a feature which only works in modern browsers. 
+> Later in the course, we'll find a way to make it work in older browsers as well, but for now make sure you are following along in Chrome or Firefox!
+
 Using ES modules
 ----------------------------------------
 Understanding various import and export syntax
