@@ -224,6 +224,53 @@ Browsers note
 
 Using ES modules
 ----------------------------------------
+Namespaces is a good solution but is not perfect. As you see in the last section we have to add each dependency manually. Additionally we are expose to a risk with namespaces. If someone change one file we get high probability to broke the program, because we are depending of the contents inside all the file. Should be great just consume the classes that we really need instead of the entire file. We get this behavior with ES6 modules.
+
+So how works ES6 modules? Let's modify the `drag-drop.ts` file:
+
+```typescript
+/* Drag and Drop Interface
+   -----------------------------------*/
+export interface Draggable {
+    dragStartHandler(event: DragEvent): void;
+    dragEndHandler(event: DragEvent): void;
+}
+
+export interface DragTarget {
+    dragOverHandler(event: DragEvent): void;
+    dropHandler(event: DragEvent): void;
+    dragLeaveHandler(event: DragEvent): void;
+}
+```
+
+Here we remove the `namespaces App` and we keep the `export` keyword. With this declaration, we are saying that we can import these interfaces in other files. For this case we are using the inside the `project-item.ts` and `project-list.ts` files.
+
+```typescript
+import { Project } from '../models/project.js';
+import { Draggable } from '../models/drag-drop.js';
+import { ProjectComponent } from './base-component.js';
+import { autobind } from  '../decorators/autobind.js';
+
+export class ProjectItem extends ProjectComponent<HTMLUListElement, HTMLLIElement> implements Draggable { ... }
+```
+
+and for `project-list.ts` :
+
+```typescript
+import { Project, ProjectStatus } from '../models/project.js';
+import { DragTarget } from '../models/drag-drop.js';
+import { ProjectComponent } from './base-component.js';
+import { ProjectItem } from './project-item.js';
+import { autobind } from  '../decorators/autobind.js';
+import { projectState } from  '../state/project-state.js';
+
+export class ProjectList extends ProjectComponent<HTMLDivElement, HTMLElement> implements DragTarget { ... }
+```
+
+So we should update all the dependencies in the project to keep the application working. The trade off is that now, our code is modular and we are just exporting and importing specific parts of the files, making the code easier to maintain.
+
+However the ES6 modules feature just works on modern browsers and this is something we have to reflect in the `tsconfig.json` file. To keep compatibility with old browsers we should use tools like webpack.
+
 Understanding various import and export syntax
 ----------------------------------------
 How does code in module execute
