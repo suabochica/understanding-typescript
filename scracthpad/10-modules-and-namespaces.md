@@ -351,51 +351,31 @@ If another developer imports your class or your export that thing he has to use 
 
 How does code in module execute
 ----------------------------------------
+A valid question is what happens when you export one variable, and this variable is imported in two different files? The variable is declared twice? one per statement?
+
+This is the case for the `projectState` variable that we export from the `project-state.ts` file and we use it in the `project-item.ts` and the `project-list.ts` file.
+
+The answer is no, it runs once when the file is imported for the first time by any other file. If a number of file then imports that same file again it does not run again. You can validate this behavior adding a log in the `project-state.ts` file and checking that the log just run once.
+
 Wrap up
 ----------------------------------------
+And that's it for modules. Now, using modules is a super useful and important feature because it allows you to write more maintainable and manageable code.
 
-TODO: Content for section 12
-Introduction
-------------
-1. In a TypeScript project you will need third-party package as jQuery.
-2. How to combine JavaScript libraries with TypeScript
+Having it all in one file is a mess and really not an option for anything but very tiny projects using either namespace or ES6 modules is stale for a way better alternative since it makes sure that every file on its own is relatively small and therefore stays manageable.
 
-Installing a third-party library
---------------------------------
-1. Install jQuery `npm install --save jquery`
+Now when it comes to these two approaches name spaces and is modules the clear recommendation is ES6 modules because you get that extra type safety and you ensure that every file has to clearly specify what it wants with namespaces.
 
-Importing the Library
----------------------
-1. Use SystemJS to manage the libraries dependencies
-2. Inside the `index.html` file use the `map` property of SystemJS and add the next key: `jQuery: node_modules/jquery/dist/jquery.min.js`
-3. This configuration allow you to use jQuery but the TypeScript Compiler throws the error `Cannot find name $`
+It was enough if one file import that's something that a number of file also needs. The downside is if that one file which imported the thing is removed that other file all the breaks 0without you noticing at least without you noticing before you run the code.
 
-Translating JavaScript to TypeScript with TypeScript Definition Files
----------------------------------------------------------------------
-1. A *Definition File* basically is a bridge between JavaScript libraries and TypeScript
-2. The file extension is `d.ts`
+An important thing to be aware is that ES6 modules only work in modern browsers because we rely on the browser to basically import all these files.
 
-Option 1: Manually download TypeScript Definition Files
--------------------------------------------------------
-1. Please check [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) github project
-2. Find the package that you need
-3. Copy the raw file a paste it in a file inside your local project
-4. It is not necessary use an import
+So to make that work in all browsers we can use a bundling tool we can use Webpack for example to bundle that together into one JavaScript file so that during development we have this multi file strong typing experience, but, when we ship our code we actually have one file only and no advantage of shipping one file instead of all these files we have here is that we also ensure that the browser doesn't have to download that many files because every file that has to be downloaded is an extra hour round trip in the Network tab of the daft words you can actually see that there you see this waterfall chart and you see this little white box at the beginning of every block.
 
-Option 2: Managing TypeScript Definition Files with the "typings" Package
--------------------------------------------------------------------------
-1. Typings (Deprecated) is the TypeScript Definition Manager like NPM
-2. Install typings globally with: `npm install -g typings`
-3. Instal the desired package with: `typings install dt~jquery --global --save`
-4. This command wil create a `/typings` folder with the definition file and a `typing.json` file with the dependencies
-5. It is not necessary use an import
+Useful resources and links
+----------------------------------------
+Attached you find all the code snapshots for this module - you also find them attached to individual lectures throughout this module.
 
-Easier Type Management with TypeScript 2.0
-------------------------------------------
-1. A awesome new feature that is integrated with `npm`
-2. Use the next command: `npm install --save-dev @types/dt~jquery`
-3. This command will create the `node_modules/@types` folder where will store the TypeScript Definition Files
-4. Also, if you check the `package.json` file you can see the definition file in the `devDependencies` property
-5. You got all your third-party libraries in a same place
+These links might also be interesting:
 
-
+- [JavaScript Modules (Overview)](https://medium.com/computed-comparisons/commonjs-vs-amd-vs-requirejs-vs-es6-modules-2e814b114a0b)
+- [More on ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
