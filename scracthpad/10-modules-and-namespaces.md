@@ -273,6 +273,82 @@ However the ES6 modules feature just works on modern browsers and this is someth
 
 Understanding various import and export syntax
 ----------------------------------------
+So using ES6 modules turns out there are some variations of that export import syntax which you should be aware of. For example,, you can bundle imports. Let's say that inside the `project_input.ts` file we want to group the export from the `validtaion.ts` file. To achieve that, we should use aliases as shown next: 
+
+```typescript
+...
+import * as Validation from  '../util/validation.js';
+
+export class ProjectInput extends ProjectComponent<HTMLDivElement, HTMLFormElement> {
+    titleInputElement: HTMLInputElement;
+    descriptionInputElement: HTMLInputElement;
+    peopleInputElement: HTMLInputElement;
+
+    constructor() { ... }
+
+    configure() {
+        this.element.addEventListener('submit', this.submitHandler);
+    }
+
+    renderContent() {}
+
+    private gatherUserInput(): [string, string, number] | void {
+        const enteredTitle = this.titleInputElement.value;
+        const enteredDescription = this.descriptionInputElement.value;
+        const enteredPeople = this.peopleInputElement.value;
+        const titleValidatable: Validatable = {
+            value: enteredTitle,
+            required: true
+        };
+        const descriptionValidatable: Validation.Validatable = {
+            value: enteredDescription,
+            required: true,
+            minStringLength: 5,
+        };
+        const peopleValidatable: Validation.Validatable = {
+            value: +enteredPeople,
+            required: true,
+            minNumberLength: 0,
+            maxNumberLength: 8,
+        };
+
+        if (
+            !Validation.isValidInput(titleValidatable) ||
+            !Validation.isValidInput(descriptionValidatable) ||
+            !Validation.isValidInput(peopleValidatable)
+        ) {
+            alert('Invalid input, please try again');
+            return;
+        } else {
+            return [enteredTitle, enteredDescription, +enteredPeople];
+        }
+    }
+
+    private clearInputs() { ... }
+
+    @autobind
+    private submitHandler(event: Event) { ... }
+}
+```
+
+With the `*` we are saying that we are importing all from `/util/validation.js`, and, with the `as` keyword we set the alias. So, now to use the class `Validatable` and the method `isValidInput` we should set the `Validation` as prefix. *Aliases* are a good feature for ES6 module as it makes easy read the code.
+
+The other key feature are the *default exports*. The default export tells to JavaScript that the module with the `default` keyword is the main export. Check an example with the `base-component.ts` file:
+
+```typescript
+/* Abstract classes
+   -----------------------------------*/
+export default abstract class ProjectComponent<T extends HTMLElement, U extends HTMLElement> {
+   ...
+}
+```
+
+Keep in mind that you can just have one `default` export by file. At the moment to import a default module you can avoid the brackets and use whatever name you want to get the reference of the default export.
+
+Default exports can be nice if you only have one thing per file. I personally prefer named exports though because you get auto completion you enforce a clear naming pattern.
+
+If another developer imports your class or your export that thing he has to use your name which typically is good because it allows you to enforce certain naming conventions across a team or organization.
+
 How does code in module execute
 ----------------------------------------
 Wrap up
