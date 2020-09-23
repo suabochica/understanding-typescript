@@ -26,6 +26,37 @@ So, Webpack is a building and build orchestration tool that allow us to attack t
 
 Installing webpack and important dependencies
 -----------------------------------
+To install webpack, let's run the next command at project level
+
+```
+$ npm install --save-dev webpack webpack-cli webpack-dev-server typescript ts-loader
+```
+
+After run this command, check the contents of the `package.json` file. It should be looks like:
+
+```json
+{ ...
+  "devDependencies": {
+    "lite-server": "^2.5.4",
+    "ts-loader": "^8.0.4",
+    "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
+```
+
+All these dependencies were installed, so let´s review one by one: `webpack`  is the tool I just talked about. It's the heart of this entire setup we're now going to create, and, its allows us to plug in certain functionalities to bundle our code and also to transform our code. Fortunately, webpack is capable to bundle our `.ts` files into `.js`.
+
+To run the tasks to bundle, we have the `webpack-cli`. This package basically offer us several commands to build our web page. The `webpack-dev-server` is a built in development server which starts webpack under the hood which watches our files for changes automatically triggers web page to recompile when something changes and which then also serves our page. 
+
+The `ts-loader` and `typescript` packages handle all the stuff related to the TypeScript project. It is a good practice install a copy of TypeScript per project so that for this project you get a specific TypeScript where's the advantages that if you ever change your global ties with working you don't break your project whereas in your project setup if there were breaking changes in typescript itself.
+
+That's why we install it separately here and the `ts-loader`, that is a package which will work together with webpack.
+
+The `ts-loader` is a package that tells webpack how to convert type code to JavaScript so did web page is able to do both compile our code with the help of types of loader which in turn of course uses the types of compiler under the hood and then we pick all those able to bundle our emitted JavaScript files into a `bundle.js` file into **one** bundled code file
+
 Adding entry and output configuration
 -----------------------------------
 Adding typescript support with ts-loader
