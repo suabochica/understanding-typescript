@@ -18,6 +18,12 @@ Index
 
 What is webpack and why do we need it?
 -----------------------------------
+So, as we mentioned before, the big issue that we have with normal setup is that currently our browser is making several HTTP requests to get the ES6 Module. We have some additional issues that are listed in the next image: 
+
+![What is webpack](../assets/s11-what-is-webpack.png "What is webpack")
+
+So, Webpack is a building and build orchestration tool that allow us to attack the pain points that we got with a normal setup. This tool enter into the frontend devops field, and is a great mechanism to improve our application life cycle.
+
 Installing webpack and important dependencies
 -----------------------------------
 Adding entry and output configuration
