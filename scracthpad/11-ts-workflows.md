@@ -59,6 +59,36 @@ The `ts-loader` is a package that tells webpack how to convert type code to Java
 
 Adding entry and output configuration
 -----------------------------------
+
+Before to start, let's double check that our `tsconfig.json` file has the next setup:
+
+```javascript
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ES2015",
+    ...
+    "outDir": "./dist",
+}
+```
+Now we have guarantees over the target, the module mechanism and the output directory of the project. Then we will create a `webpack.config.js` file with the next content:
+
+```javascript
+const path = require('path');
+
+module.exports = {
+    entry: './src/app.ts',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+    }
+}
+```
+
+It is important keep the name of the file, because the webpack package will run the contents of the file, just if the name match. For other side, we have to remove all the `.js` extension from the imports that we got in our project, because, webpack by default will look for the `.js` files.
+
+Returning to the content of the `webpack.config.js` file, we export a module with an `entry` field, to indicate where our project start (i.e `app.ts`), and an output field to indicate where we will put the bundle files that generate webpack. Here we use the `path` module of NodeJS, to set the path that with hold the created files.
+
 Adding typescript support with ts-loader
 -----------------------------------
 Finishing the setup and adding webpack-deb-server
