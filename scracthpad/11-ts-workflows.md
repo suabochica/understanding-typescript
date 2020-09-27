@@ -91,7 +91,54 @@ Returning to the content of the `webpack.config.js` file, we export a module wit
 
 Adding typescript support with ts-loader
 -----------------------------------
-Finishing the setup and adding webpack-deb-server
+
+Good, now let's add new properties in the `webpack.config.js` file, and we will explain one by one. Check the next snippet:
+
+```javascript
+const path = require('path');
+
+module.exports = {
+    entry: './src/app.ts',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+    devtool: 'inline-source-map',
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['.ts', '.js']
+    }
+};
+```
+
+The `devtool` is a property that in this case is used in combination with the `sourceMap` field of the `tsconfig.json` file. Remember that sourceMap is a tool that facilities us the debugging of code. With the value of `inline-source-map` we are saying to webpack that use the sourceMap feature of TypeScript to handle the source mapping of the project.
+
+the `module` property is a complex one because it offer the flexibility of webpack to set different rules over the tech stack that we are using in the application. The `rules` field is an array of objects that hold the association between the tech and the webpack loader. For this case we are indicating that the `.ts` files will use the `ts-loader` and we will exclude the contents of the `node_modules` directory. For these definitions, webpack use regular expressions in the values of the properties of the object.
+
+The last property is `resolve`, used to set the input output relationship of the `.ts` files to the `.js` files.
+
+Now, letś add a script in our `package.json` file to run the webpack command as show below:
+
+```json
+...
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "lite-server",
+      "build": "webpack"
+  },
+```
+
+For now, we will run the `npm run build` file and we can see that in the `/dist` folder we get the same folder structure of the `src`. We will use the lite server and if you check the project in the `localhost`, you see that in the network tab of the browser the quantity of the requests was reduced to the call of the `bundle.js` file. This is an important improvement.
+
+Finishing the setup and adding webpack-dev-server
 -----------------------------------
 Adding production workflow
 -----------------------------------
