@@ -125,7 +125,7 @@ the `module` property is a complex one because it offer the flexibility of webpa
 
 The last property is `resolve`, used to set the input output relationship of the `.ts` files to the `.js` files.
 
-Now, letś add a script in our `package.json` file to run the webpack command as show below:
+Now, let's add a script in our `package.json` file to run the webpack command as show below:
 
 ```json
 ...
@@ -140,6 +140,38 @@ For now, we will run the `npm run build` file and we can see that in the `/dist`
 
 Finishing the setup and adding webpack-dev-server
 -----------------------------------
+Let's start to use the `webpack-dev-server`. First, let's replace the start script in the `package.json` file, as shown below:
+```json
+...
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "webpack-dev-server",
+      "build": "webpack"
+  },
+```
+
+Cool, now if you test the `npm run start` command, we will have some differences, however, this set up is incomplete yet. We have to add some properties inside the `webpack.config.js` file. Check the next snippet:
+
+```javascript
+const path = require('path');
+
+module.exports = {
+    mode: 'development',
+    entry: './src/app.ts',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: 'dist'
+    },
+    devtool: 'inline-source-map',
+    ...
+};
+```
+
+We add two new properties, `mode` and `publicPath`. The first one is to specify to webpack that the current configuration is for development environment, and the second one, is a complement for the `webpack-dev-server` to indicate were generate the compiled files.
+
+Now, let's start with the setup for the production environment.
+
 Adding production workflow
 -----------------------------------
 Wrap up
