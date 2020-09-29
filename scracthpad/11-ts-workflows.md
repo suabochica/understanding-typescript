@@ -174,50 +174,114 @@ Now, let's start with the setup for the production environment.
 
 Adding production workflow
 -----------------------------------
+
+Before to start with the set up of the production environment lets install a webpack plugin called `clean-webpack-plugin` running the next command:
+
+```
+$ npm install --save-dev clean-webpack-plugin
+```
+
+Plug ins are extra for webpack. You can add to your webpack workflow which will basically be applied to the entire output to the entire project.
+
+Rules and modules specifically are applied on a per file level. Plugins are applied to the general workflow.
+
+Here we want to add a plug in which automatically deletes everything in the `dist` folder before a new output is written there.
+
+Now, let's create a new file called `webpack.config.production.js` with the next content:
+
+```javascript
+const path = require('path');
+const CleanPlugin = require('clean-webpack-plugin');
+
+module.exports = {
+    mode: 'production',
+    entry: './src/app.ts',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+    devtool: 'none',
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['.ts', '.js']
+    },
+    plugins: [
+        new CleanPlugin.CleanWebpackPlugin(),
+    ]
+};
+```
+
+Notice that we have similarities with the `webpack.config.js` file. The differences are in the 'mode' field, we remove the `publicPath` key, and set the `devtool` to 'none'. Additionally, we set a new field `plugin'` to consume the `clean-webpack-plugin` that we installed before.
+
+Now, just one step is remaining, an is updating the `build` script in our `package.json file`.
+
+```json
+...
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "webpack-dev-server",
+      "build": "webpack --config webpack.config.prod.js"
+  },
+```
+
+That's it, now we have a set up for a production environment.
+
 Wrap up
 -----------------------------------
 
-TODO: Organize this code
-Introduction
+So we added webpack a very important tool that allows us to bundle together our different files into one bundle.
+
+This really helps us decrease the amount of HTTP requests made and therefore can speed up our application. If you find yourself working with a lot of individual files what you typically do in bigger projects tools, webpack is the most important and prominent tool that helps you with that.
+
+You see that webpack is highly configurable and as we mentioned multiple times the official docs of webpack are the place to go to learn all about it about different loaders different other settings you can set up and how it works in general. So definitely dive into this documentation if you want to become a webpage monster and you want to have a more elaborate setup.
+
+Our basic set up here however already allows us to compile type files with the webpack and then bundle to gather all the output into one single bundle JavaScript file and we also set up a configuration for development which makes debugging easier and gives us more helpful error messages and we get a production setup which gives us a highly optimized code which we then could deploy to a server to ship as little code as possible to it and that's it.
+
+Webpack really is a core tool and being able to use it and having a configuration that really just works is super important. So it is a must use in any modern project. In this module you learned how you can get started with it in your types good projects.
+
+Old notes
 ------------
-1. TypeScript inside project workflows with bundler, gulp and webpack.
+- TypeScript inside project workflows with bundler, gulp and webpack.
+- The watch command to left the TypeScript compiler open: `tsc -w`
+- Use the `tsconfig.json` to control which files will be compiled with the `exclude` property
 
-Using `tsc` and the `tsconfig` File
------------------------------------
-1. The watch command to left the TypeScript compiler open: `tsc -w`
-2. Use the `tsconfig.json` to control which files will be compiled with the `exclude` property
+- How to TypeScript resolves Files using the `tsconfig.json` File
+  - Run the `tsc` command
+  - This command will check the configuration inside `tsconfig.json`
+  - The `exclude` property tells to the compiler not check inside this files/folders
+  - The opposite of exclude is the `files` property to be more explicit
 
-How to TypeScript resolves Files using the `tsconfig.json` File
----------------------------------------------------------------
-1. Run the `tsc` command
-2. This command will check the configuration inside `tsconfig.json`
-3. The `exclude` property tells to the compiler not check inside this files/folders
-4. The opposite of exclude is the `files` property to be more explicit
+- More on `tsc` and the `tsconfig` File
+  - You can use the tsc command on specific file: `tsc app.ts`
+  - Also is important the location of the `tsconfig.json` file
+  - For more information check the official documentation of TypeScript in the section [Project Configuration](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
 
-More on `tsc` and the `tsconfig` File
--------------------------------------
-1. You can use the tsc command on specific file: `tsc app.ts`
-2. Also is important the location of the `tsconfig.json` file
-3. For more information check the official documentation of TypeScript in the section [Project Configuration](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
+- Adding TypeScript into a Gulp Workflow
+  - Install gulp and gulp-typescript plugin: `npm install --save-dev gulp gulp-typescript`
+  - Add a `gulpfile.js`
+  - import `gulp` and `gulp-typescript`
+  - `gulp-typescript` is a typescript wrapper
+  - create the `typescript` task and associate it to the `tsconfig.json`
+  - You can check the [gupl-typescript documentation](https://www.npmjs.com/package/gulp-typescript)
 
-Adding TypeScript into a Gulp Workflow
---------------------------------------
-1. Install gulp and gulp-typescript plugin: `npm install --save-dev gulp gulp-typescript`
-2. Add a `gulpfile.js`
-3. import `gulp` and `gulp-typescript`
-4. `gulp-typescript` is a typescript wrapper
-5. create the `typescript` task and associate it to the `tsconfig.json`
-6. You can check the [gupl-typescript documentation](https://www.npmjs.com/package/gulp-typescript)
+- Adding TypeScript into a Webpack Workflow
+  - Install webpack and the gulp loader: `npm install --save-dev webpack ts-loader`
+  - Remove the SystemJS code for loads files.
+  - Now you are using webpack. Then use bundle.js to load your files
+  - Remove the `exclude` property from `tsconfig.json`. Now it is responsibility of webpack
+  - Also remove the `module` and `sourceMap` properties. Now it is responsibility of webpack
+  - Add the file `webpack.config.js`
+  - Remember that webpack always use the local package installed in the project. No matters if the package ins installed globally
+  - Finally change the syntax to import jQuery `imsport $ = require(jquery)`
 
-Adding TypeScript into a Webpack Workflow
------------------------------------------
-1. Install webpack and the gulp loader: `npm install --save-dev webpack ts-loader`
-2. Remove the SystemJS code for loads files.
-3. Now you are using webpack. Then use bundle.js to load your files
-4. Remove the `exclude` property from `tsconfig.json`. Now it is responsibility of webpack
-5. Also remove the `module` and `sourceMap` properties. Now it is responsibility of webpack
-6. Add the file `webpack.config.js`
-7. Remember that webpack always use the local package installed in the project. No matters if the package ins installed globally
-8. Finally change the syntax to import jQuery `imsport $ = require(jquery)`
-
-
+Resources
+----------------------------------------
+- [Official Webpack Docs](https://webpack.js.org/)
