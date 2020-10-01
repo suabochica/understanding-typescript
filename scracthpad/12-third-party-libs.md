@@ -1,3 +1,30 @@
+Third party libraries and typescript
+===============================================
+
+In modern web development we typically also work with third party libraries. We don't write all the code of our projects on our own. Instead typically we utilize third party libraries so that we don't always have to reinvent the wheel on our own but can add certain functionalities to our projects and then just focus on our core business logic.
+
+Now in this module we will have a look at third party libraries and how you can add them to your typescript project. 
+
+Specifically we'll have a look at two types of libraries and what working with them in a typescript project means we'll have a look at **normal libraries** which you could use in regular jobs good projects as well and you will learn how you can use them in typescript and get the most out of them. But then we will also have a look at some **typescript specific libraries**. The difference will be that these are libraries that really utilize and embrace certain types of features to give you a brand new way of working with them to give you a certain functionalities. You can't build like this with vanilla javascript so let's have a look at both.
+
+Index
+-----------------------------------------
+
+1. Using javascript libraries with typescript
+2. Using declare as a last resort
+3. No types needed: class transformer
+4. Typescript embracing: class validator
+
+Using javascript libraries with typescript
+-----------------------------------------
+Using declare as a last resort
+-----------------------------------------
+No types needed: class transformer
+-----------------------------------------
+Typescript embracing: class validator
+-----------------------------------------
+
+TODO: Move to section 14
 Example: Using TypeScript together with ReactJS
 ===============================================
 
@@ -7,7 +34,7 @@ Introduction
 2. Integration with webpack and reactjs, respecting the folder structure and the use of `jsx` (`.tsx`)
 
 Setting up the Project & Adding React Packages
-----------------------------------------------
+-----------------------------------------
 1. `npm init`
 2. `npm install react react-dom --save`
 
