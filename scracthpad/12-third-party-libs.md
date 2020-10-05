@@ -17,6 +17,36 @@ Index
 
 Using javascript libraries with typescript
 -----------------------------------------
+Let's use the lodash library to illustrate how use JavaScript libraries in our project behind webpack. First of all, run:
+
+```
+npm i --save lodash
+```
+
+Once installed, and verified that the package.json file was update, in a `app.ts` file let's consume the library. For example:
+
+```typescript
+import _ from 'lodash'_
+
+console.log(_.shuffle([1, 2, 3]));
+```
+
+`shuffle` is a method that you can check in the lodash's documentation. But with this setup we will get an error after run the webpack server: `Could not find a diclaration file for module 'lodash'`. The proble here is that TypeScript doesn't understand what method lodash exports. That is why it can't find the module. A quick fix will update the next property in the `tsconfig.json` file:
+
+```json
+  "noEmitOnError" : false,
+```
+
+Then, the server will up, an we can verify in the console tab that the log is working, but, the error is still there. That proves that the code in the `app.ts` is right, but TypeScript setup is wrong. That's the scenario we want to replicate, use a JavaScript library in a TypeScript project. 
+
+So, to solve the TypeScript setup for JavaScript libraries without type definitions, we have to install and additional package, that will translate the JavaScript library for TypeScript projects, offering the type definitions that TypeScript expects. For this case we should run:
+
+```
+npm i --save-dev @types/lodash
+```
+
+Once installed this package, the error disappear automatically. The `@types` is a package that offer the types definitions for the most popular JavaScript library. This package have a lot of `*.d.ts` where the type definitions of an specific library are exported. So, if you want to use `jquery` in TypeScript you will have to install the `@types/jquery` package. So that is how you can work with types and vanilla JavaScript libraries.
+
 Using declare as a last resort
 -----------------------------------------
 No types needed: class transformer
