@@ -91,6 +91,81 @@ This way we are telling to TypeScript that the `GLOBAL` variables of JavaScript 
 
 No types needed: class transformer
 -----------------------------------------
+To understand the use of the `class-transformer` package of the typestack repository of TypeScript, let's create an scenarion of a product with a title and a price, as shown below:
+
+```typescript
+// product.model.ts
+export class Product {
+  title: string;
+  price: number;
+  
+  constructor(t: string, p: number) {
+    this.title = t;
+    this.price = p;
+  }
+  
+  getInformation() {
+    return [this.title, `$${this.price}`];
+  }
+}
+```
+
+Let's consume this class in the `app.ts` file, where we will take an array of products, and, we will `map` them to the `Product` class to enable the `getInformation` method. Next code is an example to get this.
+
+```typescript
+// app.ts
+import { Product } from './product.model';
+
+const products = [
+  { title: 'A Carpet', price: 29.00 },
+  { title: 'A Book, price: 10.00 },
+]
+
+const loadedProducts = products.map(product => {
+  return new Product(product.title, product.price);
+});
+
+for (const prod of loadedProducts) {
+  console.log(prod.getInformation());
+}
+```
+
+Now let's replicate the same result, but with help of the `class-transformer` package of TypeScript. First of all, let's install the module:
+
+```
+npm install class-transformer --same
+```
+
+Then, a shim is required, so let's run:
+
+```
+npm install reflect-metadata --same
+```
+
+Good, now we can use this package in the `app.ts` file, as show the next snippet:
+
+```typescript
+// app.ts
+import "reflect-metadata"
+import { Product } from './product.model';
+
+
+const products = [
+  { title: 'A Carpet', price: 29.00 },
+  { title: 'A Book, price: 10.00 },
+]
+
+const loadedProducts = plainToClass(Product, products)
+
+for (const prod of loadedProducts) {
+  console.log(prod.getInformation());
+}
+```
+
+Here the `plainToClass` is a method that we can access from `reflect-metadata` where we pass the class that we want to apply over a JSON data. This way, our products get the `getInformation` method via the use of the `reflect-metadata` package. 
+
+For this case, we are using a package and the amazing thing about this package is that it works that well here because it builds up on TypeScript.
+
 Typescript embracing: class validator
 -----------------------------------------
 
