@@ -49,6 +49,46 @@ Once installed this package, the error disappear automatically. The `@types` is 
 
 Using declare as a last resort
 -----------------------------------------
+
+Another case to guarantee the coexistence between JavaScript and TypeScript is when you set global variables for the window object. For example, imagine that you have the next `index.html` file:
+
+```html
+<html>
+<head>
+  ...
+</head>
+<body>
+  ...
+  <script>
+    var GLOBAL = 'This is set'
+  </script>
+</body>
+</html>
+```
+
+And, you want to consume this variables in the `app.ts` file:
+
+```typescript
+import _ from 'lodash'_
+
+console.log(GLOBAL);
+console.log(_.shuffle([1, 2, 3]));
+```
+
+If you run the ts watcher, you will get the next error: 'Cannot find name GLOBAL'. To fix this scenario, TypeScript offer a declaration syntax like the next one:
+
+
+```typescript
+import _ from 'lodash'_
+
+declare var GLOBAL: string;
+
+console.log(GLOBAL);
+console.log(_.shuffle([1, 2, 3]));
+```
+
+This way we are telling to TypeScript that the `GLOBAL` variables of JavaScript exists.
+
 No types needed: class transformer
 -----------------------------------------
 Typescript embracing: class validator
