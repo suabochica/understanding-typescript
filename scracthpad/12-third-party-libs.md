@@ -91,7 +91,7 @@ This way we are telling to TypeScript that the `GLOBAL` variables of JavaScript 
 
 No types needed: class transformer
 -----------------------------------------
-To understand the use of the `class-transformer` package of the typestack repository of TypeScript, let's create an scenarion of a product with a title and a price, as shown below:
+To understand the use of the `class-transformer` package of the wrote in vanilla JavaScript, let's create an scenarion of a product with a title and a price, as shown below:
 
 ```typescript
 // product.model.ts
@@ -133,13 +133,13 @@ for (const prod of loadedProducts) {
 Now let's replicate the same result, but with help of the `class-transformer` package of TypeScript. First of all, let's install the module:
 
 ```
-npm install class-transformer --same
+npm install class-transformer --save
 ```
 
 Then, a shim is required, so let's run:
 
 ```
-npm install reflect-metadata --same
+npm install reflect-metadata --save
 ```
 
 Good, now we can use this package in the `app.ts` file, as show the next snippet:
@@ -147,6 +147,7 @@ Good, now we can use this package in the `app.ts` file, as show the next snippet
 ```typescript
 // app.ts
 import "reflect-metadata"
+import { plainToClass } from "class-transformer"
 import { Product } from './product.model';
 
 
@@ -169,101 +170,125 @@ For this case, we are using a package and the amazing thing about this package i
 Typescript embracing: class validator
 -----------------------------------------
 
-TODO: Move to section 14
-Example: Using TypeScript together with ReactJS
-===============================================
+Now let's integrate the `class-validator` package of TypeScript stack, that offer us a huge catalog of decorator to apply them over our class properties. First, let's install the package with `npm`:
 
-Introduction
-------------
-1. How to use TypeScript in a library different that Angular
-2. Integration with webpack and reactjs, respecting the folder structure and the use of `jsx` (`.tsx`)
+```
+npm install class-validator --save
+```
 
-Setting up the Project & Adding React Packages
+Now, in the `product.model.ts` file let's import the next decorators from the `class-validator` package: `IsNotEmpty`, `IsNumber` and `IsPositive`. Then, let's use them as decorator of the Product class properties as show the next snippet.
+
+```typescript
+// product.model.ts
+import { IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
+
+export class Product {
+  @IsNotEmpty()
+  title: string;
+  @IsNumber()
+  @IsPositive()
+  price: number;
+  
+  constructor(t: string, p: number) {
+    this.title = t;
+    this.price = p;
+  }
+  
+  getInformation() {
+    return [this.title, `$${this.price}`];
+  }
+}
+```
+
+> Note: Remember enable the `experimentalDecorators` property in the `tsconfig.json` file to allow the use of decorators.
+
+Finally, to validate that the decorators are working on, we will create and invalid Product, and with help of the `validate` function from `class-validate` let's pass the invalid product and we will log the errors on that instance of the product. Keep in mind that the `validate` product return a promise, so we have to use the `.then` method of the Promise API. Please check the next code:
+
+```typescript
+// app.ts
+import "reflect-metadata"
+import { plainToClass } from "class-transformer"
+import { validate } from "class-validator"
+import { Product } from './product.model';
+
+
+const products = [
+  { title: 'A Carpet', price: 29.00 },
+  { title: 'A Book, price: 10.00 },
+]
+
+const newProd = new Product('', -5,99);
+validate(newProd).then(error => {
+  if (errors.length > 0) {
+    console.log('Validation Errors:', errors);
+  } else {
+    console.log(newProd.getInformation());
+  }
+});
+
+const loadedProducts = plainToClass(Product, products)
+
+for (const prod of loadedProducts) {
+  console.log(prod.getInformation());
+}
+```
+
+If you run the project, you will get the error of empty string and negative number in the console tab of the browser. These error are informative, the not will break the program, but they will give us the tools to write a better code.
+
+This is how easily you can add quite powerful validation to your projects with this decorator based approach related to what we did earlier in the decorators module.
+
+But as I mentioned multiple times more elaborate with a bunch of built in rules and you can learn all about that of course in the docs of this package and without reinventing the wheel.
+
+So that a class validate or package really is a powerful package you should be aware of if you're building bigger projects with typescript.
+
+Wrap up
 -----------------------------------------
-1. `npm init`
-2. `npm install react react-dom --save`
+The idea is that you get a feeling for two important things.
 
-Adding the ReactJS TypeScript Definition Files Packages
--------------------------------------------------------
-1. Use typings is (deprecated)
-2. `typings install dt~react dt~react-dom --global --save`
-3. The `typings.json` wil be created
+The first thing is that with TypeScript you can use regular JavaScript packages like `lodash` without issues. You might get errors initially. Keep in mind that technically it works though. But you can also work around these compilation errors then by importing the right types. The right translation from JavaScript to TypeScript in the end and such translation packages exist for all major and popular and even a lot of small JavaScript libraries.
 
-Installing webpack
-------------------
-1. `npm install webpack js-loader lite-server --save-dev`
-2. Add the `webpack.config.js` file
+You also might be working with JavaScript libraries which have these translation files. These `d.ts` files built in already. They are of course you don't need to install such translations thereafter. Besides these vanilla JavaScript libraries which might need translations you also might have libraries like `class-transformer` which work fine in vanilla JavaScript in modern vanilla JavaScript at least where you also have classes but which all the work without any extra translations and types of projects.
 
-Configuring webpack
--------------------
-1. Define your folder structure
-```
-project/
-|
-|-- src/
-|   |-- components/
-|   |-- index.tsx
-|   |
-|-- typings/
-|-- index.html
-|-- package.json
-|-- typings.json
-|-- webpack.config.js
-|   ...
-```
+And then we have packages like `class-validator` they really embrace typescript specific features and give you a brand new way of thinking about your project and of solving certain problems. In this case here by utilizing decorators knowing all these things is super important and gives you all the flexibility you need for your future projects.
 
-2. Add the basic configuration in webpack with that folder structure in mind
+Takeaways
+-----------------------------------------
+In a TypeScript project you will need third-party package as jQuery. How to combine JavaScript libraries with TypeScript?
 
-Creating ReactJS Code with TypeScript
--------------------------------------
-1. Create a component `Home.tsx`
-2. Inside this component define a TypeScript Workflows `interface`
-3. This interface will define the contract to the properties that will receive the component
+- Installing a third-party library
+  1. Install jQuery `npm install --save jquery`
 
-Configuring TypeScript Compiler to work with ReactJS
-----------------------------------------------------
-1. Add a script tu run webpack
+- Importing the Library
+  1. Use SystemJS to manage the libraries dependencies
+  2. Inside the `index.html` file use the `map` property of SystemJS and add the next key: `jQuery: node_modules/jquery/dist/jquery.min.js`
+  3. This configuration allow you to use jQuery but the TypeScript Compiler throws the error `Cannot find name $`
 
-Introduction
-------------
-1. In a TypeScript project you will need third-party package as jQuery.
-2. How to combine JavaScript libraries with TypeScript
+- Translating JavaScript to TypeScript with TypeScript Definition Files
+  1. A *Definition File* basically is a bridge between JavaScript libraries and TypeScript
+  2. The file extension is `d.ts`
 
-Installing a third-party library
---------------------------------
-1. Install jQuery `npm install --save jquery`
+- Option 1: Manually download TypeScript Definition Files
+  1. Please check [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) github project
+  2. Find the package that you need
+  3. Copy the raw file a paste it in a file inside your local project
+  4. It is not necessary use an import
 
-Importing the Library
----------------------
-1. Use SystemJS to manage the libraries dependencies
-2. Inside the `index.html` file use the `map` property of SystemJS and add the next key: `jQuery: node_modules/jquery/dist/jquery.min.js`
-3. This configuration allow you to use jQuery but the TypeScript Compiler throws the error `Cannot find name $`
+- Option 2: Managing TypeScript Definition Files with the "typings" Package
+  1. Typings (Deprecated) is the TypeScript Definition Manager like NPM
+  2. Install typings globally with: `npm install -g typings`
+  3. Instal the desired package with: `typings install dt~jquery --global --save`
+  4. This command wil create a `/typings` folder with the definition file and a `typing.json` file with the dependencies
+  5. It is not necessary use an import
 
-Translating JavaScript to TypeScript with TypeScript Definition Files
----------------------------------------------------------------------
-1. A *Definition File* basically is a bridge between JavaScript libraries and TypeScript
-2. The file extension is `d.ts`
+- Easier Type Management with TypeScript 2.0
+  1. A awesome new feature that is integrated with `npm`
+  2. Use the next command: `npm install --save-dev @types/dt~jquery`
+  3. This command will create the `node_modules/@types` folder where will store the TypeScript Definition Files
+  4. Also, if you check the `package.json` file you can see the definition file in the `devDependencies` property
+  5. You got all your third-party libraries in a same place
 
-Option 1: Manually download TypeScript Definition Files
--------------------------------------------------------
-1. Please check [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) github project
-2. Find the package that you need
-3. Copy the raw file a paste it in a file inside your local project
-4. It is not necessary use an import
-
-Option 2: Managing TypeScript Definition Files with the "typings" Package
--------------------------------------------------------------------------
-1. Typings (Deprecated) is the TypeScript Definition Manager like NPM
-2. Install typings globally with: `npm install -g typings`
-3. Instal the desired package with: `typings install dt~jquery --global --save`
-4. This command wil create a `/typings` folder with the definition file and a `typing.json` file with the dependencies
-5. It is not necessary use an import
-
-Easier Type Management with TypeScript 2.0
-------------------------------------------
-1. A awesome new feature that is integrated with `npm`
-2. Use the next command: `npm install --save-dev @types/dt~jquery`
-3. This command will create the `node_modules/@types` folder where will store the TypeScript Definition Files
-4. Also, if you check the `package.json` file you can see the definition file in the `devDependencies` property
-5. You got all your third-party libraries in a same place
-
+Resources
+-----------------------------------------
+- [Lodash](https://lodash.com)
+- [class-transformer](https://github.com/typestack/class-transformer)
+- [class-validator](https://github.com/typestack/class-validator)
