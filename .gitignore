@@ -1,3 +1,6 @@
 # Ignore node modules folder
-project/node_modules/*
-project/dist/*
+planner-prj/node_modules/*
+planner-prj/dist/*
+
+maps-prj/node_modules/*
+maps-prj/dist/*
