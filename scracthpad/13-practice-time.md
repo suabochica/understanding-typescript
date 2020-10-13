@@ -64,6 +64,13 @@ form.addEventListener('submit', searchAddressHandler);
 ```
 Setting up a Google API key
 ----------------------------------------
+
+To get a google API key, you have to go to the next page, create an account, specify the service you want to use, and request the APO Key:
+
+- [Get API Key](https://developers.google.com/maps/documentation/geocoding/get-api-key)
+
+For this project, we will use the Maps API and the Geocode API. The first one will let us use the maps in Google, and the second one is for to translate an address into an latitud, longitud or vice versa. Once we get the API key, we can continue to generate the request to process the location information.
+
 Using axios to fetch coordinates for an entered address
 ----------------------------------------
 Rendering a map with Google Maps
