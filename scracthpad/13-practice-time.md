@@ -73,6 +73,53 @@ For this project, we will use the Maps API and the Geocode API. The first one wi
 
 Using axios to fetch coordinates for an entered address
 ----------------------------------------
+Let's recall the use of third party libraries, and let's set up the `axios` package, to send the HTTP requests:
+
+```
+npm install --save axios
+```
+
+Now, let's import the package, and we can start used inside the `app.ts` file. A cool thing with axios, it is that it expose his type definitions, so your TypeScript project will be able to auto complete with the methods expose by axios.
+
+
+```typescript
+import axios from 'axios';
+
+const form = document.querySelector('form')!;
+const addressInput = document.getElementById('address')! as HTMLInputElement;
+const GOOGLE_API_KEY = 'XxxX'
+
+type GoogleGeocodingResponse = {
+    results: {geometry: {location: { lat: number; lng: number}}}[];
+    status: 'OK' | 'ZERO_RESULTS';
+}
+
+function searchAddressHandler(event: Event) {
+    event.preventDefault();
+    const enteredAddress = addressInput.value;
+
+    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(enteredAddress)}&key=${GOOGLE_API_KEY}`)
+        .then(response => {
+            console.log(response);
+            if (response.data.status !== 'OK') {
+                throw new Error('Could not fetch location!');
+            }
+
+            const coordinates = response.data.results[0].geometry.location;
+        })
+        .catch(err => {
+            alert(err.message);
+            console.log(err);
+        });
+}
+
+form.addEventListener('submit', searchAddressHandler);
+```
+
+Additionally, in this code we set the custom type `GoogleGeocodingResponse`, just to formalize the expected response from the Geocoding API. This response have more properties, but for this case, we will just define the properties that are relevant for the project.
+
+Finally, for the `address` parameter of the request, we use the `encodeURI` method of JavaScript, to pass the information that the user types in the form, in the expected format that require the request. So far, we will get the latitud and the longitude of the address that the user sets in the form.
+
 Rendering a map with Google Maps
 ----------------------------------------
 Working with maps without credit card
