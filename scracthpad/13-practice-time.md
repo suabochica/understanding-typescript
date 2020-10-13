@@ -18,8 +18,50 @@ Index
 
 Project setup
 ----------------------------------------
+
+The project setup of this project will be similar to the setup on the planner app. Here we will just share the contents of the `package.json` file, to get the references of the required packages:
+
+```json
+{
+  "name": "maps-app",
+  "version": "1.0.0",
+  "description": "Share your location app",
+  "main": "src/app.js",
+  "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "webpack-dev-server",
+      "build": "webpack --config webpack.config.prod.js"
+  },
+  "author": "Sergio L. Benitez D.",
+    "license": "ISC",
+    "devDependencies": {
+        "clean-webpack-plugin": "^3.0.0",
+        "ts-loader": "^8.0.4",
+        "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+    }
+}
+```
+
 Getting user input
 ----------------------------------------
+To get the user input we have to retrieve the form information when the user submit the code. The next snippet shows how we get the DOM element, and how we associate a handler to the submit event on the form:
+
+```typescript
+const form = document.querySelector('form')!;
+const adressInput = document.getElementById('address')! as HTMLInputElement;
+
+function searchAddressHandler(event: Event) {
+    event.preventDefault();
+    const enteredAddress = addressInput.value;
+
+    // TODO: send this to Google API
+}
+
+form.addEventListener('submit', searchAddressHandler);
+```
 Setting up a Google API key
 ----------------------------------------
 Using axios to fetch coordinates for an entered address
