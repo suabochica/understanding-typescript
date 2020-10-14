@@ -87,7 +87,7 @@ import axios from 'axios';
 
 const form = document.querySelector('form')!;
 const addressInput = document.getElementById('address')! as HTMLInputElement;
-const GOOGLE_API_KEY = 'XxxX'
+const GOOGLE_API_KEY = 'YOUR_API_KEY'
 
 type GoogleGeocodingResponse = {
     results: {geometry: {location: { lat: number; lng: number}}}[];
@@ -108,7 +108,7 @@ function searchAddressHandler(event: Event) {
             const coordinates = response.data.results[0].geometry.location;
         })
         .catch(err => {
-            alert(err.message);
+        alert(err.message);
             console.log(err);
         });
 }
@@ -122,5 +122,52 @@ Finally, for the `address` parameter of the request, we use the `encodeURI` meth
 
 Rendering a map with Google Maps
 ----------------------------------------
+
+To render the map, you have to import an script inside your `index.html` file as shown below:
+
+```html
+<script defer
+  src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+</script>
+```
+
+Now, inside the get request of the `app.ts` file, we will use the coordinates of the geocoding process to render the map, as we show in the next code:
+
+```typescript
+declare var google: any;
+...
+function searchAddressHandler(event: Event) {
+    event.preventDefault();
+    const enteredAddress = addressInput.value;
+
+    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(enteredAddress)}&key=${GOOGLE_API_KEY}`)
+        .then(response => {
+            if (response.data.status !== 'OK') {
+                throw new Error('Could not fetch location!');
+            }
+
+            const coordinates = response.data.results[0].geometry.location;
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: coordinates,
+                zoom: 8,
+            });
+
+            new google.maps.Marker({position: coordinates, map: map});
+        })
+        .catch(err => {
+            alert(err.message);
+            console.log(err);
+        });
+}
+```
+
+An important thing here, is that we are telling to TypeScript that the `google` object is a global object via the `declare` syntax. This code works as expected but we have an issue, and is that if we have a error instancing the google object, like a typo error, we will just identify the error in production stage, not in development. To fix that, we can use the `@types` packages of TypeScript:
+
+```
+npm i --save-dev @types/googlemaps
+```
+
+This way, we can get rid of the `declare` syntax, and we are making safer the code in development stage, also we can take advantage of the auto completion feature for the google object.
+
 Working with maps without credit card
 ----------------------------------------
