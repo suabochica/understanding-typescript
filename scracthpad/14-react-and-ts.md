@@ -1,6 +1,18 @@
 Example: Using TypeScript together with ReactJS
 ===============================================
 
+1. Setting up
+2. How do react and typescript work together
+3. Working with props and types props
+4. Getting user input with "refs"
+5. Cross-component communication
+6. Working wiht state and types
+7. Managing state better
+8. More props and state work
+9. Adding styling
+10. Types for other react features
+11. Wrap up
+
 Introduction
 ------------
 1. How to use TypeScript in a library different that Angular
@@ -17,30 +29,27 @@ Adding the ReactJS TypeScript Definition Files Packages
 2. `typings install dt~react dt~react-dom --global --save`
 3. The `typings.json` wil be created
 
-Installing webpack
-------------------
-1. `npm install webpack js-loader lite-server --save-dev`
-2. Add the `webpack.config.js` file
+How do react and typescript work together
+-----------------------------------------
+Working with props and types props
+-----------------------------------------
+Getting user input with "refs"
+-----------------------------------------
+Cross-component communication
+-----------------------------------------
+Working wiht state and types
+-----------------------------------------
+Managing state better
+-----------------------------------------
+More props and state work
+-----------------------------------------
+Adding styling
+-----------------------------------------
+Types for other react features
+-----------------------------------------
+Wrap up
+-----------------------------------------
 
-Configuring webpack
--------------------
-1. Define your folder structure
-```
-project/
-|
-|-- src/
-|   |-- components/
-|   |-- index.tsx
-|   |
-|-- typings/
-|-- index.html
-|-- package.json
-|-- typings.json
-|-- webpack.config.js
-|   ...
-```
-
-2. Add the basic configuration in webpack with that folder structure in mind
 
 Creating ReactJS Code with TypeScript
 -------------------------------------
