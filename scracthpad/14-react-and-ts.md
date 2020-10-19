@@ -1,5 +1,13 @@
-Example: Using TypeScript together with ReactJS
+Using TypeScript together with ReactJS
 ===============================================
+
+In this course will obviously learned a lot about TypeScript and you'll all learn how to work with TypeScript and third party libraries like lodash.
+
+Now there is a very popular third party library which you might be interested in using to gather with TypeScript and that is React.
+
+ReactJs is a extremely popular javascript library for building amazing user interfaces and you can use it with typescript as well. It's not the default in most react projects. You don't work with typescript but you can absolutely do that. And in this course module you will learn how it works.
+
+> Disclaimer: This is not a React course. This module is for you if you already know React and you want to learn how to use TypeScript and React.
 
 1. Setting up
 2. How do react and typescript work together
