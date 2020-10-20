@@ -41,14 +41,23 @@ This command will create a react + typescript project from scratch. It will have
 
 ![image](../assets/s14-react-ts-cleaned-folder.png)
 
-Adding the ReactJS TypeScript Definition Files Packages
--------------------------------------------------------
-1. Use typings is (deprecated)
-2. `typings install dt~react dt~react-dom --global --save`
-3. The `typings.json` wil be created
-
 How do react and typescript work together
 -----------------------------------------
+
+React works with typescript as another third party library. To evidence that, let's take a look to the next snippet:
+
+```typescript
+import React from 'react'
+
+const App: React.FunctionalComponent = () => {
+  return <div className="App"></div>
+};
+
+export default App;
+```
+
+This is the code by default in the `App.tsx` file. The important line in this code is `const App: React.FunctionalComponent`. With that definition we are saying that the `App` variable is of type `React.FunctionalComponent`. Now, a valid question is where is the definition of the `React.FunctionalComponent`?. The answer is in the `node_modules` folder. If you check his contents, the `create-react-app` will install the types definitions for `react` and `react-dom`. So, if you delete the return statement, the TypeScript compiler will raise a warning saying that the `React.FunctionalComponent` type is not assignable to a `void` type. This way, the TypeScript's compiler will start to help us with the development of the react app. 
+
 Working with props and types props
 -----------------------------------------
 Getting user input with "refs"
