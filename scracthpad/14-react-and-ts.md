@@ -5,7 +5,7 @@ In this course will obviously learned a lot about TypeScript and you'll all lear
 
 Now there is a very popular third party library which you might be interested in using to gather with TypeScript and that is React.
 
-ReactJs is a extremely popular javascript library for building amazing user interfaces and you can use it with typescript as well. It's not the default in most react projects. You don't work with typescript but you can absolutely do that. And in this course module you will learn how it works.
+ReactJs is a extremely popular JavaScript library for building amazing user interfaces and you can use it with TypeScript as well. It's not the default in most react projects. You don't work with typescript but you can absolutely do that. And in this course module you will learn how it works.
 
 > Disclaimer: This is not a React course. This module is for you if you already know React and you want to learn how to use TypeScript and React.
 
@@ -26,10 +26,20 @@ Introduction
 1. How to use TypeScript in a library different that Angular
 2. Integration with webpack and reactjs, respecting the folder structure and the use of `jsx` (`.tsx`)
 
-Setting up the Project & Adding React Packages
+Setting up a react + typescript project
 -----------------------------------------
-1. `npm init`
-2. `npm install react react-dom --save`
+
+For start a react project, is recommendable use an script of the `create-react-app` package. This package offer a lot of set ups to building your app, and one of his guide is focused in TypeScript. The information that we will group in the next lines, is in the [Adding TypeScript](https://create-react-app.dev/docs/adding-typescript/) section of the `create react app` official docs.
+
+So, you can start running:
+
+```
+npm create-react-app --template typescript
+```
+
+This command will create a react + typescript project from scratch. It will have some default files. To reduce the complexity, you can left the folder structure as shows the next image:
+
+![image](../assets/s14-react-ts-cleaned-folder.png)
 
 Adding the ReactJS TypeScript Definition Files Packages
 -------------------------------------------------------
