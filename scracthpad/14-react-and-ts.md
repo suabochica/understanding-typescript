@@ -60,6 +60,56 @@ This is the code by default in the `App.tsx` file. The important line in this co
 
 Working with props and types props
 -----------------------------------------
+Let's create a `/components` folder to store a `TodoList.tsx` file with the next content:
+
+```typescript
+import React from 'react';
+
+interface TodoListProps {
+  items: {id: string, text: string}[];
+};
+
+const TodoList: React.FunctionalComponent<TodoListProps> = props => {
+  return (
+    <ul>
+      {props.items.map(todo => (
+        <li key={todo.id}>{todo.text}</li>
+      ))}
+    <ul>
+  )
+}
+
+export default TodoList;
+```
+
+Let's explain in detail this react component. So first of all, one of the benefits of integrate typescript with react is the use of interfaces ti define the props of a react component. That is the first part of the snippet indicates. We define the `interface TodoListProps` to set the expected fields of an item in the `TodoList` component. For this case we expect an array of `items` two properties each one, the `id` and the `text`, with their respective type.
+
+Next we have the definition of the functional component. Notice that in the line `React.FunctionalComponent<TodoListProps>` we consume the interface defined previously. This component receive as parameter the `props` and in the return statement, we use the jsx syntax to `map` the items in the props and render the text of each item.
+
+In the `App.tsx` file we will consume this component. the next code show us how to:
+
+```typescript
+import React from 'react'
+
+import TodoList from './components/TodoList';
+
+const App: React.FunctionalComponent = () => {
+  const todos = [{ id: 't1', text: 'Finish the course' }];
+  return ( 
+    <div className="App">
+      {/* A components that adds todos */}
+      <TodoList items={todos} />
+    </div>
+  )
+};
+
+export default App;
+```
+
+First, we import the `TodoList` component from the respective path. Then inside the arrow function we define the `todos` array, with the `id` and the `text` fields. Finally in the return statement, we use the jsx syntax to render the `<TodoList items={todos} />` component. Here, the `items` attribute gets the `todos` variable that we define before. The `todos` variable are the props of the `TodoList` component.
+
+This is a really good practice that offers typescript to react, and verbose manage over the props of a react component. So far, this component just render hard coded information. Let's do this component dynamic.
+
 Getting user input with "refs"
 -----------------------------------------
 Cross-component communication
