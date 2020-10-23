@@ -112,6 +112,61 @@ This is a really good practice that offers typescript to react, and verbose mana
 
 Getting user input with "refs"
 -----------------------------------------
+Let's add a new component called `TodoListForm` to handle the inputs from the user. The code of this component is:
+
+```typescript
+import React, { useRef } from 'react';
+
+const TodoListForm: React.FunctionalComponent = () => {
+  const textInputRef = useRef<HTMLInputElement>(null);
+  const todoSubmitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    const enteredText = textInputRef.current!.value;
+    console.log(enteredText);
+  };
+
+  return (
+    <form onSubmit={todoSubmitHandler}>
+      <div>
+        <label htmlFor="todo-text">Todo Text</label>
+        <input type="text" id="todo-text" ref={textInputRef}/>
+      </div>
+      <button type="submit">Add</button>
+    </form>
+  )
+}
+
+export default TodoListForm;
+```
+
+The first thing to highlight here is the import of the `useRef` hook from react. `useRef` accepts an initial value as its first argument and it returns an object that has a `current` property (which will initially be set to whatever the initial value was). From there, anything you add to `current` will be persisted across renders. In this case we use it to get the input texted by the user. That's why we have a `ref` attribute inside the `<input>` element.
+
+Secondly, we have a `todoSubmitHandler` method that will attend the submit event of the form, and for now it will just log the text entered by the user.
+
+Now, let's consume this component in the `App.tsx` file:
+
+
+```typescript
+import React from 'react'
+
+import TodoList from './components/TodoList';
+import TodoListForm from './components/TodoListForm';
+
+const App: React.FunctionalComponent = () => {
+  const todos = [{ id: 't1', text: 'Finish the course' }];
+  return ( 
+    <div className="App">
+      <TodoListForm/>
+      <TodoList items={todos} />
+    </div>
+  )
+};
+
+export default App;
+```
+
+Similar as before, we have to import the `TodoListForm` component from their respective path, and then we use it as brother node of the `TodoList`. Time to check how to share the information between this two components.
+
 Cross-component communication
 -----------------------------------------
 Working wiht state and types
