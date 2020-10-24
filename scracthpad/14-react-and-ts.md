@@ -169,6 +169,67 @@ Similar as before, we have to import the `TodoListForm` component from their res
 
 Cross-component communication
 -----------------------------------------
+
+To communicate our component we use the props again. So, we have to add some code in our `App.tsx` file as shown next:
+
+```typescript
+import React from 'react'
+
+import TodoList from './components/TodoList';
+import TodoListForm from './components/TodoListForm';
+
+const App: React.FunctionalComponent = () => {
+  const todos = [{ id: 't1', text: 'Finish the course' }];
+  const addTodoHandler = (text:string) => {
+    console.log(text)
+  }
+
+  return ( 
+    <div className="App">
+      <TodoListForm onAddTodo={addTodoHandler}/>
+      <TodoList items={todos} />
+    </div>
+  )
+};
+
+export default App;
+```
+Here we add the function `addTodoHandler` and for now it will just log the entered message by the user. Then in the definition of the `TodoListForm` we add a new property `onAddTodo`, that is a pointer to the `addTodoHandler` function. Now, we have to modify the `TodoListForm` component according this changes, as illustrate the snippet below:
+
+
+```typescript
+import React, { useRef } from 'react';
+
+interface TodoListFormProps {
+  onAddTodo: (todoText: string) => void;
+}
+
+const TodoListForm: React.FunctionalComponent<TodoListFormProps> = props => {
+  const textInputRef = useRef<HTMLInputElement>(null);
+  const todoSubmitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    const enteredText = textInputRef.current!.value;
+    props.onAddTodo(enteredText)
+  };
+
+  return (
+    <form onSubmit={todoSubmitHandler}>
+      <div>
+        <label htmlFor="todo-text">Todo Text</label>
+        <input type="text" id="todo-text" ref={textInputRef}/>
+      </div>
+      <button type="submit">Add</button>
+    </form>
+  )
+}
+
+export default TodoListForm;
+```
+
+Again, we define an interface called `TodoListFormProps` with a function property `onAddTodo` as we set in the `App.tsx` file. Then, we have to pass the interface `<TodoListFormProps>` in the `React.FunctionalComponent` signature. Finally, in the `todoSubmitHandler` function, instead of log the message, we pass the `enteredText` as parameter of the the `onAddTodo` function.
+
+Now, if you test the application, we get the message from the `App.tsx` file.
+
 Working wiht state and types
 -----------------------------------------
 Managing state better
