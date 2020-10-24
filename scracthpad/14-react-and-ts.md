@@ -178,21 +178,21 @@ import React from 'react'
 import TodoList from './components/TodoList';
 import TodoListForm from './components/TodoListForm';
 
-const App: React.FunctionalComponent = () => {
-  const todos = [{ id: 't1', text: 'Finish the course' }];
+const app: react.FunctionalComponent = () => {
+  const todos = [{ id: 't1', text: 'finish the course' }];
   const addTodoHandler = (text:string) => {
     console.log(text)
   }
 
   return ( 
-    <div className="App">
+    <div classname="app">
       <TodoListForm onAddTodo={addTodoHandler}/>
       <TodoList items={todos} />
     </div>
   )
 };
 
-export default App;
+export default app;
 ```
 Here we add the function `addTodoHandler` and for now it will just log the entered message by the user. Then in the definition of the `TodoListForm` we add a new property `onAddTodo`, that is a pointer to the `addTodoHandler` function. Now, we have to modify the `TodoListForm` component according this changes, as illustrate the snippet below:
 
@@ -230,8 +230,45 @@ Again, we define an interface called `TodoListFormProps` with a function propert
 
 Now, if you test the application, we get the message from the `App.tsx` file.
 
-Working wiht state and types
+Working with state and types
 -----------------------------------------
+Before to start with state, let's create a new file called `todo.model.ts` with the next code: 
+
+```typescript
+export interface Todo {
+  id: string;
+  text: string;
+}
+```
+
+This is the basic schema for a `Todo` entity. Now let's introduce the state in the `App.tsx` file:
+
+```typescript
+import React, { useState } from 'react'
+
+import TodoList from './components/TodoList';
+import TodoListForm from './components/TodoListForm';
+import { Todo } from './models/todo.model'
+
+const app: react.FunctionalComponent = () => {
+  const [todos, setTodos] = useState<Todo[]>([])
+  const addtodohandler = (text:string) => {
+    setTodos([{id: Math.random().toString, text: text}]);
+  }
+
+  return ( 
+    <div classname="app">
+      <TodoListForm onAddTodo={addTodoHandler}/>
+      <TodoList items={todos} />
+    </div>
+  )
+};
+
+export default app;
+```
+
+First of all, check that we import from react the `useState` hook. This hook receive two parameters, the first is the object with the current state, and the second one is a function to modify that state. So, the `todos` variable is replaced by this two parameters, and the value is the `useState` with the type `Todo` defined in the model, with an empty array. Finally in the `addTodoHandler` function, we use the `setTodos` parameter and there we set the values for the `id` and the `text` of the `todo` item.
+
 Managing state better
 -----------------------------------------
 More props and state work
