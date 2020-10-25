@@ -271,6 +271,37 @@ First of all, check that we import from react the `useState` hook. This hook rec
 
 Managing state better
 -----------------------------------------
+One alternative to manage better our state in the `setTodos` function is using the spread operator over the `todos` object to create a copy of the last `state`. However is much cleaner the next approach:
+
+```typescript
+import React, { useState } from 'react'
+
+import TodoList from './components/TodoList';
+import TodoListForm from './components/TodoListForm';
+import { Todo } from './models/todo.model'
+
+const app: react.FunctionalComponent = () => {
+  const [todos, setTodos] = useState<Todo[]>([])
+  const addtodohandler = (text:string) => {
+    setTodos(prevTodos => [
+      ...prevTodos,
+      { id: Math.random().toString, text: text }
+    ]);
+  }
+
+  return ( 
+    <div classname="app">
+      <TodoListForm onAddTodo={addTodoHandler}/>
+      <TodoList items={todos} />
+    </div>
+  )
+};
+
+export default app;
+```
+
+Here we got a `prevTodos` function that returns and array with the `prevTodos` state, and the object with the new changes. This version is more legible and cleaner.
+
 More props and state work
 -----------------------------------------
 Adding styling
