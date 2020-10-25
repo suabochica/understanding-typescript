@@ -47,6 +47,7 @@ How do react and typescript work together
 React works with typescript as another third party library. To evidence that, let's take a look to the next snippet:
 
 ```typescript
+// App.tsx
 import React from 'react'
 
 const App: React.FunctionalComponent = () => {
@@ -63,6 +64,7 @@ Working with props and types props
 Let's create a `/components` folder to store a `TodoList.tsx` file with the next content:
 
 ```typescript
+// TodoList.tsx
 import React from 'react';
 
 interface TodoListProps {
@@ -89,6 +91,7 @@ Next we have the definition of the functional component. Notice that in the line
 In the `App.tsx` file we will consume this component. the next code show us how to:
 
 ```typescript
+// App.tsx
 import React from 'react'
 
 import TodoList from './components/TodoList';
@@ -115,6 +118,7 @@ Getting user input with "refs"
 Let's add a new component called `TodoListForm` to handle the inputs from the user. The code of this component is:
 
 ```typescript
+// TodoListForm.tsx
 import React, { useRef } from 'react';
 
 const TodoListForm: React.FunctionalComponent = () => {
@@ -147,6 +151,7 @@ Now, let's consume this component in the `App.tsx` file:
 
 
 ```typescript
+// App.tsx
 import React from 'react'
 
 import TodoList from './components/TodoList';
@@ -173,6 +178,7 @@ Cross-component communication
 To communicate our component we use the props again. So, we have to add some code in our `App.tsx` file as shown next:
 
 ```typescript
+// App.tsx
 import React from 'react'
 
 import TodoList from './components/TodoList';
@@ -198,6 +204,7 @@ Here we add the function `addTodoHandler` and for now it will just log the enter
 
 
 ```typescript
+// TodoListForm.tsx
 import React, { useRef } from 'react';
 
 interface TodoListFormProps {
@@ -235,6 +242,7 @@ Working with state and types
 Before to start with state, let's create a new file called `todo.model.ts` with the next code: 
 
 ```typescript
+// todo.model.ts
 export interface Todo {
   id: string;
   text: string;
@@ -244,6 +252,7 @@ export interface Todo {
 This is the basic schema for a `Todo` entity. Now let's introduce the state in the `App.tsx` file:
 
 ```typescript
+// App.tsx
 import React, { useState } from 'react'
 
 import TodoList from './components/TodoList';
@@ -252,7 +261,7 @@ import { Todo } from './models/todo.model'
 
 const app: react.FunctionalComponent = () => {
   const [todos, setTodos] = useState<Todo[]>([])
-  const addtodohandler = (text:string) => {
+  const addTodoHandler = (text:string) => {
     setTodos([{id: Math.random().toString, text: text}]);
   }
 
@@ -274,6 +283,7 @@ Managing state better
 One alternative to manage better our state in the `setTodos` function is using the spread operator over the `todos` object to create a copy of the last `state`. However is much cleaner the next approach:
 
 ```typescript
+// App.tsx
 import React, { useState } from 'react'
 
 import TodoList from './components/TodoList';
@@ -282,7 +292,7 @@ import { Todo } from './models/todo.model'
 
 const app: react.FunctionalComponent = () => {
   const [todos, setTodos] = useState<Todo[]>([])
-  const addtodohandler = (text:string) => {
+  const addTodoHandler = (text:string) => {
     setTodos(prevTodos => [
       ...prevTodos,
       { id: Math.random().toString, text: text }
@@ -304,6 +314,70 @@ Here we got a `prevTodos` function that returns and array with the `prevTodos` s
 
 More props and state work
 -----------------------------------------
+Now, let's add a flow for delete todo items. First, let's modify the `TodoList` component to add a button that will trigger the event to delete an item:
+
+```typescript
+// TodoList.tsx
+import React from 'react';
+
+interface TodoListProps {
+  items: {id: string, text: string}[];
+  deleteTodoHandler: (id: string) => void;
+};
+
+const TodoList: React.FunctionalComponent<TodoListProps> = props => {
+  return (
+    <ul>
+      {props.items.map(todo => (
+        <li key={todo.id}>{todo.text}
+          <span>{todo.text}</span>
+          <button onClick={props.onDeleteTodo.bind(null, todo.id)}>Delete</button>
+        </li>
+      ))}
+    <ul>
+  )
+}
+
+export default TodoList;
+```
+
+Two things to highlight: one, the interface was updated to receive the `deleteTodoHandler` function as part of the `TodoListProps` interface. That means that in the definition of the component we have to pass that method. Secondly, we add a `button` in the jsx of the file to trigger the delete flow. Let's modify the `App.tsx` file to attend this new journey
+
+```typescript
+// App.tsx
+import React, { useState } from 'react'
+
+import TodoList from './components/TodoList';
+import TodoListForm from './components/TodoListForm';
+import { Todo } from './models/todo.model'
+
+const app: react.FunctionalComponent = () => {
+  const [todos, setTodos] = useState<Todo[]>([])
+  const addTodoHandler = (text:string) => {
+    setTodos(prevTodos => [
+      ...prevTodos,
+      { id: Math.random().toString, text: text }
+    ]);
+  }
+  const deleteTodoHandler = (id:string) => {
+    setTodos(prevTodos => {
+      return prevTodos.filter(todo => todo.id !== id);
+    });
+  }
+
+  return ( 
+    <div classname="app">
+      <TodoListForm onAddTodo={addTodoHandler}/>
+      <TodoList items={todos} onDeleteTodo={deleteTodoHandler} />
+    </div>
+  )
+};
+
+export default app;
+```
+
+Notice that we create a `deleteTodoHandler` method whose content filter the `todos` that are different to the id passed as parameter. This is the criteria to set in the state what is the item we will delete. Then, at the moment of instantiate the `TodoList` component, we pass a second prop `onDeleteTodo` with the pointer to the method mentioned previously. This way we will delete the `todo` item when we press the delete button after it.
+
 Adding styling
 -----------------------------------------
 Types for other react features
