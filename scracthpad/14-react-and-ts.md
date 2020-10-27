@@ -440,16 +440,19 @@ export default TodoListForm;
 ```
 Types for other react features
 -----------------------------------------
+Some of the popular libraries used with react are redux and react-router. For redux, you can check the official [documentation](https://redux.js.org/recipes/usage-with-typescript) and read the section _usage with typescript_. For react-router, we don't have guides to work with typescript, so we should install the `@types/react-router-dom` package and follow the definitions of these types.
+
+This way, you can use the advantage of typescript with these package.
+
 Wrap up
 -----------------------------------------
 
+So in this module we had a look at react and typescript. Again we can add a lot of nice extra features and checks that make sure that we write clear an error free code.
 
-Creating ReactJS Code with TypeScript
--------------------------------------
-1. Create a component `Home.tsx`
-2. Inside this component define a TypeScript Workflows `interface`
-3. This interface will define the contract to the properties that will receive the component
+We review a couple of very important patterns and a couple of very important react features like props and state and how to use them with typescript. Also, we check how you should think about adding other functionalities like redux which we didn't use in this module.
 
-Configuring TypeScript Compiler to work with ReactJS
-----------------------------------------------------
-1. Add a script tu run webpack
+An important thing is don't forget about all the other things you learn about typescript in previous lessons. The types you learn about and all the things you can do with typescript including the configuration applies to this react plus types could project as well.
+
+Just because we had a nice configuration out of the box here does not mean that you can't tweak it. You can tweak it and you can use everything you've learned in this project because after all even though we're writing some reactive code and we can use `jsx` we're still writing javascript or specifically typescript code and data for everything you'll learn from this course is valid here as well.
+
+It's easy to forget that so always keep it in mind. And with that consider creating your next react project with typescript. You know certainly know how to get started and how it works.
