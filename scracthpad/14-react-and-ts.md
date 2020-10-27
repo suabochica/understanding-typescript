@@ -380,6 +380,64 @@ Notice that we create a `deleteTodoHandler` method whose content filter the `tod
 
 Adding styling
 -----------------------------------------
+To add styling you should create the `.css` files for both components and fit the selectors to apply the styles. Then you have to import them in the respective `.tsx` file, and test in the browser that the specified styles are being rendered. The next snippet shows how to import the stiles in a react component:
+
+```typescript
+// TodoList.tsx
+import React from 'react';
+import './TodoList.css';
+
+interface TodoListProps {
+  items: {id: string, text: string}[];
+  deleteTodoHandler: (id: string) => void;
+};
+
+const TodoList: React.FunctionalComponent<TodoListProps> = props => {
+  return (
+    <ul>
+      {props.items.map(todo => (
+        <li key={todo.id}>{todo.text}
+          <span>{todo.text}</span>
+          <button onClick={props.onDeleteTodo.bind(null, todo.id)}>Delete</button>
+        </li>
+      ))}
+    <ul>
+  )
+}
+
+export default TodoList;
+```
+
+```typescript
+// TodoListForm.tsx
+import React, { useRef } from 'react';
+import '.TodoListForm.css';
+
+interface TodoListFormProps {
+  onAddTodo: (todoText: string) => void;
+}
+
+const TodoListForm: React.FunctionalComponent<TodoListFormProps> = props => {
+  const textInputRef = useRef<HTMLInputElement>(null);
+  const todoSubmitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    const enteredText = textInputRef.current!.value;
+    props.onAddTodo(enteredText)
+  };
+
+  return (
+    <form onSubmit={todoSubmitHandler}>
+      <div className="form-control">
+        <label htmlFor="todo-text">Todo Text</label>
+        <input type="text" id="todo-text" ref={textInputRef}/>
+      </div>
+      <button type="submit">Add</button>
+    </form>
+  )
+}
+
+export default TodoListForm;
+```
 Types for other react features
 -----------------------------------------
 Wrap up
