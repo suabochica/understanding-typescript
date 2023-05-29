@@ -19,6 +19,7 @@ Index
 
 Let and Const
 -------------
+
 `let` and `const` are keywords introduced in ES6 to improve the variable declarations. Let's start explaining `const` through the next snippet
 
 ```typescript
@@ -42,16 +43,16 @@ For other side, we have to talk about the relation between `let` and `var` keywo
 ```typescript
 function add(a: number, b: number) {
   let result;
-  
+
   result = a + b;
-  
+
   return result;
 }
 
 console.log(result) // Throw an error
 ```
 
-If we run this code, the browser will indicates that the `result` variable is out of the _scope_ of the add functions. A block scope means that a variable is always available in the block in which you define it or in any lower blocks. We create scopes in JavaScript with the curly braces `{}`. 
+If we run this code, the browser will indicates that the `result` variable is out of the _scope_ of the add functions. A block scope means that a variable is always available in the block in which you define it or in any lower blocks. We create scopes in JavaScript with the curly braces `{}`.
 
 This is the difference between `var`, `let` and `const`. For `var` just exist the global scope, whilst for `let` and `const` we have the block scope in a function, the `if`-`for` statements and the code inside the `{}`.
 
@@ -117,7 +118,7 @@ The spread operator in arrays let us handle the internal values of the array.
 
 Let's review the spread operator in objects. For example:
 
-````typescript
+```typescript
 const person = {
   name: 'Max',
   age: 30
@@ -140,10 +141,11 @@ const copiedPerson = { ...person };
 Since we created a new object here and just added to key value pairs we got a perfect copy of the original object and not just the pointer that points to the object in memory.
 
 The Rest Parameters
------------------
+-------------------
+
 To evaluate the rest parameters, let's create an `add` function that will sum all the numbers that receives as parameters. The fact here is that we don't know how many parameters we will receive. The next snippet is an implementation of this scenario:
 
-```typesecript
+```typescript
 const add = (...numbers: number[]) => {
   return numbers.reduce((currentResult, currentValue) => {
     return currentResult + currentValue;
@@ -156,10 +158,11 @@ console.log(addedNumbers) // 7
 
 In this code we use the rest parameters in `(...numbers: number[])`. His syntax is the same of the spread operator, so we have the be aware of the context to identify which feature we are using. The important thing with the rest operator is that it will put the parameters that we receive in an `array`. That is the reason why we can use the `reduce` function to apply our sum.
 
-That's rest parameters. A really useful feature for accepting an unlimited amount of arguments. 
+That's rest parameters. A really useful feature for accepting an unlimited amount of arguments.
 
 Array & Object Destructuring
 --------------------
+
 Destructuring is a cleaner feature to access to the values in an array or an object, Let's start with arrays.
 
 Consider the next code, whose goal is get the values inside the array.
