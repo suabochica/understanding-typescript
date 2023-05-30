@@ -14,7 +14,7 @@ class genericMap<T extends number | string> {
     }
 
     clear() {
-        this.key = {};
+        this.key = "";
     }
 
     printMap(): void {

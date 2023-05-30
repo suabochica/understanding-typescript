@@ -1,5 +1,6 @@
 Select and share a place app
 ===============================================
+
 Now in the last module we learned how to work with third party libraries in typescript and that's exactly what we'll build up on this module.
 
 We will build a tiny application a very simple Web site where we will use third party libraries to send HTTP requests and also to render a map.
@@ -51,7 +52,7 @@ To get the user input we have to retrieve the form information when the user sub
 
 ```typescript
 const form = document.querySelector('form')!;
-const adressInput = document.getElementById('address')! as HTMLInputElement;
+const addressInput = document.getElementById('address')! as HTMLInputElement;
 
 function searchAddressHandler(event: Event) {
     event.preventDefault();
@@ -73,6 +74,7 @@ For this project, we will use the Maps API and the Geocode API. The first one wi
 
 Using axios to fetch coordinates for an entered address
 ----------------------------------------
+
 Let's recall the use of third party libraries, and let's set up the `axios` package, to send the HTTP requests:
 
 ```
@@ -163,7 +165,7 @@ function searchAddressHandler(event: Event) {
 
 An important thing here, is that we are telling to TypeScript that the `google` object is a global object via the `declare` syntax. This code works as expected but we have an issue, and is that if we have a error instancing the google object, like a typo error, we will just identify the error in production stage, not in development. To fix that, we can use the `@types` packages of TypeScript:
 
-```
+```bash
 npm i --save-dev @types/googlemaps
 ```
 
@@ -171,6 +173,7 @@ This way, we can get rid of the `declare` syntax, and we are making safer the co
 
 Working with maps without credit card
 ----------------------------------------
+
 Using Google Maps unfortunately requires a credit card, even though you got a generous free tier which you very likely wouldn't exceed.
 
 If you got no credit card, you can look into OpenLayers as an alternative (here's how to render a map with it: https://openlayers.org/en/latest/doc/quickstart.html).
@@ -186,12 +189,12 @@ And, in `app.ts`, use this code:
 
 ```typescript
 declare var ol: any;
- 
+
 function searchAddressHandler(event: Event) {
   event.preventDefault();
- 
+
   const coordinates = {lat: 40.41, lng: -73.99}; // Can't fetch coordinates from Google API, use dummy ones
- 
+
   document.getElementById('map')!.innerHTML = ''; // clear <p> from <div id="map">
   new ol.Map({
     target: 'map',
@@ -212,6 +215,7 @@ You can explore the OpenLayers docs to learn how to render a broad variety of di
 
 Resources
 ----------------------------------------
+
 Attached you find all the code snapshots for this module - you also find them attached to individual lectures throughout this module.
 
 These links might also be interesting:

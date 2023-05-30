@@ -13,7 +13,13 @@ function searchAddressHandler(event: Event) {
     event.preventDefault();
     const enteredAddress = addressInput.value;
 
-    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(enteredAddress)}&key=${GOOGLE_API_KEY}`)
+    // Send this to Google's API!
+    axios
+        .get<GoogleGeocodingResponse>(
+            `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI
+            (enteredAddress)
+            }&key=${GOOGLE_API_KEY}`
+        )
         .then(response => {
             console.log(response);
             if (response.data.status !== 'OK') {
@@ -21,7 +27,7 @@ function searchAddressHandler(event: Event) {
             }
 
             const coordinates = response.data.results[0].geometry.location;
-            const map = new google.maps.Map(document.getElementById("map"), {
+            const map = new google.maps.Map(document.getElementById("map")!, {
                 center: coordinates,
                 zoom: 12,
             });

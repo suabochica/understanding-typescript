@@ -8,7 +8,7 @@
         "start": "webpack-dev-server",
         "build": "webpack --config webpack.config.prod.js"
     },
-    "author": "Sergio L. Benitez D.",
+    "author": "Sergio L. Benítez D.",
     "license": "ISC",
     "devDependencies": {
         "@types/googlemaps": "^3.40.0",

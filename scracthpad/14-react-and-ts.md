@@ -14,7 +14,7 @@ ReactJs is a extremely popular JavaScript library for building amazing user inte
 3. Working with props and types props
 4. Getting user input with "refs"
 5. Cross-component communication
-6. Working wiht state and types
+6. Working with state and types
 7. Managing state better
 8. More props and state work
 9. Adding styling

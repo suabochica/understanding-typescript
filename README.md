@@ -2,13 +2,13 @@
 
 Most People know TypeScript from Angular 2. It's the Language you have to use there, right?
 
-It's more than that! 
+It's more than that!
 
 Learn what TypeScript is, why it really is a powerful Addition to JavaScript, what its Features are and how to use it! And whilst doing so, also understand what you're actually doing in your Angular 2 Code.
 
 This Course takes you from the very Basics and its most important Feature (Types!) to the Point where you're able to use TypeScript in any of your Projects. ReactJS Projects included!
 
-As TypeScript is developed by Microsoft and strongly advertised used by Angular 2 (Google), it's here to stay. 
+As TypeScript is developed by Microsoft and strongly advertised used by Angular 2 (Google), it's here to stay.
 
 Gain an Edge today and be amongst the First to really understand TypeScript!
 
@@ -55,7 +55,7 @@ I'm not a Fan of these Courses which teach you the Basics and then leave you alo
 
 ## What is the target audience?
 
-- This Course is for every Student who wants to extend his Horizon beyond vanilla JavaScript
+- This Course is for every Student who wants to extend his horizon beyond vanilla JavaScript
 - Everyone learning Angular 2 should definitely understand how TypeScript works
 
 
