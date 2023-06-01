@@ -57,7 +57,7 @@ const App: React.FunctionalComponent = () => {
 export default App;
 ```
 
-This is the code by default in the `App.tsx` file. The important line in this code is `const App: React.FunctionalComponent`. With that definition we are saying that the `App` variable is of type `React.FunctionalComponent`. Now, a valid question is where is the definition of the `React.FunctionalComponent`?. The answer is in the `node_modules` folder. If you check his contents, the `create-react-app` will install the types definitions for `react` and `react-dom`. So, if you delete the return statement, the TypeScript compiler will raise a warning saying that the `React.FunctionalComponent` type is not assignable to a `void` type. This way, the TypeScript's compiler will start to help us with the development of the react app. 
+This is the code by default in the `App.tsx` file. The important line in this code is `const App: React.FunctionalComponent`. With that definition we are saying that the `App` variable is of type `React.FunctionalComponent`. Now, a valid question is where is the definition of the `React.FunctionalComponent`?. The answer is in the `node_modules` folder. If you check his contents, the `create-react-app` will install the types definitions for `react` and `react-dom`. So, if you delete the return statement, the TypeScript compiler will raise a warning saying that the `React.FunctionalComponent` type is not assignable to a `void` type. This way, the TypeScript's compiler will start to help us with the development of the react app.
 
 Working with props and types props
 -----------------------------------------
@@ -98,7 +98,7 @@ import TodoList from './components/TodoList';
 
 const App: React.FunctionalComponent = () => {
   const todos = [{ id: 't1', text: 'Finish the course' }];
-  return ( 
+  return (
     <div className="App">
       {/* A components that adds todos */}
       <TodoList items={todos} />
@@ -173,7 +173,7 @@ export default App;
 Similar as before, we have to import the `TodoListForm` component from their respective path, and then we use it as brother node of the `TodoList`. Time to check how to share the information between this two components.
 
 Cross-component communication
------------------------------------------
+-----------------------------
 
 To communicate our component we use the props again. So, we have to add some code in our `App.tsx` file as shown next:
 
@@ -280,6 +280,7 @@ First of all, check that we import from react the `useState` hook. This hook rec
 
 Managing state better
 -----------------------------------------
+
 One alternative to manage better our state in the `setTodos` function is using the spread operator over the `todos` object to create a copy of the last `state`. However is much cleaner the next approach:
 
 ```typescript
@@ -299,7 +300,7 @@ const app: react.FunctionalComponent = () => {
     ]);
   }
 
-  return ( 
+  return (
     <div classname="app">
       <TodoListForm onAddTodo={addTodoHandler}/>
       <TodoList items={todos} />
@@ -314,6 +315,7 @@ Here we got a `prevTodos` function that returns and array with the `prevTodos` s
 
 More props and state work
 -----------------------------------------
+
 Now, let's add a flow for delete todo items. First, let's modify the `TodoList` component to add a button that will trigger the event to delete an item:
 
 ```typescript
@@ -365,7 +367,7 @@ const app: react.FunctionalComponent = () => {
     });
   }
 
-  return ( 
+  return (
     <div classname="app">
       <TodoListForm onAddTodo={addTodoHandler}/>
       <TodoList items={todos} onDeleteTodo={deleteTodoHandler} />
@@ -380,6 +382,7 @@ Notice that we create a `deleteTodoHandler` method whose content filter the `tod
 
 Adding styling
 -----------------------------------------
+
 To add styling you should create the `.css` files for both components and fit the selectors to apply the styles. Then you have to import them in the respective `.tsx` file, and test in the browser that the specified styles are being rendered. The next snippet shows how to import the stiles in a react component:
 
 ```typescript
@@ -440,6 +443,7 @@ export default TodoListForm;
 ```
 Types for other react features
 -----------------------------------------
+
 Some of the popular libraries used with react are redux and react-router. For redux, you can check the official [documentation](https://redux.js.org/recipes/usage-with-typescript) and read the section _usage with typescript_. For react-router, we don't have guides to work with typescript, so we should install the `@types/react-router-dom` package and follow the definitions of these types.
 
 This way, you can use the advantage of typescript with these package.
