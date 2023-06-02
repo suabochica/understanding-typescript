@@ -14,7 +14,7 @@ Let's build a web application where we can enter an address, then I want to look
 
 It is recommended run two processes in two different terminals:
 
-1. `tsc -w`: to enable the typescript compiler in watch mode.
+1. `tsc -w`: to enable the typescript compiler in watch mode, and, update the contents inside `dist` folder
 2. `npm start`: to run the local server with nodemon.
 
 🧰 Tech Stack
