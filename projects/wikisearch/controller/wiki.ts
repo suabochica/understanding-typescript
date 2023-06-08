@@ -2,7 +2,7 @@ import { pipe } from 'fp-ts/function';
 import * as TE from 'fp-ts/TaskEither';
 import { z } from 'zod';
 
-import { NetworkError, ParseError } from './errors';
+import { NetworkError, ParserError } from './errors';
 
 const WikipediaResult = z.tuple([
     z.string(),
@@ -21,10 +21,10 @@ export type WikiResultData = {
 
 export type WikiResultError =
 | NetworkError
-| ParseError
+| ParserError
 | z.ZodError<WikipediaResult>
 
-export const fetchWikiResult = (
+export const fetchWikiResults = (
     query: string
 ): TE.TaskEither<WikiResultError, WikiResultData> => {
     return query === ''
@@ -40,7 +40,7 @@ export const fetchWikiResult = (
             TE.chainW((response) =>
                 TE.tryCatch(
                     () => response.json(),
-                    (error) => new ParseError((error as Error).message)
+                    (error) => new ParserError((error as Error).message)
                 )
             ),
             TE.chainW((payload) => {

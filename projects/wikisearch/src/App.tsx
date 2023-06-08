@@ -1,26 +1,25 @@
-import type { Component } from "solid-js";
+import { Component, createEffect, createResource, For } from "solid-js";
+import * as E from 'fp-ts/lib/Either';
+import {match, P} from 'ts-pattern';
+import { z } from 'zod';
 
-import logo from './logo.svg;';
-import styles from './App.module.css';
+import { fetchWikiResults } from '../controller/wiki';
+import { NetworkError, ParserError } from '../controller/errors';
+import { createDebounced } from "./utils/create-debounced";
 
 const App: Component = () => {
+    const [userInput, setUserInput] = createDebounced('', 800);
+    const [searchResult] = createResource(
+        userInput,
+        (input) => fetchWikiResults(input)(),
+        { initialValue: E.of([]) }
+    )
+
     return (
-        <div class={styles.App}>
-            <header class={styles.header}>
-                <img src={logo} class={styles.logo} alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> ans save to reload
-                </p>
-                <a
-                    class={styles.link}
-                    href="https://github.com/solidjs/solid"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn Solid
-                </a>
-            </header>
-        </div>
+        <>
+            <h1>Search Wikipedia</h1>
+            <input onInput={(e) => setUserInput(e.currentTarget.value)} />
+        </>
     );
 };
 
