@@ -13,14 +13,15 @@ const App: Component = () => {
         userInput,
         (input) => fetchWikiResults(input)(),
         { initialValue: E.of([]) }
-    )
+    );
 
     return (
         <>
             <h1>Search Wikipedia</h1>
-            <input onInput={(e) => setUserInput(e.currentTarget.value)} />
+            <input onInput={(e) => setUserInput(e.currentTarget.value)} placeholder="Let's search it"/>
+
             {match(searchResult())
-                .with({ _tag: 'Right'}, ({right: results}) => {
+                .with({ _tag: 'Right'}, ({ right: results }) => (
                     <ul>
                         <For each={results}>
                             {(result) => (
@@ -32,7 +33,7 @@ const App: Component = () => {
                             )}
                         </For>
                     </ul>
-                })
+                ))
                 .with({_tag: 'Left'}, ({left: err}) =>
                     match(err)
                         .with(P.instanceOf(ParserError), (err) => (
@@ -48,7 +49,7 @@ const App: Component = () => {
                             <div>And error ocurred fetching the wiki results, please try again</div>
                         )
                 )
-
+                .exhaustive()
             }
         </>
     );

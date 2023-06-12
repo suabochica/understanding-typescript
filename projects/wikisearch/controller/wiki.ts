@@ -57,5 +57,5 @@ export const fetchWikiResults = (
                     content: contents[i]
                 }))
             )
-    );
-}
+        );
+};
