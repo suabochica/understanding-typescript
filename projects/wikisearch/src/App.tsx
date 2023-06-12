@@ -16,7 +16,7 @@ const App: Component = () => {
     );
 
     return (
-        <>
+        <div class="container center">
             <h1>Search Wikipedia</h1>
             <input onInput={(e) => setUserInput(e.currentTarget.value)} placeholder="Let's search it"/>
 
@@ -51,7 +51,7 @@ const App: Component = () => {
                 )
                 .exhaustive()
             }
-        </>
+        </div>
     );
 };
 
