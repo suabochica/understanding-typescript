@@ -1,4 +1,4 @@
-Wikisearch
+Wiki Search
 ==========
 
 App to explore the combination of functional reactive programming with solid.js and fp-ts.
@@ -17,6 +17,10 @@ Let's display search results for Wikipedia. To achieve that, below are the requi
 - After user provides the query, display data from API as a list matching the query.
 - Do not trigger the API request until the user is done with the writing the query. (i.e. do not query the API with every provided character)
 - If the API call fails, provide use with a meaningful message of what went wrong.
+
+Below the UI of the app:
+
+![Wiki Search](../../assets/s16-wikisearch-ui.png)
 
 🧰 Tech Stack
 -------------
