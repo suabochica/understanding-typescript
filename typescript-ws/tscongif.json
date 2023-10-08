@@ -1,0 +1,14 @@
+{
+    "compilerOption": {
+        "module": "commonjs",
+        "target": "es2015",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "strict": true
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

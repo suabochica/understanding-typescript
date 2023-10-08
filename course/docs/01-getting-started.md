@@ -3,7 +3,8 @@ Section 01: Getting Started
 
 Index
 ---------------------------------
-1. Intro 
+
+1. Intro
 2. What Is TypeScript & Why Should You Use It?
 3. Installing & Using TypeScript
 4. TypeScript Advantages Overview
@@ -13,6 +14,7 @@ Index
 
 What Is TypeScript & Why Should You Use It?
 ---------------------------------
+
 To check what is TypeScript lets use the next diagram:
 
 ![image](../assets/s01-what-is-ts.png)
@@ -31,10 +33,11 @@ function add (num1, num2) {
 console.log(add('2', '3')); // prints 23
 ```
 
-Unfortunately, JavaScript is weak typed, and this feature expose us to unwanted behaviors at runtime, just like the previous example. Here the expected act is get the 5 as consequence of the arithmetic sum, but we get 23, because JavaScript interpret the parameters as strings and then apply string concatenation. So, to avoid this accidental behavior we should apply mitigation strategies like add a `if` check to the `add` function, then validate and sanitize the user input. However, this action makes that developers can still write invalid code! With TypeScript we are not exposed to these risks. 
+Unfortunately, JavaScript is weak typed, and this feature expose us to unwanted behaviors at runtime, just like the previous example. Here the expected act is get the 5 as consequence of the arithmetic sum, but we get 23, because JavaScript interpret the parameters as strings and then apply string concatenation. So, to avoid this accidental behavior we should apply mitigation strategies like add a `if` check to the `add` function, then validate and sanitize the user input. However, this action makes that developers can still write invalid code! With TypeScript we are not exposed to these risks.
 
 Installing & Using TypeScript
 ---------------------------------
+
 Let's review a simple case to check how to install TypeScript and then use it. First, let's define a markup with two inputs and the association to a script file:
 
 ```html
@@ -88,8 +91,8 @@ Now, we have a condition to validate the type of the inputs. If the condition is
 
 Time to install TypeScript and use it. First of all, it is required install Node.js to can use the `npm` package manager. Once installed `npm` we can run:
 
-```
-$ npm install -g typescript
+```sh
+npm install -g typescript
 ```
 
 This command will install the TypeScript compiler and all the necessary dependencies to start our development with this super set. Now lets create a `typescript-add.ts` file an let's implement the logic for the `add` function:
@@ -103,7 +106,7 @@ function add(num1: number, num2: number): number {
     return num1 + num2;
 }
 
-buttoe.addEventListener("click", function() {
+button.addEventListener("click", function() {
     console.log(add(+input1.value, +input2.value));
 });
 ```
@@ -112,18 +115,19 @@ buttoe.addEventListener("click", function() {
 
 Much cleaner! Important thing here. First, when you install the TypeScript package your editor will use the compiler to share you several things about your current code. For this case, initially we get a compiler error for the `input1.value` parameter, saying that this value could be undefined and we are not considering that scenario. It is for that reason that we add the `!` in our DOM elements. With this syntax we are saying to the TypeScript compiler that this values always will exist.
 
-Second we start to use Types! The `HTMLInputElement` in our DOM elements and the `number` in the parameters of the `add` function, are types that reinforce the legibility of the code. Finally, check that in the log line we use the implicit cast `+input1.value` to send a `number` to the `add` function and not a `string`. 
+Second we start to use Types! The `HTMLInputElement` in our DOM elements and the `number` in the parameters of the `add` function, are types that reinforce the legibility of the code. Finally, check that in the log line we use the implicit cast `+input1.value` to send a `number` to the `add` function and not a `string`.
 
-Now lets compile our file. For this sample we have to run:
+Now lets compile our file. For this sample we have to run the next command in a terminal:
 
-```
-$ tsc exercises/typescript-add.ts
+```sh
+tsc exercises/typescript-add.ts
 ```
 
 This command will generate a `typescript-add.js` file, that is the compiled version of our `typescript-add.ts` file. We can sniff the contents of this file to check what was the work of the TypeScript compiler. The last thing we should do is update the script path in our HTML file. Now we can see an example created with TypeScript.
 
 TypeScript Advantages Overview
 ---------------------------------
+
 The next figure show us the advantages that TypeScript offer to our development:
 
 ![image](../assets/s01-ts-overview.png)
@@ -142,8 +146,8 @@ So, as you can see there are many reasons for using TypeScript,
 
 How To Get The Most Out Of The Course
 ---------------------------------
-Below, we have the course road map that will be useful to establish the guidelines of our TypeScript Learning:
 
+Below, we have the course road map that will be useful to establish the guidelines of our TypeScript Learning:
 
 ![image](../assets/s01-course-outline.png)
 
@@ -159,6 +163,7 @@ Setting Up A Code Editor / IDE
 -------------------------------
 
 The recommended code editor is:
+
 - [VSCode](https://code.visualstudio.com)
 
 These plugins will help you with the setup of your IDE:
@@ -169,16 +174,17 @@ These plugins will help you with the setup of your IDE:
 
 The Course Project Set Up
 ---------------------------------
+
 Check the folder structure of the `project` directory. Important things to mentions, this project was built with the next command:
 
-```
-$ npm init
+```sh
+npm init
 ```
 
 Also to avoid reload the browser every time we do a change we recommend install the next package:
 
-```
-$ npm install --save-dev lite-server
+```sh
+npm install --save-dev lite-server
 ```
 
 And then, add the next line in the `package.json` file of the projects:
