@@ -41,14 +41,10 @@ score = '10'
 const thirdPlayer: { name: string, age: number } = {}
 const thirdPlayerAge: number = thirdPlayer
 
-/**
- * It will help to show runtime error like if you try to call something that is not a function
- */
+// It will help to show runtime error like if you try to call something that is not a function
 
 thirdPlayerAgeAge()
 
-/**
- * The line below is to help us create a scope for the file.
- */
+// The line below is to help us create a scope for the file.
 
 export { }
