@@ -4,12 +4,14 @@
  */
 
 // Lets look at different types
+
 const name: string = 'Holi'
 const score: number = 1
 const isUserActive: boolean = false
 const profilePicture: undefined = undefined
 const deleteUser: null = null
 const id: symbol = Symbol('1')
+
 const user: {
     name: string,
     score: number,
@@ -97,6 +99,26 @@ const thirdUser: User = {
 }
 
 const point = [0, 0]
+
+/**
+ * Be careful with type inference, as some types like tuples are not inferred
+ * by default. In this case, it is defaulted to number[] and not [number, number].
+ * You can fix this error by annotating point as a tuple [number, number] or its
+ * type alias Point
+ */
+
+const newStickPosition: Point = point
+
+// We also have literal types to refer only to one possible values
+
+type Error = 'error'
+
+// You can have literal types to represent any of the basic types
+
+type One = 1
+type True = true
+type Decimal = 10.02
+
 
 // The line below is to help us create a scope for the file.
 
