@@ -1,6 +1,6 @@
 /**
  * Set Theory
- * =========
+ * ==========
  *
  * Unions and intersection are sets in set theory
  *
