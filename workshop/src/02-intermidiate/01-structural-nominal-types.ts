@@ -65,7 +65,7 @@ const admin: AdminUser = {
 
 printUserName(admin)
 
-/** 
+/**
  * A structural type system have some advantages as flexibility without loosing the
  * safety of it. However, nominal type system also favor other features. For example,
  * you might have a function that is able to validate and sanitize a string. You might
