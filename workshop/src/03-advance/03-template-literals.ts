@@ -44,3 +44,38 @@ const challengeReward = {
         help: 'You can ask for my help if needed, but I wont be answering "How do I do this?" kinds of question, only "Why is this not working?" kinds of questions'
     }
 } as const
+
+/**
+ * On good example of this is when you combine the power of template literals
+ * with inference and recursive types. Let's look at something simple like
+ * punctuation of a string.
+ */
+
+type Greetings = 'Hello my friend!. Hope you are doing great, lets hang out some day.'
+type MaybeRemovePunctuation<Str> = Str extends `${infer Start}${'?'|'.'| ','|'!'}${infer Rest}`
+    ? `${Start}${RemovePunctuation<Rest>}`
+    : Str
+type RemovePunctuation<Str, Output extends string = ''> =
+    Str extends `${infer First}${infer Rest}`
+        ? First extends ('?'|'.'| ','|'!')
+        ? RemovePunctuation<ResponseType, Output>
+            : RemovePunctuation<Rest, `${Output}${First}`>
+        : Output
+type NoPunctuation = RemovePunctuation<Greetings>
+
+/**
+ * Now, let's say you want to find all possible `Paths` to an object. We
+ * can take advantage of template literals for that!
+ */
+
+export type GetPaths<T> = T extends (string | boolean | number)
+    ? ``
+    : T extends Record<string, any>
+        ? {
+            [P in keyof T]: T[P] extends object
+            ? `${string & P}.${string & GetPaths<T[P]>}`
+            : P;
+        } [keyof T]
+    : never;
+
+type Paths = GetPaths<typeof challengeReward>
