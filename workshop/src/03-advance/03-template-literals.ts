@@ -27,8 +27,7 @@ const challengeReward = {
     challenges: [
         'Create a generic type that can extract the valid keys to a translation string',
         'Create a generic type that extracts the interpolation parameters of a string and returns them in a tuple or never if there is no parameters',
-        `Create a generic type that can receive a translation object and a path to the translation.
-        It should returns a tuple with the translation string as the first value and parameters or just the string if it does not take parameters`
+        'Create a generic type that can receive a translation object and a path to the translation. It should returns a tuple with the translation string as the first value and parameters or just the string if it does not take parameters'
     ],
     rewards: 'The first 3 to complete the challenge or the 3 that are able to advance the furthest will get a cinnamon roll tomorrow',
     messages: {
@@ -76,6 +75,24 @@ export type GetPaths<T> = T extends (string | boolean | number)
             ? `${string & P}.${string & GetPaths<T[P]>}`
             : P;
         } [keyof T]
-    : never;
+    : never
 
 type Paths = GetPaths<typeof challengeReward>
+
+/**
+ * But we are getting more options that just the paths to the values. This is
+ * because we got access to some of the methods inherent to the values. We can
+ * filter them out by modifying one of the conditions.
+ */
+
+export type GetPathsWithoutMethods<T> = T extends (string | boolean | number)
+    ? ``
+    : T extends Record<string, any>
+        ? {
+            [P in keyof T]: T[P] extends Record<string, string | boolean | number | Record<string, any>>
+            ? `${string & P}.${string & GetPaths<T[P]>}`
+            : P
+        }[keyof T]
+    : never
+
+type PathToPrimitives = GetPathsWithoutMethods<typeof challengeReward>
