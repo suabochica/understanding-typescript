@@ -1,6 +1,6 @@
 /**
  * Template Literals
- * =-===============
+ * =================
  *
  * You might have worked with template literals in javascript. They allows
  * you to dynamically create a string by using variables to fill some info
@@ -23,6 +23,7 @@ type FullName = `${FirstName} ${LastName}`
  * restrictive, right? Kind of, you got some other tools and powers in the
  * type system that can make this worth understanding.
  */
+
 const challengeReward = {
     challenges: [
         'Create a generic type that can extract the valid keys to a translation string',
