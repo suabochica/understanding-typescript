@@ -28,6 +28,17 @@ const challengeReward = {
     }
 } as const
 
-type getTranslationStringPaths<TranslationObject> = never // should return the paths on an union
-type getTranslationParameters<S> = never // parameters are the part of the string enclosed in ${param}, you should only return the parameter part of the string ['parameter', ...others]
-type getTranslationsStringsWithParams<TranslationObject, Path> = never // Should return ['string', ['parameter', ...rest]] or string
+// It should return the paths on an union
+
+type GetTranslationStringPaths<TranslationObject> = TranslationObject extends (string)
+    ? ``
+    : TranslationObject extends Record<string, any>
+        ? {
+            [P in keyof TranslationObject]: TranslationObject[P] extends object
+            ? `${string & P}.${string & GetTranslationStringPaths<TranslationObject[P]>}`
+            : P;
+        } [keyof TranslationObject]
+    : never
+
+type GetTranslationParameters<S> = never // parameters are the part of the string enclosed in ${param}, you should only return the parameter part of the string ['parameter', ...others]
+type GetTranslationsStringsWithParams<TranslationObject, Path> = never // Should return ['string', ['parameter', ...rest]] or string
