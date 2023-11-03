@@ -58,7 +58,7 @@ type MaybeRemovePunctuation<Str> = Str extends `${infer Start}${'?'|'.'| ','|'!'
 type RemovePunctuation<Str, Output extends string = ''> =
     Str extends `${infer First}${infer Rest}`
         ? First extends ('?'|'.'| ','|'!')
-        ? RemovePunctuation<ResponseType, Output>
+            ? RemovePunctuation<ResponseType, Output>
             : RemovePunctuation<Rest, `${Output}${First}`>
         : Output
 type NoPunctuation = RemovePunctuation<Greetings>
@@ -76,7 +76,7 @@ export type GetPaths<T> = T extends (string | boolean | number)
             ? `${string & P}.${string & GetPaths<T[P]>}`
             : P;
         } [keyof T]
-    : never
+        : never
 
 type Paths = GetPaths<typeof challengeReward>
 
@@ -94,6 +94,6 @@ export type GetPathsWithoutMethods<T> = T extends (string | boolean | number)
             ? `${string & P}.${string & GetPaths<T[P]>}`
             : P
         }[keyof T]
-    : never
+        : never
 
 type PathToPrimitives = GetPathsWithoutMethods<typeof challengeReward>

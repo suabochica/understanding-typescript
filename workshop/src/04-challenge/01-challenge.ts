@@ -40,5 +40,22 @@ type GetTranslationStringPaths<TranslationObject> = TranslationObject extends (s
         } [keyof TranslationObject]
     : never
 
-type GetTranslationParameters<S> = never // parameters are the part of the string enclosed in ${param}, you should only return the parameter part of the string ['parameter', ...others]
+type Paths = GetTranslationStringPaths<typeof challengeReward>
+/**
+ * Parameters are the part of the string enclosed in ${param}, you should only
+ * return the parameter part of the string ['parameter', ...others]
+ */
+
+type GetTranslationParameters<S> = S extends (string)
+    ? ``
+    : S extends Record<string, any>
+        ? {
+            [P in keyof S]: S[P] extends Record<string, string | Record<string, any>>
+            ? `${string & P}.${string & GetTranslationStringPaths<S[P]>}`
+            : P
+        }[keyof S]
+        : never
+
+type Params = GetTranslationParameters<typeof challengeReward>
+
 type GetTranslationsStringsWithParams<TranslationObject, Path> = never // Should return ['string', ['parameter', ...rest]] or string
