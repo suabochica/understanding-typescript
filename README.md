@@ -12,3 +12,16 @@ My path to learn and domain TypeScript. We get content from the next courses:
 
 - `/docs`: notepad for the TypeScript learnings.
 - `/projects`: projects doing with TypeScript.
+
+🧰 Tech Stack
+---
+
+- `pnpm` as package manager and monorepo workspace set up.
+- `nx` as a build system for monorepos. It helps you develop faster and keep CI fast as your codebase scales.
+
+🧞 Commands
+---
+
+- `pnpm nx start 02-maps` start maps project
+- `pnpm nx start 03-planner` start planner project
+- `pnpm nx start 05-wiki-search` start wiki-search project

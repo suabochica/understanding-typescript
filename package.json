@@ -5,8 +5,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "pnpm --filter '**' dev"
+    "start": "pnpm --filter '**' start"
   },
   "author": "Sergio Benítez",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nx": "^22.5.4"
+  }
 }

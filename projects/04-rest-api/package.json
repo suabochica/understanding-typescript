@@ -1,5 +1,5 @@
 {
-  "name": "restapi",
+  "name": "04-rest-api",
   "version": "1.0.0",
   "description": "nodejs, typescript and express rest API",
   "main": "index.js",

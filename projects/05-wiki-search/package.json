@@ -1,5 +1,5 @@
 {
-  "name": "wikisearch",
+  "name": "05-wiki-search",
   "version": "1.0.0",
   "description": "App to explore the combination of functional reactive programming with solid.js and fp-ts.",
   "scripts": {

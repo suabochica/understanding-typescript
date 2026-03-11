@@ -80,8 +80,8 @@ Self-contained applications, each with independent dependencies:
 - **01-tic-tac-toe**: DOM-based game using Parcel
 - **02-maps**: Google Maps integration using Webpack
 - **03-planner**: Project management app
-- **04-restapi**: REST API consumption
-- **05-wikisearch**: Wikipedia search interface
+- **04-rest-api**: REST API consumption
+- **05-wiki-search**: Wikipedia search interface
 
 Each project has its own:
 

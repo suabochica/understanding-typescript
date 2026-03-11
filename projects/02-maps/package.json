@@ -1,5 +1,5 @@
 {
-    "name": "maps-app",
+    "name": "02-maps",
     "version": "1.0.0",
     "description": "Share your location app",
     "main": "src/app.js",

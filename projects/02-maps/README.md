@@ -1,5 +1,5 @@
-Mapper
-=======
+Maps
+===
 
 Let's build a tiny application to use third party libraries to send HTTP request and also render a map with the help of Google Maps.
 
@@ -21,7 +21,7 @@ To render maps, please check out the [Google Maps JavaScript API](https://develo
 To run the web app execute the next command:
 
 ```bash
-npm run start
+pnpm run start
 ```
 
 This loads the server in the next router:

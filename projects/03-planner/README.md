@@ -17,7 +17,7 @@ Let's build a web application where we can enter an a form with the title/descri
 To run the web app execute the next command:
 
 ```bash
-npm run start
+pnpm run start
 ```
 
 This loads the server in the next router:
