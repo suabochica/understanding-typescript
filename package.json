@@ -1,0 +1,12 @@
+{
+  "name": "understanding-typescript",
+  "description": "Repo to store learning and sandboxes with vanilla TypeScript",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "pnpm --filter '**' dev"
+  },
+  "author": "Sergio Benítez",
+  "license": "ISC"
+}

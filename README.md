@@ -1,10 +1,14 @@
 Understanding TypeScript
-========================
+===
 
-My path to learn and domain TypeScript.
+My path to learn and domain TypeScript. We get content from the next courses:
 
-Folder structure
-----------------
+- [fireship TypeScript](https://fireship.dev/c/typescript?id=c)
+- [Understanding TypeScript](https://www.udemy.com/course/understanding-typescript/) of Maximilian Schwarzmüller
+- `/workshop`: folder to group the contents of workshop for type level programming with typescript by Héctor Plata
 
-- `/course`: folder to group the contents of the [understanding typescript](https://www.udemy.com/course/understanding-typescript/) of Maximilian Schwarzmüller
-- `/workshop`: folder to group the contents of workshop for type level programming with typescript.
+📂 Folder Structure
+---
+
+- `/docs`: notepad for the TypeScript learnings.
+- `/projects`: projects doing with TypeScript.

@@ -1,0 +1,5 @@
+packages:
+  - "fireship/projects*"
+  - "linkedin/projects*"
+  - "udemy/projects*"
+  - "workshop*"
