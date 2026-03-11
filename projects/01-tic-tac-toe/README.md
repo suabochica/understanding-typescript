@@ -23,4 +23,10 @@ This project is a "Tic Tac Toe" app. You'll be able to play tic tac toe against 
 
 Every (Project) video for this project coincides with a branch. If you want to compare your code with Alex's or you just want to play around with the code, check out the different branches.
 
+### Steps
+
+1. Define the base types `Cell`, `TicTacToeBoard` and numbers.
+2. Add the `addEventListener` to record the click event a mark the `X` or `O`.
+3. Set the state management to define the winner via an array with the win cases.
+
 ### [Alex Anderson](https://twitter.com/ralex1993)
