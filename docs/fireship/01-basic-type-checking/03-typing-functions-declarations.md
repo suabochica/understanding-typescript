@@ -1,0 +1,214 @@
+# Typing Functions Declarations
+
+Functions have a lot more moving parts than variables and objects, like parameters and return values. We can add type annotations to any of these things.
+
+## Typing parameters
+
+Adding type annotations to function parameters is very similar to adding types to variables. Let's return to our array map example.
+
+```ts
+let fruitNames = ["Apple", "Banana"];
+
+function alternateUppercase(name, index) {
+  // (parameter) name: any
+  // (parameter) index: any
+  if (index % 2 === 0) {
+    return name.toUpperCase();
+  }
+  return name;
+}
+
+const alternatedFruitNames = fruitNames.map(alternateUppercase);
+```
+
+Since TypeScript can't infer the types of our function's parameters, we have to add the types manually. This looks very similar to adding types to variables - we use a colon (`:`) after the parameter name, followed by the type.
+
+```ts
+function alternateUppercase(name: string, index: number) {
+  if (index % 2 === 0) {
+    return name.toUpperCase();
+  }
+  return name;
+}
+```
+
+Now TypeScript knows that our function takes a string and a number as parameters. What would happen if we accidentally used a function with the wrong types?
+
+```ts
+function doubleNumber(num: number) {
+  return num * 2;
+}
+
+const alternatedFruitNames = fruitNames.map(doubleNumber);
+// Types of parameters 'num' and 'value' are incompatible.
+//     Type 'string' is not assignable to type 'number'.
+```
+TypeScript threw a type error. It knows that the values of the array are `string`s, so when we try to use a function that accepts `numbers`s instead of `string`s, it will warn us that something is not right.
+
+Arrow functions work exactly the same way: just put the type after the parameter. This does require that single parameters are wrapped in parentheses.
+
+```ts
+const doubleNumber = (num: number) => {
+  return num * 2;
+};
+```
+
+One thing that might be surprising is destructuring function parameters. You might assume that we can just put our type definitions directly on the values we destructure, like so.
+
+```ts
+// THIS WILL NOT WORK
+function getFruitName({ name: string }) {
+  return name;
+}
+```
+The problem with this has to do with destructuring syntax. Putting something after a colon in the destructuring list actually changes the name of the variable from the property name to whatever you put after the colon. So in this case, we're putting the `name` property into a variable called `string`, which is obviously not what we wanted to do.
+
+Instead, we have to add our type definition to the whole object.
+
+```ts
+// THIS WILL WORK
+function getFruitName({ name }: { name: string }) {
+  return name;
+}
+```
+Also, if we are passing an object with many properties to our function, we only need to annotate the object properties that are used in the function. Take a look at this example:
+
+```ts
+const fruit = {
+  name: "Apple",
+  color: "red",
+  sweetness: 80,
+};
+
+function getFruitName({ name }: { name: string }) {
+  return name;
+}
+
+const name = getFruitName(fruit);
+```
+Even though our parameter is expecting an object with only the `name` property, we can still pass it an object with more properties, so long as it includes `name`.
+
+## Return Values
+
+We can also add types for the value that a function returns.
+
+```ts
+function headsOrTails(): boolean {
+  return Math.random() > 0.5;
+}
+```
+
+This function most definitely returns a boolean value. Most of the time TypeScript will infer the return type by what is returned, but adding an explicit return type makes it so we can't accidentally return a value of the wrong type.
+
+For arrow functions, the type is placed before the arrow.
+
+```ts
+const headsOrTails = (): boolean => {
+  return Math.random() > 0.5;
+};
+```
+
+## Async Functions
+
+By definition, an async function is a function which returns a JavaScript Promise. Just like arrays, there is a special syntax for defining the type of the value which is wrapped in a promise. We place the wrapped type in angle brackets and put `Promise` in front of it.
+
+```ts
+async function getFruitList(): Promise<string[]> {
+  const response = await fetch("https://example.com/fruit");
+  const fruitList: string[] = await response.json();
+  return fruitList;
+}
+```
+If we were to try annotating this function with just `string[]`, TypeScript would warn us that we need to use the `Promise` type wrapper.
+
+## Function Type Expressions
+
+What do we do when we have a function that takes another function (often called a callback) as a parameter? For example, if I were to create a type definition for an array `map` function, I would have to pass a callback function as one of the parameters.
+
+```ts
+function mapNumberToNumber(list: number[], callback) {
+  // (parameter) callback: any
+  // Implementation goes here
+}
+```
+Our `callback` parameter has an `any` type, which means we could call it as a function if we wanted to. However, we want to avoid `any`, since using it leads to less type safety.
+
+We can create a function type annotation using a special syntax. It might look like an arrow function, but it's defining a type.
+
+```ts
+function mapNumberToNumber(
+  list: number[],
+  callback: (item: number) => number,
+) {
+  // (parameter) callback: (item: number) => number
+  // Implementation goes here
+}
+```
+Then, when we call the function, TypeScript can check the callback that we pass in to make sure it matches the type signature we used.
+
+```ts
+const doubledNumbers = mapNumberToNumber(
+  [1, 2, 3],
+  (num) => num * 2,
+);
+```
+In this case, num is inferred to be a number because TypeScript is able to determine the type from the type annotation we added to the callback parameter.
+
+## Optional and Default Parameters
+
+TypeScript expects that every parameter of a function will be passed to it when the function is called, even if its value is `undefined`. This can be a problem when we don't want to require the user to pass in every single parameter every time.
+
+```ts
+function logOutput(message: string, yell: boolean) {
+  if (yell) {
+    console.log(message.toUpperCase());
+    return;
+  }
+  console.log(message);
+}
+
+logOutput("Hey! Listen!");
+// TypeError: Expected 2 arguments, but got 1.
+//  An argument for 'yell' was not provided.
+```
+We can tell TypeScript that a parameter is optional by adding a `?` right before the type annotation.
+
+```ts
+function logOutput(message: string, yell?: boolean) {
+  if (yell) {
+    console.log(message.toUpperCase());
+    return;
+  }
+  console.log(message);
+}
+
+logOutput("Hey! Listen!"); // "Hey! Listen!"
+```
+We didn't need to include the second `yell` parameter because we marked it as optional.
+
+We can also mark parameters as optional by giving them a default value. TypeScript will infer the type of the parameter from the default value.
+
+```ts
+function logOutput(message: string, yell = true) {
+  if (yell) {
+    console.log(message.toUpperCase());
+    return;
+  }
+  console.log(message.toUpperCase());
+}
+
+logOutput("Hey! Listen!"); // "HEY! LISTEN!"
+```
+
+## Rest Parameters
+
+When we aren't sure how many parameters will be passed to a function, we can use the `...` rest syntax, which gives us all of the parameters in a list. If all of the extra parameters are the same type, we can easily add an annotation to the spread parameters.
+
+```ts
+function logManyOutput(...messages: string[]) {
+  messages.forEach((message) => {
+    logOutput(message);
+  });
+}
+```
+￼
